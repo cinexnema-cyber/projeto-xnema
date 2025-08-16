@@ -18,8 +18,9 @@ export interface AdminUser extends User {
 
 export interface SubscriberUser extends User {
   role: 'subscriber';
+  assinante?: boolean; // For compatibility with user.assinante === true check
   subscription: {
-    plan: 'basic' | 'premium';
+    plan: 'basic' | 'intermediate' | 'premium';
     status: 'active' | 'inactive' | 'pending' | 'cancelled';
     startDate: string;
     nextBilling?: string;
