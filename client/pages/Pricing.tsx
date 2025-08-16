@@ -1,22 +1,53 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Crown, Check, Star, Shield, Smartphone, Tv } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Crown, Check, Star, Shield, Smartphone, Tv, CreditCard, ExternalLink } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  checkoutUrl: string;
+  features: string[];
+}
 
 export default function Pricing() {
-  const handlePayment = () => {
-    window.open('https://mpago.la/1p9Jkyy', '_blank');
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPlans();
+  }, []);
+
+  const fetchPlans = async () => {
+    try {
+      const response = await fetch('/api/subscription/plans');
+      if (response.ok) {
+        const data = await response.json();
+        setPlans(data.plans);
+      }
+    } catch (error) {
+      console.error('Error fetching plans:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const features = [
-    "Streaming em 4K Ultra HD",
-    "Acesso a todo catálogo premium",
-    "Sem anúncios ou interrupções",
-    "Download para assistir offline",
-    "Até 4 telas simultâneas",
-    "Conteúdo exclusivo XNEMA",
-    "Suporte técnico prioritário",
-    "Primeira temporada completa de Between Heaven and Hell"
-  ];
+  const handleSubscribe = (plan: SubscriptionPlan) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    
+    // Open Mercado Pago checkout
+    window.open(plan.checkoutUrl, '_blank');
+  };
 
   return (
     <Layout>
@@ -32,55 +63,64 @@ export default function Pricing() {
             </p>
           </div>
 
-          {/* Pricing Card */}
-          <div className="max-w-md mx-auto">
-            <div className="relative bg-gradient-to-br from-xnema-surface to-background border-2 border-xnema-orange rounded-3xl p-8 shadow-2xl">
-              {/* Premium Badge */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                <div className="bg-gradient-to-r from-xnema-orange to-xnema-purple px-6 py-2 rounded-full">
-                  <span className="text-black font-bold flex items-center space-x-2">
-                    <Crown className="w-4 h-4" />
-                    <span>PLANO PREMIUM</span>
-                  </span>
-                </div>
-              </div>
-
-              {/* Price */}
-              <div className="text-center mt-8 mb-8">
-                <div className="text-sm text-muted-foreground mb-2">Primeiro mês</div>
-                <div className="text-5xl font-bold text-xnema-orange mb-2">GRÁTIS</div>
-                <div className="text-sm text-muted-foreground mb-4">Depois apenas</div>
-                <div className="text-3xl font-bold text-foreground">
-                  R$ 19,90<span className="text-lg text-muted-foreground">/mês</span>
-                </div>
-              </div>
-
-              {/* Features */}
-              <div className="space-y-4 mb-8">
-                {features.map((feature, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <div className="w-5 h-5 bg-xnema-orange rounded-full flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-black" />
-                    </div>
-                    <span className="text-foreground">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Payment Button */}
-              <Button 
-                size="lg" 
-                className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black font-bold text-lg py-4"
-                onClick={handlePayment}
-              >
-                Assinar Agora - Primeiro Mês Grátis
-              </Button>
-
-              <p className="text-xs text-muted-foreground text-center mt-4">
-                Cancele quando quiser. Sem multas ou taxas adicionais.
-              </p>
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="w-8 h-8 border-4 border-xnema-orange border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-muted-foreground">Carregando planos...</p>
             </div>
-          </div>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+              {plans.map((plan, index) => (
+                <Card 
+                  key={plan.id} 
+                  className={`relative ${plan.id === 'premium' ? 'border-2 border-xnema-orange scale-105' : 'border-xnema-border'} transition-all hover:scale-105`}
+                >
+                  {plan.id === 'premium' && (
+                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                      <div className="bg-gradient-to-r from-xnema-orange to-xnema-purple px-4 py-1 rounded-full">
+                        <span className="text-black font-bold text-sm flex items-center space-x-1">
+                          <Crown className="w-3 h-3" />
+                          <span>RECOMENDADO</span>
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <CardHeader className="text-center pb-2">
+                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
+                    <div className="py-4">
+                      <div className="text-4xl font-bold text-xnema-orange">R$ {plan.price.toFixed(2)}</div>
+                      <div className="text-sm text-muted-foreground">por mês</div>
+                      {plan.id === 'premium' && (
+                        <div className="text-sm text-green-500 font-medium mt-1">Primeiro mês grátis!</div>
+                      )}
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-6">
+                    <ul className="space-y-3">
+                      {plan.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-start space-x-3">
+                          <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-foreground">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <Button 
+                      className={`w-full ${plan.id === 'premium' ? 'bg-gradient-to-r from-xnema-orange to-xnema-purple text-black' : ''}`}
+                      onClick={() => handleSubscribe(plan)}
+                      variant={plan.id === 'premium' ? 'default' : 'outline'}
+                    >
+                      <CreditCard className="w-4 h-4 mr-2" />
+                      Assinar Agora
+                      <ExternalLink className="w-4 h-4 ml-2" />
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
 
           {/* Additional Benefits */}
           <div className="mt-20">
@@ -152,6 +192,15 @@ export default function Pricing() {
                 </h3>
                 <p className="text-muted-foreground">
                   Sua assinatura permite até 4 telas simultâneas em dispositivos diferentes.
+                </p>
+              </div>
+
+              <div className="bg-xnema-surface rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-foreground mb-2">
+                  Como funciona o pagamento?
+                </h3>
+                <p className="text-muted-foreground">
+                  Utilizamos o Mercado Pago para processar os pagamentos de forma segura. Você pode pagar com cartão de crédito, débito ou PIX.
                 </p>
               </div>
             </div>
