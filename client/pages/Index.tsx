@@ -2,9 +2,14 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SubscriberOnlyVideos } from "@/components/SubscriberOnlyVideos";
 import { Link } from "react-router-dom";
-import { Play, Crown, Star, Users, Zap, Shield } from "lucide-react";
+import { Play, Crown, Star, Users, Zap, Shield, Lock } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { XnemaLogo } from "@/components/XnemaLogo";
 
 export default function Index() {
+  const { user, isAuthenticated } = useAuth();
+  const isSubscriber = user?.assinante || false;
+
   const featuredMovies = [
     {
       id: 1,
@@ -59,16 +64,37 @@ export default function Index() {
 
         <div className="relative z-10 container mx-auto px-4 text-center lg:text-left">
           <div className="max-w-3xl">
-            <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-6">
-              Bem-vindo ao
-              <span className="block text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
-                XNEMA
-              </span>
-            </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed">
-              A revolução do entretenimento brasileiro chegou! Descubra séries épicas como <strong className="text-xnema-orange">"Between Heaven and Hell"</strong>,
-              filmes exclusivos e conteúdo de alta qualidade.
-            </p>
+            {isSubscriber ? (
+              <>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Crown className="w-8 h-8 text-xnema-orange" />
+                  <span className="text-lg font-semibold text-xnema-orange">Assinante Premium</span>
+                </div>
+                <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-6">
+                  Bem-vindo de volta ao
+                  <span className="block text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
+                    XNEMA
+                  </span>
+                </h1>
+                <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed">
+                  Continue assistindo suas séries favoritas! Acesso total a <strong className="text-xnema-orange">"Between Heaven and Hell"</strong>
+                  e todo nosso catálogo premium.
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-6">
+                  Bem-vindo ao
+                  <span className="block text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
+                    XNEMA
+                  </span>
+                </h1>
+                <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed">
+                  A revolução do entretenimento global chegou! Descubra séries épicas como <strong className="text-xnema-orange">"Between Heaven and Hell"</strong>,
+                  filmes exclusivos e conteúdo de alta qualidade.
+                </p>
+              </>
+            )}
 
             {/* Novos destaques */}
             <div className="grid sm:grid-cols-3 gap-4 mb-8 text-center">
@@ -86,30 +112,55 @@ export default function Index() {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button
-                size="lg"
-                className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold text-lg px-8 py-4"
-                asChild
-              >
-                <Link to="/catalog" className="flex items-center space-x-2">
-                  <Play className="w-5 h-5" />
-                  <span>Assistir Agora</span>
-                </Link>
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold text-lg px-8 py-4"
-                asChild
-              >
-                <Link
-                  to="/between-heaven-hell"
-                  className="flex items-center space-x-2"
-                >
-                  <Play className="w-5 h-5" />
-                  <span>Ver Série Exclusiva</span>
-                </Link>
-              </Button>
+              {isSubscriber ? (
+                <>
+                  <Button
+                    size="lg"
+                    className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold text-lg px-8 py-4"
+                    asChild
+                  >
+                    <Link to="/between-heaven-hell" className="flex items-center space-x-2">
+                      <Play className="w-5 h-5" />
+                      <span>Continuar Assistindo</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold text-lg px-8 py-4"
+                    asChild
+                  >
+                    <Link to="/catalog" className="flex items-center space-x-2">
+                      <Crown className="w-5 h-5" />
+                      <span>Catálogo Premium</span>
+                    </Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    size="lg"
+                    className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold text-lg px-8 py-4"
+                    asChild
+                  >
+                    <Link to="/catalog" className="flex items-center space-x-2">
+                      <Play className="w-5 h-5" />
+                      <span>Assistir Grátis</span>
+                    </Link>
+                  </Button>
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold text-lg px-8 py-4"
+                    asChild
+                  >
+                    <Link to="/premium" className="flex items-center space-x-2">
+                      <Crown className="w-5 h-5" />
+                      <span>Assinar Premium</span>
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
             <div className="flex items-center space-x-6 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
