@@ -4,7 +4,14 @@ import cors from "cors";
 import mongoose from "mongoose";
 import { handleDemo } from "./routes/demo";
 import { login, register, validateToken } from "./routes/auth";
-import { authenticateToken } from "./middleware/auth";
+import { authenticateToken, requireSubscriber } from "./middleware/auth";
+import {
+  getSubscriptionPlans,
+  createSubscription,
+  cancelSubscription,
+  getSubscriptionStatus,
+  handleMercadoPagoWebhook
+} from "./routes/subscription";
 import { initializeAdmin, initializeSampleData } from "./scripts/initAdmin";
 
 export function createServer() {
@@ -47,6 +54,13 @@ export function createServer() {
   app.post("/api/auth/login", login);
   app.post("/api/auth/register", register);
   app.get("/api/auth/validate", authenticateToken, validateToken);
+
+  // Subscription routes
+  app.get("/api/subscription/plans", getSubscriptionPlans);
+  app.post("/api/subscription/subscribe", authenticateToken, requireSubscriber, createSubscription);
+  app.post("/api/subscription/cancel", authenticateToken, requireSubscriber, cancelSubscription);
+  app.get("/api/subscription/status", authenticateToken, getSubscriptionStatus);
+  app.post("/api/webhook/mercadopago", handleMercadoPagoWebhook);
 
   // Protected routes (examples)
   app.get("/api/admin/users", authenticateToken, async (req, res) => {
