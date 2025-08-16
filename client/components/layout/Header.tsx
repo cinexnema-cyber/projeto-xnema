@@ -3,10 +3,13 @@ import { Button } from "@/components/ui/button";
 import { Search, User, Menu, Crown, LogOut } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-xnema-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -25,17 +28,17 @@ export function Header() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
           <Link to="/catalog" className="text-foreground hover:text-xnema-orange transition-colors">
-            Início
+            {t('nav.home')}
           </Link>
           <Link to="/between-heaven-hell" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
             <span>Série</span>
             <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
           </Link>
           <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors">
-            Categorias
+            {t('nav.categories')}
           </Link>
           <Link to="/pricing" className="text-foreground hover:text-xnema-orange transition-colors">
-            Planos
+            {t('nav.subscription')}
           </Link>
           <Link to="/creators" className="text-foreground hover:text-xnema-orange transition-colors">
             Criadores
@@ -44,6 +47,8 @@ export function Header() {
 
         {/* Search and Actions */}
         <div className="flex items-center space-x-4">
+          {/* Language Selector */}
+          <LanguageSelector />
           {/* Search */}
           <div className="hidden md:flex items-center space-x-2">
             <div className="relative">
@@ -90,13 +95,13 @@ export function Header() {
               <>
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/login" className="text-foreground hover:text-xnema-orange">
-                    Entrar
+                    {t('nav.login')}
                   </Link>
                 </Button>
                 <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-medium" asChild>
-                  <Link to="/login" className="flex items-center space-x-2">
+                  <Link to="/register" className="flex items-center space-x-2">
                     <Crown className="w-4 h-4" />
-                    <span>Cadastrar</span>
+                    <span>{t('nav.register')}</span>
                   </Link>
                 </Button>
               </>
