@@ -6,6 +6,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { initializeSmartPlatform } from "./utils/smartPlatform";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ import CreatorLogin from "./pages/CreatorLogin";
 import CreatorPayments from "./pages/CreatorPayments";
 import ContentCreator from "./pages/ContentCreator";
 import SmartDashboard from "./pages/SmartDashboard";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -33,9 +35,10 @@ initializeSmartPlatform();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+      <AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/catalog" element={<Catalog />} />
@@ -53,10 +56,12 @@ const App = () => (
           <Route path="/creator-payments" element={<CreatorPayments />} />
           <Route path="/content-creator" element={<ContentCreator />} />
           <Route path="/smart-dashboard" element={<SmartDashboard />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </BrowserRouter>
+        </BrowserRouter>
+      </AuthProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
