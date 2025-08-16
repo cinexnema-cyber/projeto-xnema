@@ -20,6 +20,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
 import Subscribe from "./pages/Subscribe";
+import Premium from "./pages/Premium";
 import BetweenHeavenHell from "./pages/BetweenHeavenHell";
 import Dashboard from "./pages/Dashboard";
 import Series from "./pages/Series";
@@ -54,6 +55,7 @@ const App = () => (
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/premium" element={<Premium />} />
             <Route path="/creators" element={<Creators />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
