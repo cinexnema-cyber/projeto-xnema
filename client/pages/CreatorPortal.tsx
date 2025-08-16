@@ -87,17 +87,35 @@ export default function CreatorPortal() {
       <div className="min-h-screen py-8">
         <div className="container mx-auto px-4">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-2">
-              Portal do Criador
-            </h1>
-            <p className="text-muted-foreground">
-              Gerencie seu conteúdo e acompanhe suas receitas
-            </p>
+          <div className="mb-8 flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">
+                Bem-vindo, <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">{user?.name || 'Criador'}</span>!
+              </h1>
+              <p className="text-muted-foreground">
+                Gerencie seu conteúdo e acompanhe suas receitas
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Badge className="bg-gradient-to-r from-xnema-orange to-xnema-purple text-black">
+                Status: Aprovado
+              </Badge>
+              <Button variant="outline" onClick={logout}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sair
+              </Button>
+            </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="w-8 h-8 border-4 border-xnema-orange border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+              <p className="text-muted-foreground">Carregando dados...</p>
+            </div>
+          ) : (
+            <>
+              {/* Stats */}
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Vídeos Publicados</CardTitle>
@@ -482,6 +500,8 @@ export default function CreatorPortal() {
               </Card>
             </TabsContent>
           </Tabs>
+              </>
+            )}
         </div>
       </div>
     </Layout>
