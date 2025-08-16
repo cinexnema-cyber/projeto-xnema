@@ -67,10 +67,7 @@ export default function Index() {
             </h1>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed">
               A revolução do entretenimento brasileiro chegou! Descubra séries épicas como <strong className="text-xnema-orange">"Between Heaven and Hell"</strong>,
-              filmes exclusivos e conteúdo premium de alta qualidade por apenas{" "}
-              <span className="text-xnema-orange font-semibold">
-                R$ 19,90/mês
-              </span>
+              filmes exclusivos e conteúdo de alta qualidade.
             </p>
 
             {/* Novos destaques */}
@@ -84,8 +81,8 @@ export default function Index() {
                 <p className="text-sm text-muted-foreground">Produzido no Brasil, por brasileiros, para brasileiros</p>
               </div>
               <div className="bg-gradient-to-br from-xnema-orange/20 to-xnema-purple/20 border border-xnema-orange/30 rounded-lg p-4">
-                <h3 className="text-lg font-bold text-foreground mb-2">📱 Multi-dispositivos</h3>
-                <p className="text-sm text-muted-foreground">Assista em qualquer lugar, TV, celular, tablet ou computador</p>
+                <h3 className="text-lg font-bold text-foreground mb-2">📱 Acesso Gratuito</h3>
+                <p className="text-sm text-muted-foreground">Assista episódios gratuitos e trailers em qualquer dispositivo</p>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
