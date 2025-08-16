@@ -32,10 +32,45 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
+      console.log('Attempting login with Supabase...');
       const { user: authUser, error } = await AuthService.login({ email, password });
-      
+
       if (error || !authUser) {
-        console.error('Login error:', error);
+        console.log('Supabase login failed, trying fallback...');
+        // Fallback to MongoDB system
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          if (userData.success && userData.user) {
+            const transformedUser: AuthUser = {
+              id: userData.user.id,
+              email: userData.user.email,
+              username: userData.user.username || userData.user.email.split('@')[0],
+              display_name: userData.user.name || userData.user.email.split('@')[0],
+              bio: userData.user.bio || '',
+              subscription_status: userData.user.assinante ? 'active' : 'inactive',
+              subscription_start: userData.user.subscription?.startDate || '',
+              subscription_end: userData.user.subscription?.endDate || '',
+              created_at: userData.user.createdAt || new Date().toISOString(),
+              updated_at: new Date().toISOString(),
+              name: userData.user.name || userData.user.email.split('@')[0],
+              assinante: userData.user.assinante || false,
+              role: userData.user.role || (userData.user.assinante ? 'subscriber' : 'user')
+            };
+
+            setUser(transformedUser);
+            localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
+            localStorage.setItem('xnema_token', userData.token);
+            return true;
+          }
+        }
         return false;
       }
 
@@ -58,12 +93,53 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (userData: any) => {
     try {
+      console.log('Attempting registration with Supabase...');
       const { user: authUser, error } = await AuthService.register(userData);
-      
+
       if (error || !authUser) {
+        console.log('Supabase registration failed, trying fallback...');
+        // Fallback to MongoDB system
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+        });
+
+        const result = await response.json();
+        if (result.success && result.user) {
+          const transformedUser: AuthUser = {
+            id: result.user.id,
+            email: result.user.email,
+            username: result.user.username || result.user.email.split('@')[0],
+            display_name: result.user.name || result.user.email.split('@')[0],
+            bio: result.user.bio || '',
+            subscription_status: result.user.assinante ? 'active' : 'inactive',
+            subscription_start: result.user.subscription?.startDate || '',
+            subscription_end: result.user.subscription?.endDate || '',
+            created_at: result.user.createdAt || new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            name: result.user.name || result.user.email.split('@')[0],
+            assinante: result.user.assinante || false,
+            role: result.user.role || (result.user.assinante ? 'subscriber' : 'user')
+          };
+
+          setUser(transformedUser);
+          localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
+          if (result.token) {
+            localStorage.setItem('xnema_token', result.token);
+          }
+
+          return {
+            success: true,
+            user: transformedUser
+          };
+        }
+
         return {
           success: false,
-          message: error || 'Registration failed'
+          message: result.message || error || 'Registration failed'
         };
       }
 
@@ -77,7 +153,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       setUser(transformedUser);
       localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
-      
+
       return {
         success: true,
         user: transformedUser
