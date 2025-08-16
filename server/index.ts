@@ -12,6 +12,13 @@ import {
   getSubscriptionStatus,
   handleMercadoPagoWebhook
 } from "./routes/subscription";
+import {
+  uploadContent,
+  getCreatorContent,
+  updateContentStatus,
+  getPendingContent,
+  recordView
+} from "./routes/content";
 import { initializeAdmin, initializeSampleData } from "./scripts/initAdmin";
 
 export function createServer() {
@@ -61,6 +68,13 @@ export function createServer() {
   app.post("/api/subscription/cancel", authenticateToken, requireSubscriber, cancelSubscription);
   app.get("/api/subscription/status", authenticateToken, getSubscriptionStatus);
   app.post("/api/webhook/mercadopago", handleMercadoPagoWebhook);
+
+  // Content management routes
+  app.post("/api/content/upload", authenticateToken, uploadContent);
+  app.get("/api/content/creator", authenticateToken, getCreatorContent);
+  app.put("/api/content/:contentId/status", authenticateToken, updateContentStatus);
+  app.get("/api/content/pending", authenticateToken, getPendingContent);
+  app.post("/api/content/:contentId/view", recordView);
 
   // Protected routes (examples)
   app.get("/api/admin/users", authenticateToken, async (req, res) => {
