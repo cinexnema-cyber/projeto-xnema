@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🎬 XNEMA - Plataforma de Streaming Premium
 
 Uma plataforma de streaming brasileira completa com série exclusiva, sistema de criadores e monetização integrada.
@@ -58,3 +59,7 @@ Veja `XNEMA-PLATFORM-SETUP.md` para:
 **🌐 Acesse em produção:** https://oemalta.shop
 
 Desenvolvido para revolucionar o streaming brasileiro 🇧🇷
+=======
+# teste
+Streaming
+>>>>>>> 1be398971c15b990937ba28d64e1e1394aadfd1b
