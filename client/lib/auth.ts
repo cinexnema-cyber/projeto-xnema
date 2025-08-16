@@ -38,16 +38,19 @@ export class AuthService {
         return { user: null, error: 'Failed to create user' };
       }
 
-      // Then create user profile in our users table
+      // Then create user profile in our CineXnema table
       const { data: userProfile, error: profileError } = await supabase
-        .from('users')
+        .from('CineXnema')
         .insert([{
-          id: authData.user.id,
-          email: userData.email,
+          user_id: authData.user.id,
           username: userData.username,
-          display_name: userData.displayName,
+          email: userData.email,
+          displayName: userData.displayName,
           bio: userData.bio || '',
-          subscription_status: 'inactive'
+          passwordHash: '', // Will be handled by Supabase auth
+          subscriptionStatus: 'inativo',
+          subscriptionStart: new Date(),
+          comissaoPercentual: 0
         }])
         .select()
         .single();
@@ -82,9 +85,9 @@ export class AuthService {
 
       // Get user profile
       const { data: userProfile, error: profileError } = await supabase
-        .from('users')
+        .from('CineXnema')
         .select('*')
-        .eq('id', authData.user.id)
+        .eq('user_id', authData.user.id)
         .single();
 
       if (profileError) {
@@ -117,9 +120,9 @@ export class AuthService {
       }
 
       const { data: userProfile, error: profileError } = await supabase
-        .from('users')
+        .from('CineXnema')
         .select('*')
-        .eq('id', authData.user.id)
+        .eq('user_id', authData.user.id)
         .single();
 
       if (profileError) {
@@ -162,19 +165,14 @@ export class AuthService {
   static async hasActiveSubscription(userId: string): Promise<boolean> {
     try {
       const { data: user, error } = await supabase
-        .from('users')
-        .select('subscription_status, subscription_end')
-        .eq('id', userId)
+        .from('CineXnema')
+        .select('subscriptionStatus, subscriptionStart')
+        .eq('user_id', userId)
         .single();
 
       if (error || !user) return false;
 
-      if (user.subscription_status === 'active' && user.subscription_end) {
-        const endDate = new Date(user.subscription_end);
-        return endDate > new Date();
-      }
-
-      return user.subscription_status === 'trial';
+      return user.subscriptionStatus === 'ativo';
     } catch (error) {
       return false;
     }
@@ -194,14 +192,12 @@ export class AuthService {
 
       // Update user subscription status
       const { error: userError } = await supabase
-        .from('users')
+        .from('CineXnema')
         .update({
-          subscription_status: 'active',
-          subscription_start: startDate.toISOString(),
-          subscription_end: endDate.toISOString(),
-          updated_at: new Date().toISOString()
+          subscriptionStatus: 'ativo',
+          subscriptionStart: startDate,
         })
-        .eq('id', userId);
+        .eq('user_id', userId);
 
       if (userError) {
         return { error: userError.message };
