@@ -269,10 +269,22 @@ export default function Login() {
                           {isLoading ? "Entrando..." : "Entrar como Assinante"}
                         </Button>
 
-                        <div className="text-center">
+                        <div className="text-center space-y-2">
                           <Link to="/forgot-password" className="text-sm text-xnema-orange hover:underline">
                             Esqueceu sua senha?
                           </Link>
+                          <div className="pt-2 border-t border-xnema-border">
+                            <p className="text-xs text-muted-foreground mb-2">Para teste:</p>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSubscriberForm({ email: 'subscriber@xnema.com', password: 'password123' });
+                              }}
+                              className="text-xs text-xnema-orange hover:underline"
+                            >
+                              Usar conta de teste (assinante)
+                            </button>
+                          </div>
                         </div>
                       </form>
                     </CardContent>
