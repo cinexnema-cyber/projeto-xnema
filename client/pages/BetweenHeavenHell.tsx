@@ -191,8 +191,10 @@ export default function BetweenHeavenHell() {
             <h2 className="text-4xl font-bold text-foreground mb-12 text-center">
               Temporadas e Episódios
             </h2>
-            
-            {/* Season Selector */}
+
+            {hasAccess ? (
+              <>
+                {/* Season Selector */}
             <div className="flex flex-wrap justify-center gap-2 mb-12">
               {seasons.map((season) => (
                 <Button
@@ -241,6 +243,17 @@ export default function BetweenHeavenHell() {
                 ))}
               </div>
             </div>
+              </>
+            ) : (
+              <ProtectedContent
+                requiresSubscription={true}
+                title="Temporadas Completas - Between Heaven and Hell"
+                description="Acesse todas as 7 temporadas (84 episódios) desta série exclusiva XNEMA com sua assinatura premium."
+                showPreview={false}
+              >
+                <div></div>
+              </ProtectedContent>
+            )}
           </div>
         </section>
 
