@@ -1,5 +1,11 @@
-import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useContentAccess } from "@/hooks/useContentAccess";
@@ -22,11 +28,12 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
   showPreview = false,
   previewDuration = 30,
   title = "Conteúdo Premium",
-  description = "Este conteúdo está disponível apenas para assinantes premium."
+  description = "Este conteúdo está disponível apenas para assinantes premium.",
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { hasAccess, isSubscriber, subscriptionStatus, isLoading } = useContentAccess();
+  const { hasAccess, isSubscriber, subscriptionStatus, isLoading } =
+    useContentAccess();
 
   if (isLoading) {
     return (
@@ -34,7 +41,9 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
         <CardContent className="py-8">
           <div className="text-center">
             <div className="w-8 h-8 border-4 border-xnema-orange border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-muted-foreground">Verificando acesso ao conteúdo...</p>
+            <p className="text-muted-foreground">
+              Verificando acesso ao conteúdo...
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -57,40 +66,46 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
       return {
         title: "Login Necessário",
         description: "Faça login para acessar este conteúdo premium.",
-        action: () => navigate('/login'),
+        action: () => navigate("/login"),
         actionText: "Fazer Login",
-        icon: <Lock className="w-6 h-6" />
+        icon: <Lock className="w-6 h-6" />,
       };
     }
 
-    if (user.role === 'creator') {
+    if (user.role === "creator") {
       return {
         title: "Acesso Limitado",
-        description: "Este conteúdo é exclusivo para assinantes. Criadores podem acessar apenas o portal do criador.",
-        action: () => navigate('/creator-portal'),
+        description:
+          "Este conteúdo é exclusivo para assinantes. Criadores podem acessar apenas o portal do criador.",
+        action: () => navigate("/creator-portal"),
         actionText: "Ir para Portal do Criador",
-        icon: <Lock className="w-6 h-6" />
+        icon: <Lock className="w-6 h-6" />,
       };
     }
 
     if (isSubscriber) {
-      if (subscriptionStatus === 'pending') {
+      if (subscriptionStatus === "pending") {
         return {
           title: "Pagamento em Processamento",
-          description: "Seu pagamento está sendo processado. Você receberá acesso assim que for aprovado.",
-          action: () => navigate('/smart-dashboard'),
+          description:
+            "Seu pagamento está sendo processado. Você receberá acesso assim que for aprovado.",
+          action: () => navigate("/smart-dashboard"),
           actionText: "Ver Status da Assinatura",
-          icon: <AlertCircle className="w-6 h-6" />
+          icon: <AlertCircle className="w-6 h-6" />,
         };
       }
 
-      if (subscriptionStatus === 'cancelled' || subscriptionStatus === 'inactive') {
+      if (
+        subscriptionStatus === "cancelled" ||
+        subscriptionStatus === "inactive"
+      ) {
         return {
           title: "Assinatura Inativa",
-          description: "Sua assinatura está inativa. Renove para continuar acessando o conteúdo premium.",
-          action: () => navigate('/pricing'),
+          description:
+            "Sua assinatura está inativa. Renove para continuar acessando o conteúdo premium.",
+          action: () => navigate("/pricing"),
           actionText: "Renovar Assinatura",
-          icon: <Crown className="w-6 h-6" />
+          icon: <Crown className="w-6 h-6" />,
         };
       }
     }
@@ -98,10 +113,11 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
     // Default message for non-subscribers
     return {
       title: "Conteúdo Premium",
-      description: "Este conteúdo está disponível apenas para assinantes premium da XNEMA.",
-      action: () => navigate('/pricing'),
+      description:
+        "Este conteúdo está disponível apenas para assinantes premium da XNEMA.",
+      action: () => navigate("/pricing"),
       actionText: "Assinar Agora",
-      icon: <Crown className="w-6 h-6" />
+      icon: <Crown className="w-6 h-6" />,
     };
   };
 
@@ -118,13 +134,14 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
           {accessInfo.description}
         </CardDescription>
       </CardHeader>
-      
+
       <CardContent className="space-y-6">
         {showPreview && (
           <Alert>
             <Play className="h-4 w-4" />
             <AlertDescription>
-              Preview disponível por {previewDuration} segundos para não assinantes.
+              Preview disponível por {previewDuration} segundos para não
+              assinantes.
             </AlertDescription>
           </Alert>
         )}
@@ -132,20 +149,22 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
         {/* Preview content for non-subscribers */}
         {showPreview && !hasAccess && (
           <div className="relative">
-            <div className="opacity-50 pointer-events-none">
-              {children}
-            </div>
+            <div className="opacity-50 pointer-events-none">{children}</div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center pb-8">
               <div className="text-center text-white">
-                <h3 className="text-xl font-bold mb-2">Continue assistindo com XNEMA Premium</h3>
-                <p className="text-sm opacity-90 mb-4">Acesso completo a todo catálogo</p>
+                <h3 className="text-xl font-bold mb-2">
+                  Continue assistindo com XNEMA Premium
+                </h3>
+                <p className="text-sm opacity-90 mb-4">
+                  Acesso completo a todo catálogo
+                </p>
               </div>
             </div>
           </div>
         )}
 
         <div className="text-center space-y-4">
-          <Button 
+          <Button
             onClick={accessInfo.action}
             className="w-full bg-gradient-to-r from-xnema-orange to-xnema-purple text-black font-semibold"
           >
@@ -155,8 +174,9 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
 
           {!user && (
             <p className="text-sm text-muted-foreground">
-              Já tem uma conta? <button 
-                onClick={() => navigate('/login')} 
+              Já tem uma conta?{" "}
+              <button
+                onClick={() => navigate("/login")}
                 className="text-xnema-orange hover:underline"
               >
                 Faça login
@@ -168,7 +188,9 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
         {/* Features list for non-subscribers */}
         {!hasAccess && (
           <div className="border-t border-xnema-border pt-6">
-            <h4 className="font-semibold text-foreground mb-3">Com XNEMA Premium você tem:</h4>
+            <h4 className="font-semibold text-foreground mb-3">
+              Com XNEMA Premium você tem:
+            </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-xnema-orange rounded-full" />

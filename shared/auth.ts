@@ -12,16 +12,16 @@ export interface User {
 }
 
 export interface AdminUser extends User {
-  role: 'admin';
+  role: "admin";
   permissions: AdminPermission[];
 }
 
 export interface SubscriberUser extends User {
-  role: 'subscriber';
+  role: "subscriber";
   assinante?: boolean; // For compatibility with user.assinante === true check
   subscription: {
-    plan: 'basic' | 'intermediate' | 'premium';
-    status: 'active' | 'inactive' | 'pending' | 'cancelled';
+    plan: "basic" | "intermediate" | "premium";
+    status: "active" | "inactive" | "pending" | "cancelled";
     startDate: string;
     nextBilling?: string;
     paymentMethod?: string;
@@ -31,12 +31,12 @@ export interface SubscriberUser extends User {
 }
 
 export interface CreatorUser extends User {
-  role: 'creator';
+  role: "creator";
   profile: {
     bio?: string;
     portfolio?: string;
     approvedAt?: string;
-    status: 'pending' | 'approved' | 'rejected';
+    status: "pending" | "approved" | "rejected";
   };
   content: {
     totalVideos: number;
@@ -46,14 +46,14 @@ export interface CreatorUser extends User {
   };
 }
 
-export type UserRole = 'admin' | 'subscriber' | 'creator';
+export type UserRole = "admin" | "subscriber" | "creator";
 
-export type AdminPermission = 
-  | 'manage_users'
-  | 'manage_content'
-  | 'approve_creators'
-  | 'view_analytics'
-  | 'manage_payments';
+export type AdminPermission =
+  | "manage_users"
+  | "manage_content"
+  | "approve_creators"
+  | "view_analytics"
+  | "manage_payments";
 
 // Authentication request/response interfaces
 export interface LoginRequest {
@@ -73,7 +73,7 @@ export interface RegisterRequest {
   email: string;
   password: string;
   name: string;
-  role: 'subscriber' | 'creator';
+  role: "subscriber" | "creator";
   // Creator-specific fields
   bio?: string;
   portfolio?: string;
@@ -102,7 +102,7 @@ export interface VideoContent {
   title: string;
   description: string;
   creatorId: string;
-  status: 'pending' | 'approved' | 'rejected';
+  status: "pending" | "approved" | "rejected";
   url?: string;
   thumbnailUrl?: string;
   views: number;
@@ -133,7 +133,7 @@ export interface CreatorAnalytics {
 // Subscription management
 export interface SubscriptionRequest {
   email: string;
-  plan: 'basic' | 'premium';
+  plan: "basic" | "premium";
   paymentMethodId: string;
 }
 

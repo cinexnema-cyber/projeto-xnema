@@ -1,5 +1,11 @@
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { User, LoginRequest, LoginResponse } from '@shared/auth';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
+import { User, LoginRequest, LoginResponse } from "@shared/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -24,7 +30,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Check for existing token on mount
   useEffect(() => {
-    const token = localStorage.getItem('xnema_token');
+    const token = localStorage.getItem("xnema_token");
     if (token) {
       validateToken(token);
     } else {
@@ -34,21 +40,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const validateToken = async (token: string) => {
     try {
-      const response = await fetch('/api/auth/validate', {
+      const response = await fetch("/api/auth/validate", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
       } else {
-        localStorage.removeItem('xnema_token');
+        localStorage.removeItem("xnema_token");
       }
     } catch (error) {
-      console.error('Token validation error:', error);
-      localStorage.removeItem('xnema_token');
+      console.error("Token validation error:", error);
+      localStorage.removeItem("xnema_token");
     } finally {
       setIsLoading(false);
     }
@@ -56,54 +62,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(credentials)
+        body: JSON.stringify(credentials),
       });
 
       const data = await response.json();
 
       if (data.success && data.token && data.user) {
-        localStorage.setItem('xnema_token', data.token);
+        localStorage.setItem("xnema_token", data.token);
         setUser(data.user);
       }
 
       return data;
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       return {
         success: false,
-        message: 'Erro de conexão'
+        message: "Erro de conexão",
       };
     }
   };
 
   const register = async (userData: any) => {
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData)
+        body: JSON.stringify(userData),
       });
 
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Register error:', error);
+      console.error("Register error:", error);
       return {
         success: false,
-        message: 'Erro de conexão'
+        message: "Erro de conexão",
       };
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('xnema_token');
+    localStorage.removeItem("xnema_token");
     setUser(null);
   };
 
@@ -113,20 +119,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated,
     login,
     logout,
-    register
+    register,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

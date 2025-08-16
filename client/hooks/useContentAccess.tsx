@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ContentAccessInfo {
   hasAccess: boolean;
@@ -23,24 +23,24 @@ export const useContentAccess = (): ContentAccessInfo => {
       return;
     }
 
-    if (user.role === 'admin') {
+    if (user.role === "admin") {
       // Admins have full access
       setSubscriptionData({ hasAccess: true, isActive: true });
       setIsLoading(false);
       return;
     }
 
-    if (user.role !== 'subscriber') {
+    if (user.role !== "subscriber") {
       setIsLoading(false);
       return;
     }
 
     try {
-      const token = localStorage.getItem('xnema_token');
-      const response = await fetch('/api/subscription/status', {
+      const token = localStorage.getItem("xnema_token");
+      const response = await fetch("/api/subscription/status", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
@@ -48,24 +48,25 @@ export const useContentAccess = (): ContentAccessInfo => {
         setSubscriptionData(data);
       }
     } catch (error) {
-      console.error('Error checking subscription status:', error);
+      console.error("Error checking subscription status:", error);
     } finally {
       setIsLoading(false);
     }
   };
 
   // Check access using user.assinante === true as specified
-  const hasAccess = user?.role === 'admin' ||
-                   (user && (user as any).assinante === true) ||
-                   (user?.role === 'subscriber' && subscriptionData?.hasAccess);
+  const hasAccess =
+    user?.role === "admin" ||
+    (user && (user as any).assinante === true) ||
+    (user?.role === "subscriber" && subscriptionData?.hasAccess);
 
-  const isSubscriber = user?.role === 'subscriber';
+  const isSubscriber = user?.role === "subscriber";
   const subscriptionStatus = subscriptionData?.subscription?.status || null;
 
   return {
     hasAccess,
     isSubscriber,
     subscriptionStatus,
-    isLoading
+    isLoading,
   };
 };

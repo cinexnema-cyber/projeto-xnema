@@ -17,7 +17,7 @@ export default function Catalog() {
     { id: "drama", name: "Drama", count: 6 },
     { id: "acao", name: "Ação", count: 5 },
     { id: "scifi", name: "Ficção Científica", count: 3 },
-    { id: "romance", name: "Romance", count: 4 }
+    { id: "romance", name: "Romance", count: 4 },
   ];
 
   const content = [
@@ -29,9 +29,10 @@ export default function Catalog() {
       seasons: 7,
       episodes: 84,
       rating: 4.9,
-      image: "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=400",
+      image:
+        "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=400",
       isPremium: true,
-      isExclusive: true
+      isExclusive: true,
     },
     {
       id: 2,
@@ -40,8 +41,9 @@ export default function Catalog() {
       category: "scifi",
       duration: "2h 15min",
       rating: 4.8,
-      image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop",
-      isPremium: true
+      image:
+        "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop",
+      isPremium: true,
     },
     {
       id: 3,
@@ -50,8 +52,9 @@ export default function Catalog() {
       category: "acao",
       duration: "1h 45min",
       rating: 4.6,
-      image: "https://images.unsplash.com/photo-1489599809568-c88341c7bfeb?w=400&h=600&fit=crop",
-      isPremium: true
+      image:
+        "https://images.unsplash.com/photo-1489599809568-c88341c7bfeb?w=400&h=600&fit=crop",
+      isPremium: true,
     },
     {
       id: 4,
@@ -60,8 +63,9 @@ export default function Catalog() {
       category: "acao",
       duration: "2h 5min",
       rating: 4.7,
-      image: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=600&fit=crop",
-      isPremium: false
+      image:
+        "https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=600&fit=crop",
+      isPremium: false,
     },
     {
       id: 5,
@@ -70,8 +74,9 @@ export default function Catalog() {
       category: "romance",
       duration: "1h 52min",
       rating: 4.5,
-      image: "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=400&h=600&fit=crop",
-      isPremium: true
+      image:
+        "https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=400&h=600&fit=crop",
+      isPremium: true,
     },
     {
       id: 6,
@@ -80,21 +85,23 @@ export default function Catalog() {
       category: "documentarios",
       episodes: 10,
       rating: 4.8,
-      image: "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=600&fit=crop",
-      isPremium: true
-    }
+      image:
+        "https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=400&h=600&fit=crop",
+      isPremium: true,
+    },
   ];
 
-  const filteredContent = selectedCategory === "all" 
-    ? content 
-    : content.filter(item => item.category === selectedCategory);
+  const filteredContent =
+    selectedCategory === "all"
+      ? content
+      : content.filter((item) => item.category === selectedCategory);
 
   return (
     <Layout>
       <div className="min-h-screen">
         {/* Universe Background Hero */}
         <section className="relative h-96 flex items-center justify-center overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1446776877081-d282a0f896e2?w=1920&h=1080&fit=crop')`,
@@ -108,13 +115,17 @@ export default function Catalog() {
             <div className="absolute top-20 right-1/4 w-1 h-1 bg-white rounded-full animate-pulse delay-300"></div>
             <div className="absolute bottom-32 right-20 w-2 h-2 bg-xnema-orange rounded-full animate-pulse delay-500"></div>
           </div>
-          
+
           <div className="relative z-10 container mx-auto px-4 text-center">
             <h1 className="text-5xl lg:text-7xl font-bold text-foreground mb-6">
-              Universo <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">XNEMA</span>
+              Universo{" "}
+              <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
+                XNEMA
+              </span>
             </h1>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
-              Explore nossa galáxia de conteúdo premium. Filmes, séries e documentários que vão além do imaginável.
+              Explore nossa galáxia de conteúdo premium. Filmes, séries e
+              documentários que vão além do imaginável.
             </p>
           </div>
         </section>
@@ -135,7 +146,10 @@ export default function Catalog() {
 
               {/* Quick Actions */}
               <div className="flex items-center space-x-4">
-                <Button variant="outline" className="flex items-center space-x-2">
+                <Button
+                  variant="outline"
+                  className="flex items-center space-x-2"
+                >
                   <Filter className="w-4 h-4" />
                   <span>Filtros</span>
                 </Button>
@@ -152,7 +166,9 @@ export default function Catalog() {
         {/* Categories */}
         <section className="py-8">
           <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-foreground mb-8">Categorias</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-8">
+              Categorias
+            </h2>
             <div className="flex flex-wrap gap-3 mb-8">
               {categories.map((category) => (
                 <button
@@ -176,13 +192,15 @@ export default function Catalog() {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold text-foreground">
-                {selectedCategory === "all" ? "Todo o Conteúdo" : categories.find(c => c.id === selectedCategory)?.name}
+                {selectedCategory === "all"
+                  ? "Todo o Conteúdo"
+                  : categories.find((c) => c.id === selectedCategory)?.name}
               </h2>
               <span className="text-muted-foreground">
                 {filteredContent.length} itens encontrados
               </span>
             </div>
-            
+
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredContent.map((item) => (
                 <div key={item.id} className="group cursor-pointer">
@@ -193,7 +211,7 @@ export default function Catalog() {
                       className="w-full h-full object-cover transition-transform group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    
+
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex flex-col space-y-2">
                       {item.isExclusive && (
@@ -208,35 +226,50 @@ export default function Catalog() {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform">
                       {item.isPremium && !hasAccess ? (
-                        <Button size="sm" className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" asChild>
+                        <Button
+                          size="sm"
+                          className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30"
+                          asChild
+                        >
                           <Link to="/pricing">
                             <Lock className="w-4 h-4 mr-2" />
                             Assinar para Assistir
                           </Link>
                         </Button>
                       ) : (
-                        <Button size="sm" className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30">
+                        <Button
+                          size="sm"
+                          className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30"
+                        >
                           <Play className="w-4 h-4 mr-2" />
                           {item.isPremium ? "Assistir" : "Assistir Grátis"}
                         </Button>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="mt-4">
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-xnema-orange font-medium">{item.type}</span>
+                      <span className="text-sm text-xnema-orange font-medium">
+                        {item.type}
+                      </span>
                       <div className="flex items-center space-x-1">
                         <Star className="w-4 h-4 text-xnema-orange fill-current" />
-                        <span className="text-sm text-muted-foreground">{item.rating}</span>
+                        <span className="text-sm text-muted-foreground">
+                          {item.rating}
+                        </span>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground mb-1">{item.title}</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-1">
+                      {item.title}
+                    </h3>
                     <p className="text-sm text-muted-foreground">
-                      {item.seasons ? `${item.seasons} Temporadas • ${item.episodes} Episódios` : item.duration}
+                      {item.seasons
+                        ? `${item.seasons} Temporadas • ${item.episodes} Episódios`
+                        : item.duration}
                     </p>
                   </div>
                 </div>
