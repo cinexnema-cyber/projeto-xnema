@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Crown, Video, Mail, Lock, User, CreditCard, Check, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { LoginAdminTab } from "./LoginAdminTab";
 import { paymentRecognition, handleMercadoPagoCallback, requestNotificationPermission } from "../utils/paymentRecognition";
 
 export default function Login() {
@@ -444,6 +445,17 @@ export default function Login() {
                     </CardContent>
                   </Card>
                 </div>
+              </TabsContent>
+
+              {/* Admin Login */}
+              <TabsContent value="admin">
+                <LoginAdminTab
+                  adminForm={adminForm}
+                  setAdminForm={setAdminForm}
+                  handleAdminLogin={handleAdminLogin}
+                  isLoading={isLoading}
+                  errorMessage={errorMessage}
+                />
               </TabsContent>
             </Tabs>
           </div>
