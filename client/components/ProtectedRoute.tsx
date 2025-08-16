@@ -74,6 +74,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
+  // Auto-show subscription prompt for premium content
+  React.useEffect(() => {
+    if (requireSubscription && !user?.assinante) {
+      const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [requireSubscription, user?.assinante]);
+
   // Check subscription requirement - show prompt instead of blocking
   if (requireSubscription && !user.assinante) {
     return (
@@ -86,11 +94,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             onClose={() => setShowSubscriptionPrompt(false)}
           />
         )}
-        {/* Auto-show prompt after component mounts */}
-        {React.useEffect(() => {
-          const timer = setTimeout(() => setShowSubscriptionPrompt(true), 1000);
-          return () => clearTimeout(timer);
-        }, [])}
       </>
     );
   }
