@@ -77,8 +77,8 @@ export default function Index() {
                 <p className="text-sm text-muted-foreground">Conteúdo original que você não encontra em nenhum outro lugar</p>
               </div>
               <div className="bg-gradient-to-br from-xnema-purple/20 to-xnema-orange/20 border border-xnema-purple/30 rounded-lg p-4">
-                <h3 className="text-lg font-bold text-foreground mb-2">🇧🇷 100% Nacional</h3>
-                <p className="text-sm text-muted-foreground">Produzido no Brasil, por brasileiros, para brasileiros</p>
+                <h3 className="text-lg font-bold text-foreground mb-2">🌍 Alcance Global</h3>
+                <p className="text-sm text-muted-foreground">Conteúdo internacional de alta qualidade para todos os públicos</p>
               </div>
               <div className="bg-gradient-to-br from-xnema-orange/20 to-xnema-purple/20 border border-xnema-orange/30 rounded-lg p-4">
                 <h3 className="text-lg font-bold text-foreground mb-2">📱 Acesso Gratuito</h3>

@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
 
 // Environment variables with fallbacks
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://yddjuglsfqyajdykkoqv.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'sbp_7a9e632ca0f3b0f06f3a40cf402ddbaf013497e3';
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://gardjxolnrykvxxtatdq.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdhcmRqeG9sbnJ5a3Z4eHRhdGRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUzNzY3MjcsImV4cCI6MjA3MDk1MjcyN30.0qkhDmTyXsc8U63t1UTh5fV1UCOfzjH7Q0hO2GNj6sQ';
 
 console.log('Supabase URL:', supabaseUrl);
 console.log('Supabase Key exists:', !!supabaseAnonKey);
