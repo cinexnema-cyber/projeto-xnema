@@ -94,9 +94,9 @@ export default function Index() {
                 className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold text-lg px-8 py-4"
                 asChild
               >
-                <Link to="/login" className="flex items-center space-x-2">
+                <Link to="/catalog" className="flex items-center space-x-2">
                   <Crown className="w-5 h-5" />
-                  <span>Primeiro Mês Grátis</span>
+                  <span>Explorar Catálogo</span>
                 </Link>
               </Button>
               <Button
@@ -556,9 +556,9 @@ export default function Index() {
               className="bg-black text-white hover:bg-gray-900 border-black font-semibold text-lg px-8 py-4"
               asChild
             >
-              <Link to="/login">
+              <Link to="/catalog">
                 <Crown className="w-5 h-5 mr-2" />
-                Começar Grátis Agora
+                Descobrir Conteúdo
               </Link>
             </Button>
             <Button
@@ -567,9 +567,9 @@ export default function Index() {
               className="bg-transparent text-black border-black hover:bg-black/10 font-semibold text-lg px-8 py-4"
               asChild
             >
-              <Link to="/series">
+              <Link to="/between-heaven-hell">
                 <Play className="w-5 h-5 mr-2" />
-                Ver Trailers
+                Ver Série Exclusiva
               </Link>
             </Button>
           </div>
