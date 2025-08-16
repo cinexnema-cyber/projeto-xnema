@@ -24,7 +24,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 // Test connection
 export const testSupabaseConnection = async () => {
   try {
-    const { data, error } = await supabase.from('users').select('count').limit(1);
+    const { data, error } = await supabase.from('CineXnema').select('count').limit(1);
     if (error) {
       console.warn('Supabase connection test failed:', error.message);
       return false;
@@ -39,16 +39,15 @@ export const testSupabaseConnection = async () => {
 
 // Database types
 export interface User {
-  id: string;
-  email: string;
+  user_id: string;
   username: string;
-  display_name: string;
+  email: string;
+  displayName: string;
   bio?: string;
-  subscription_status: 'active' | 'inactive' | 'trial';
-  subscription_start?: string;
-  subscription_end?: string;
-  created_at: string;
-  updated_at: string;
+  passwordHash?: string;
+  subscriptionStatus: 'ativo' | 'inativo';
+  subscriptionStart?: Date;
+  comissaoPercentual: number;
 }
 
 export interface Subscription {
