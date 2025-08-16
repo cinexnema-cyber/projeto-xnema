@@ -421,8 +421,10 @@ export default function Index() {
                       className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30"
                     >
                       <Play className="w-4 h-4 mr-2" />
-                      {movie.isPremium
+                      {movie.isPremium && !isSubscriber
                         ? "Ver Trailer"
+                        : movie.isPremium && isSubscriber
+                        ? "Assistir Premium"
                         : "Assistir Grátis"}
                     </Button>
                   </div>
