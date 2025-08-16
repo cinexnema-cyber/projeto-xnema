@@ -1,19 +1,21 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
-import { User, LoginRequest, LoginResponse } from "@shared/auth";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { AuthService } from '@/lib/auth';
+import { User } from '@/lib/supabase';
+
+interface AuthUser extends User {
+  role: 'user' | 'admin' | 'creator' | 'subscriber';
+  assinante: boolean;
+  name: string;
+}
 
 interface AuthContextType {
-  user: User | null;
+  user: AuthUser | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (credentials: LoginRequest) => Promise<LoginResponse>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   register: (userData: any) => Promise<any>;
+  hasActiveSubscription: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -23,95 +25,114 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = !!user;
 
-  // Check for existing token on mount
-  useEffect(() => {
-    const token = localStorage.getItem("xnema_token");
-    if (token) {
-      validateToken(token);
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
-
-  const validateToken = async (token: string) => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const response = await fetch("/api/auth/validate", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-      } else {
-        localStorage.removeItem("xnema_token");
-      }
-    } catch (error) {
-      console.error("Token validation error:", error);
-      localStorage.removeItem("xnema_token");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
-    try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      const data = await response.json();
-
-      if (data.success && data.token && data.user) {
-        localStorage.setItem("xnema_token", data.token);
-        setUser(data.user);
+      const { user: authUser, error } = await AuthService.login({ email, password });
+      
+      if (error || !authUser) {
+        console.error('Login error:', error);
+        return false;
       }
 
-      return data;
-    } catch (error) {
-      console.error("Login error:", error);
-      return {
-        success: false,
-        message: "Erro de conexão",
+      // Transform Supabase user to AuthUser
+      const transformedUser: AuthUser = {
+        ...authUser,
+        name: authUser.display_name,
+        assinante: authUser.subscription_status === 'active' || authUser.subscription_status === 'trial',
+        role: authUser.subscription_status === 'active' ? 'subscriber' : 'user'
       };
+
+      setUser(transformedUser);
+      localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
+      return true;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
     }
   };
 
   const register = async (userData: any) => {
     try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const { user: authUser, error } = await AuthService.register(userData);
+      
+      if (error || !authUser) {
+        return {
+          success: false,
+          message: error || 'Registration failed'
+        };
+      }
 
-      const data = await response.json();
-      return data;
+      // Transform and set user
+      const transformedUser: AuthUser = {
+        ...authUser,
+        name: authUser.display_name,
+        assinante: authUser.subscription_status === 'active' || authUser.subscription_status === 'trial',
+        role: authUser.subscription_status === 'active' ? 'subscriber' : 'user'
+      };
+
+      setUser(transformedUser);
+      localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
+      
+      return {
+        success: true,
+        user: transformedUser
+      };
     } catch (error) {
-      console.error("Register error:", error);
+      console.error('Register error:', error);
       return {
         success: false,
-        message: "Erro de conexão",
+        message: 'Registration failed'
       };
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("xnema_token");
+  const logout = async () => {
+    await AuthService.logout();
     setUser(null);
+    localStorage.removeItem('xnema_user');
+    localStorage.removeItem('xnema_token'); // Also remove old token
   };
+
+  const hasActiveSubscription = async (): Promise<boolean> => {
+    if (!user) return false;
+    return await AuthService.hasActiveSubscription(user.id);
+  };
+
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        // Check for saved user in localStorage first
+        const savedUser = localStorage.getItem('xnema_user');
+        if (savedUser) {
+          setUser(JSON.parse(savedUser));
+        }
+
+        // Try to get current user from Supabase
+        const { user: currentUser } = await AuthService.getCurrentUser();
+        if (currentUser) {
+          const transformedUser: AuthUser = {
+            ...currentUser,
+            name: currentUser.display_name,
+            assinante: currentUser.subscription_status === 'active' || currentUser.subscription_status === 'trial',
+            role: currentUser.subscription_status === 'active' ? 'subscriber' : 'user'
+          };
+          setUser(transformedUser);
+          localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    initializeAuth();
+  }, []);
 
   const value: AuthContextType = {
     user,
@@ -120,6 +141,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     logout,
     register,
+    hasActiveSubscription,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
