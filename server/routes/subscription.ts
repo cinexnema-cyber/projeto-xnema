@@ -72,11 +72,14 @@ export const createSubscription = async (req: AuthenticatedRequest, res: Respons
 
     // Update user subscription to pending
     user.subscription = {
-      plan: plan as 'basic' | 'premium',
+      plan: plan as 'basic' | 'intermediate' | 'premium',
       status: 'pending',
       startDate: new Date(),
       paymentMethod: 'mercado_pago'
     };
+
+    // Set assinante to false initially (will be true when payment is confirmed)
+    user.assinante = false;
 
     await user.save();
 
@@ -119,6 +122,9 @@ export const cancelSubscription = async (req: AuthenticatedRequest, res: Respons
       user.subscription.status = 'cancelled';
       // Keep subscription active until next billing date
       user.subscription.nextBilling = new Date();
+
+      // Set assinante to false when cancelled
+      user.assinante = false;
     }
 
     await user.save();
@@ -189,7 +195,10 @@ export const handleMercadoPagoWebhook = async (req: Request, res: Response) => {
         user.subscription.startDate = new Date();
         user.subscription.nextBilling = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
         user.subscription.mercadoPagoId = paymentId;
-        
+
+        // Set assinante to true when payment is confirmed
+        user.assinante = true;
+
         await user.save();
         console.log('Subscription activated for user:', mockUserEmail);
       }
