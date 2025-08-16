@@ -92,8 +92,8 @@ export default function Index() {
                 asChild
               >
                 <Link to="/catalog" className="flex items-center space-x-2">
-                  <Crown className="w-5 h-5" />
-                  <span>Explorar Catálogo</span>
+                  <Play className="w-5 h-5" />
+                  <span>Assistir Agora</span>
                 </Link>
               </Button>
               <Button
@@ -371,7 +371,7 @@ export default function Index() {
                     >
                       <Play className="w-4 h-4 mr-2" />
                       {movie.isPremium
-                        ? "Assinar para Assistir"
+                        ? "Ver Trailer"
                         : "Assistir Grátis"}
                     </Button>
                   </div>
