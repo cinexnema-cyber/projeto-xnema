@@ -76,10 +76,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Transform Supabase user to AuthUser
       const transformedUser: AuthUser = {
-        ...authUser,
-        name: authUser.display_name,
-        assinante: authUser.subscription_status === 'active' || authUser.subscription_status === 'trial',
-        role: authUser.subscription_status === 'active' ? 'subscriber' : 'user'
+        id: authUser.user_id,
+        email: authUser.email,
+        username: authUser.username,
+        display_name: authUser.displayName,
+        bio: authUser.bio || '',
+        subscription_status: authUser.subscriptionStatus === 'ativo' ? 'active' : 'inactive',
+        subscription_start: authUser.subscriptionStart?.toString() || '',
+        subscription_end: '',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        name: authUser.displayName,
+        assinante: authUser.subscriptionStatus === 'ativo',
+        role: authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
       };
 
       setUser(transformedUser);
@@ -145,10 +154,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Transform and set user
       const transformedUser: AuthUser = {
-        ...authUser,
-        name: authUser.display_name,
-        assinante: authUser.subscription_status === 'active' || authUser.subscription_status === 'trial',
-        role: authUser.subscription_status === 'active' ? 'subscriber' : 'user'
+        id: authUser.user_id,
+        email: authUser.email,
+        username: authUser.username,
+        display_name: authUser.displayName,
+        bio: authUser.bio || '',
+        subscription_status: authUser.subscriptionStatus === 'ativo' ? 'active' : 'inactive',
+        subscription_start: authUser.subscriptionStart?.toString() || '',
+        subscription_end: '',
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        name: authUser.displayName,
+        assinante: authUser.subscriptionStatus === 'ativo',
+        role: authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
       };
 
       setUser(transformedUser);
@@ -192,10 +210,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { user: currentUser } = await AuthService.getCurrentUser();
         if (currentUser) {
           const transformedUser: AuthUser = {
-            ...currentUser,
-            name: currentUser.display_name,
-            assinante: currentUser.subscription_status === 'active' || currentUser.subscription_status === 'trial',
-            role: currentUser.subscription_status === 'active' ? 'subscriber' : 'user'
+            id: currentUser.user_id,
+            email: currentUser.email,
+            username: currentUser.username,
+            display_name: currentUser.displayName,
+            bio: currentUser.bio || '',
+            subscription_status: currentUser.subscriptionStatus === 'ativo' ? 'active' : 'inactive',
+            subscription_start: currentUser.subscriptionStart?.toString() || '',
+            subscription_end: '',
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+            name: currentUser.displayName,
+            assinante: currentUser.subscriptionStatus === 'ativo',
+            role: currentUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
           };
           setUser(transformedUser);
           localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
