@@ -54,9 +54,11 @@ export const useContentAccess = (): ContentAccessInfo => {
     }
   };
 
-  const hasAccess = user?.role === 'admin' || 
+  // Check access using user.assinante === true as specified
+  const hasAccess = user?.role === 'admin' ||
+                   (user && (user as any).assinante === true) ||
                    (user?.role === 'subscriber' && subscriptionData?.hasAccess);
-  
+
   const isSubscriber = user?.role === 'subscriber';
   const subscriptionStatus = subscriptionData?.subscription?.status || null;
 
