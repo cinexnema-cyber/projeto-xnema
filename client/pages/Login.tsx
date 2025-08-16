@@ -2,14 +2,38 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Link } from "react-router-dom";
-import { Crown, Video, Mail, Lock, User, CreditCard, Check } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Crown, Video, Mail, Lock, User, CreditCard, Check, Settings } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import { paymentRecognition, handleMercadoPagoCallback, requestNotificationPermission } from "../utils/paymentRecognition";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'idle' | 'processing' | 'completed'>('idle');
+  const [subscriberForm, setSubscriberForm] = useState({ email: '', password: '' });
+  const [creatorForm, setCreatorForm] = useState({ email: 'cinexnema@gmail.com', password: '' });
+  const [adminForm, setAdminForm] = useState({ email: 'cinexnema@gmail.com', password: '' });
+  const [errorMessage, setErrorMessage] = useState('');
+  const { login, user, isLoading: authLoading } = useAuth();
+  const navigate = useNavigate();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (user) {
+      switch (user.role) {
+        case 'admin':
+          navigate('/admin-dashboard');
+          break;
+        case 'subscriber':
+          navigate('/smart-dashboard');
+          break;
+        case 'creator':
+          navigate('/creator-portal');
+          break;
+      }
+    }
+  }, [user, navigate]);
 
   useEffect(() => {
     // Check for payment callback in URL
@@ -36,23 +60,73 @@ export default function Login() {
   const handleSubscriberLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login process
-    setTimeout(() => {
+    setErrorMessage('');
+
+    try {
+      const result = await login({
+        email: subscriberForm.email,
+        password: subscriberForm.password,
+        role: 'subscriber'
+      });
+
+      if (result.success) {
+        navigate('/smart-dashboard');
+      } else {
+        setErrorMessage(result.message || 'Erro ao fazer login');
+      }
+    } catch (error) {
+      setErrorMessage('Erro de conexão');
+    } finally {
       setIsLoading(false);
-      // Redirect to smart dashboard
-      window.location.href = '/smart-dashboard';
-    }, 1500);
+    }
   };
 
   const handleCreatorLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    setTimeout(() => {
+    setErrorMessage('');
+
+    try {
+      const result = await login({
+        email: creatorForm.email,
+        password: creatorForm.password,
+        role: 'creator'
+      });
+
+      if (result.success) {
+        navigate('/creator-portal');
+      } else {
+        setErrorMessage(result.message || 'Erro ao fazer login');
+      }
+    } catch (error) {
+      setErrorMessage('Erro de conexão');
+    } finally {
       setIsLoading(false);
-      window.location.href = '/creator-portal';
-    }, 1500);
+    }
+  };
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage('');
+
+    try {
+      const result = await login({
+        email: adminForm.email,
+        password: adminForm.password,
+        role: 'admin'
+      });
+
+      if (result.success) {
+        navigate('/admin-dashboard');
+      } else {
+        setErrorMessage(result.message || 'Erro ao fazer login');
+      }
+    } catch (error) {
+      setErrorMessage('Erro de conexão');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handlePaymentRedirect = () => {
@@ -118,7 +192,7 @@ export default function Login() {
             </div>
 
             <Tabs defaultValue="subscriber" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
+              <TabsList className="grid w-full grid-cols-3 mb-8">
                 <TabsTrigger value="subscriber" className="text-lg py-3">
                   <Crown className="w-5 h-5 mr-2" />
                   Assinante
@@ -126,6 +200,10 @@ export default function Login() {
                 <TabsTrigger value="creator" className="text-lg py-3">
                   <Video className="w-5 h-5 mr-2" />
                   Criador
+                </TabsTrigger>
+                <TabsTrigger value="admin" className="text-lg py-3">
+                  <Settings className="w-5 h-5 mr-2" />
+                  Admin
                 </TabsTrigger>
               </TabsList>
 
@@ -145,27 +223,36 @@ export default function Login() {
                     </CardHeader>
                     <CardContent>
                       <form onSubmit={handleSubscriberLogin} className="space-y-6">
+                        {errorMessage && (
+                          <div className="bg-destructive/10 border border-destructive/20 rounded-md p-3">
+                            <p className="text-sm text-destructive">{errorMessage}</p>
+                          </div>
+                        )}
                         <div className="space-y-4">
                           <div className="grid gap-2">
                             <label className="text-sm font-medium text-foreground">Email</label>
                             <div className="relative">
                               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                              <input 
-                                type="email" 
+                              <input
+                                type="email"
                                 placeholder="seu@email.com"
+                                value={subscriberForm.email}
+                                onChange={(e) => setSubscriberForm(prev => ({ ...prev, email: e.target.value }))}
                                 required
                                 className="pl-10 flex h-10 w-full rounded-md border border-xnema-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-xnema-orange"
                               />
                             </div>
                           </div>
-                          
+
                           <div className="grid gap-2">
                             <label className="text-sm font-medium text-foreground">Senha</label>
                             <div className="relative">
                               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                              <input 
-                                type="password" 
+                              <input
+                                type="password"
                                 placeholder="••••••••"
+                                value={subscriberForm.password}
+                                onChange={(e) => setSubscriberForm(prev => ({ ...prev, password: e.target.value }))}
                                 required
                                 className="pl-10 flex h-10 w-full rounded-md border border-xnema-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-xnema-orange"
                               />
@@ -263,28 +350,36 @@ export default function Login() {
                     </CardHeader>
                     <CardContent>
                       <form onSubmit={handleCreatorLogin} className="space-y-6">
+                        {errorMessage && (
+                          <div className="bg-destructive/10 border border-destructive/20 rounded-md p-3">
+                            <p className="text-sm text-destructive">{errorMessage}</p>
+                          </div>
+                        )}
                         <div className="space-y-4">
                           <div className="grid gap-2">
                             <label className="text-sm font-medium text-foreground">Email do Criador</label>
                             <div className="relative">
                               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                              <input 
-                                type="email" 
+                              <input
+                                type="email"
                                 placeholder="criador@email.com"
-                                defaultValue="cinexnema@gmail.com"
+                                value={creatorForm.email}
+                                onChange={(e) => setCreatorForm(prev => ({ ...prev, email: e.target.value }))}
                                 required
                                 className="pl-10 flex h-10 w-full rounded-md border border-xnema-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-xnema-purple"
                               />
                             </div>
                           </div>
-                          
+
                           <div className="grid gap-2">
                             <label className="text-sm font-medium text-foreground">Senha</label>
                             <div className="relative">
                               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                              <input 
-                                type="password" 
+                              <input
+                                type="password"
                                 placeholder="••••••••"
+                                value={creatorForm.password}
+                                onChange={(e) => setCreatorForm(prev => ({ ...prev, password: e.target.value }))}
                                 required
                                 className="pl-10 flex h-10 w-full rounded-md border border-xnema-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-xnema-purple"
                               />
