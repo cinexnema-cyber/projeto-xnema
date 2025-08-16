@@ -1,11 +1,13 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { useContentAccess } from "@/hooks/useContentAccess";
 import { Link } from "react-router-dom";
-import { Play, Star, Crown, Filter, Search } from "lucide-react";
+import { Play, Star, Crown, Filter, Search, Lock } from "lucide-react";
 import { useState } from "react";
 
 export default function Catalog() {
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const { hasAccess } = useContentAccess();
 
   const categories = [
     { id: "all", name: "Todos", count: 24 },
