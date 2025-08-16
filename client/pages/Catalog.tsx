@@ -208,10 +208,19 @@ export default function Catalog() {
                     </div>
                     
                     <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform">
-                      <Button size="sm" className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30">
-                        <Play className="w-4 h-4 mr-2" />
-                        {item.isPremium ? "Assinar para Assistir" : "Assistir Grátis"}
-                      </Button>
+                      {item.isPremium && !hasAccess ? (
+                        <Button size="sm" className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30" asChild>
+                          <Link to="/pricing">
+                            <Lock className="w-4 h-4 mr-2" />
+                            Assinar para Assistir
+                          </Link>
+                        </Button>
+                      ) : (
+                        <Button size="sm" className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30">
+                          <Play className="w-4 h-4 mr-2" />
+                          {item.isPremium ? "Assistir" : "Assistir Grátis"}
+                        </Button>
+                      )}
                     </div>
                   </div>
                   
