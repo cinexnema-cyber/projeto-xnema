@@ -2,13 +2,49 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Upload, Video, FileText, BarChart3, DollarSign, Settings, Users, PlayCircle, AlertCircle, CheckCircle, Clock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ContentUpload } from "@/components/ContentUpload";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Upload, Video, FileText, BarChart3, DollarSign, Settings, Users, PlayCircle, AlertCircle, CheckCircle, Clock, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function CreatorPortal() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [uploadProgress, setUploadProgress] = useState(0);
   const [isUploading, setIsUploading] = useState(false);
+  const [analytics, setAnalytics] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!user || user.role !== 'creator') {
+      navigate('/login');
+      return;
+    }
+    fetchAnalytics();
+  }, [user, navigate]);
+
+  const fetchAnalytics = async () => {
+    try {
+      const token = localStorage.getItem('xnema_token');
+      const response = await fetch('/api/creator/analytics', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setAnalytics(data);
+      }
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const creatorStats = {
     totalVideos: 24,
