@@ -542,8 +542,7 @@ export default function Index() {
             Pronto para embarcar nessa jornada?
           </h2>
           <p className="text-xl text-black/80 mb-8 max-w-2xl mx-auto">
-            Junte-se a milhares de brasileiros que já descobriram a nova era do entretenimento nacional.
-            Primeiro mês grátis, depois apenas R$ 19,90/mês.
+            Descubra a nova era do entretenimento brasileiro com conteúdo gratuito e premium.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -554,8 +553,8 @@ export default function Index() {
               asChild
             >
               <Link to="/catalog">
-                <Crown className="w-5 h-5 mr-2" />
-                Descobrir Conteúdo
+                <Play className="w-5 h-5 mr-2" />
+                Assistir Agora
               </Link>
             </Button>
             <Button
@@ -572,7 +571,7 @@ export default function Index() {
           </div>
 
           <p className="text-sm text-black/60">
-            ✓ Sem compromisso ✓ Cancele quando quiser ✓ Qualidade 4K ✓ Múltiplos dispositivos
+            ✓ Conteúdo gratuito ✓ Sem cadastro obrigatório ✓ Qualidade HD ✓ Múltiplos dispositivos
           </p>
         </div>
       </section>
