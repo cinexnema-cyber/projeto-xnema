@@ -1,5 +1,6 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
+import { SubscriberOnlyVideos } from "@/components/SubscriberOnlyVideos";
 import { Link } from "react-router-dom";
 import { Play, Crown, Star, Users, Zap, Shield } from "lucide-react";
 
@@ -241,6 +242,60 @@ export default function Index() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Premium Videos Section */}
+      <section className="py-20 bg-xnema-surface">
+        <div className="container mx-auto px-4">
+          <SubscriberOnlyVideos
+            title="Filmes e Séries Premium"
+            description="Conteúdo exclusivo para assinantes XNEMA"
+            videos={[
+              {
+                id: '1',
+                title: 'Between Heaven and Hell - T1E01',
+                thumbnail: 'https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=400',
+                duration: '45 min',
+                description: 'O início de uma saga épica entre anjos e demônios'
+              },
+              {
+                id: '2',
+                title: 'Horizonte Infinito',
+                thumbnail: 'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=400&h=600&fit=crop',
+                duration: '2h 15min',
+                description: 'Uma jornada através das estrelas em busca da verdade'
+              },
+              {
+                id: '3',
+                title: 'Mistérios da Cidade',
+                thumbnail: 'https://images.unsplash.com/photo-1489599809568-c88341c7bfeb?w=400&h=600&fit=crop',
+                duration: '1h 45min',
+                description: 'Thriller urbano cheio de reviravoltas'
+              },
+              {
+                id: '4',
+                title: 'Aventura Selvagem',
+                thumbnail: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=400&h=600&fit=crop',
+                duration: '1h 30min',
+                description: 'Uma aventura épica pela natureza selvagem'
+              },
+              {
+                id: '5',
+                title: 'Coração Digital',
+                thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=600&fit=crop',
+                duration: '2h 05min',
+                description: 'Romance futurista sobre inteligência artificial'
+              },
+              {
+                id: '6',
+                title: 'O Último Guardião',
+                thumbnail: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop',
+                duration: '1h 55min',
+                description: 'Fantasia épica sobre o último protetor do reino'
+              }
+            ]}
+          />
         </div>
       </section>
 
