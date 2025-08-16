@@ -2,14 +2,26 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Crown, Play, Star, CreditCard, Download, Settings, TrendingUp, Calendar, Eye, Heart, CheckCircle, AlertCircle, Smartphone, Tv, Monitor, Tablet } from "lucide-react";
+import { SubscriptionManager } from "@/components/SubscriptionManager";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { Crown, Play, Star, CreditCard, Download, Settings, TrendingUp, Calendar, Eye, Heart, CheckCircle, AlertCircle, Smartphone, Tv, Monitor, Tablet, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 export default function SmartDashboard() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [paymentStatus, setPaymentStatus] = useState<'active' | 'expired' | 'processing'>('active');
   const [watchTime, setWatchTime] = useState(0);
   const [recommendedContent, setRecommendedContent] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (!user || user.role !== 'subscriber') {
+      navigate('/login');
+      return;
+    }
+  }, [user, navigate]);
 
   const userProfile = {
     name: "João Silva",
