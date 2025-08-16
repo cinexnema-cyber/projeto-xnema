@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Lock, UserX, Clock } from "lucide-react";
+import { SubscriptionPrompt } from "@/components/SubscriptionPrompt";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -24,6 +25,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, isLoading, isAuthenticated } = useAuth();
   const { t } = useLanguage();
   const location = useLocation();
+  const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -72,40 +74,25 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Check subscription requirement
+  // Check subscription requirement - show prompt instead of blocking
   if (requireSubscription && !user.assinante) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="max-w-md w-full">
-          <CardContent className="p-8 text-center">
-            <div className="w-16 h-16 bg-xnema-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Lock className="w-8 h-8 text-xnema-orange" />
-            </div>
-            <h2 className="text-2xl font-bold text-foreground mb-2">
-              {t('content.premiumOnly')}
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              {t('content.subscribe')}
-            </p>
-            <div className="space-y-3">
-              <Button asChild className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black">
-                <Navigate to="/register" replace />
-                {t('auth.subscribeNow')}
-              </Button>
-              <Button asChild variant="outline" className="w-full">
-                <Navigate to="/" replace />
-                {t('nav.home')}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <>
+        {children}
+        {showSubscriptionPrompt && (
+          <SubscriptionPrompt
+            contentTitle={location.pathname.includes('between-heaven-hell') ? 'Between Heaven and Hell' : 'Conteúdo Premium'}
+            contentType="series"
+            onClose={() => setShowSubscriptionPrompt(false)}
+          />
+        )}
+        {/* Auto-show prompt after component mounts */}
+        {React.useEffect(() => {
+          const timer = setTimeout(() => setShowSubscriptionPrompt(true), 1000);
+          return () => clearTimeout(timer);
+        }, [])}
+      </>
     );
-  }
-
-  // Additional subscription status check
-  if (requireSubscription && user.subscription_status === 'inactive') {
-    return <Navigate to="/register" replace />;
   }
 
   // All checks passed, render children
