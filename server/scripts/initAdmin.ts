@@ -42,8 +42,9 @@ export const initializeSampleData = async () => {
         password: 'password123',
         name: 'João Silva',
         role: 'subscriber',
+        assinante: true, // Set assinante to true for testing
         subscription: {
-          plan: 'premium',
+          plan: 'intermediate',
           status: 'active',
           startDate: new Date(),
           nextBilling: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
