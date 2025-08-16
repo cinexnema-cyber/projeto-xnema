@@ -1,11 +1,14 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Play, Crown, Star, Calendar, Users, Instagram, ExternalLink } from "lucide-react";
+import { ProtectedContent } from "@/components/ProtectedContent";
+import { useContentAccess } from "@/hooks/useContentAccess";
+import { Play, Crown, Star, Calendar, Users, Instagram, ExternalLink, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function BetweenHeavenHell() {
   const [selectedSeason, setSelectedSeason] = useState(1);
+  const { hasAccess } = useContentAccess();
 
   const seriesInfo = {
     title: "Between Heaven and Hell",
