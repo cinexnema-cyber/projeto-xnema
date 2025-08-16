@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { initializeSmartPlatform } from "./utils/smartPlatform";
 import Index from "./pages/Index";
@@ -16,6 +17,8 @@ import Categories from "./pages/Categories";
 import Pricing from "./pages/Pricing";
 import Creators from "./pages/Creators";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 import Subscribe from "./pages/Subscribe";
 import BetweenHeavenHell from "./pages/BetweenHeavenHell";
 import Dashboard from "./pages/Dashboard";
@@ -40,7 +43,8 @@ initializeSmartPlatform();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
         <Toaster />
         <Sonner />
         <BrowserRouter>
@@ -52,6 +56,8 @@ const App = () => (
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/creators" element={<Creators />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/subscribe" element={<Subscribe />} />
 
@@ -140,7 +146,8 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      </AuthProvider>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
