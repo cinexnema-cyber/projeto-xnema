@@ -37,8 +37,9 @@ export function Header() {
           <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors">
             {t('nav.categories')}
           </Link>
-          <Link to="/pricing" className="text-foreground hover:text-xnema-orange transition-colors">
-            {t('nav.subscription')}
+          <Link to="/premium" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
+            <Crown className="w-4 h-4" />
+            <span>Premium</span>
           </Link>
           <Link to="/creators" className="text-foreground hover:text-xnema-orange transition-colors">
             Criadores
