@@ -19,8 +19,9 @@ interface IAdminUser extends IUser {
 
 interface ISubscriberUser extends IUser {
   role: 'subscriber';
+  assinante?: boolean;
   subscription: {
-    plan: 'basic' | 'premium';
+    plan: 'basic' | 'intermediate' | 'premium';
     status: 'active' | 'inactive' | 'pending' | 'cancelled';
     startDate: Date;
     nextBilling?: Date;
@@ -75,10 +76,14 @@ const userSchema = new mongoose.Schema({
     enum: ['manage_users', 'manage_content', 'approve_creators', 'view_analytics', 'manage_payments']
   }],
   // Subscriber-specific fields
+  assinante: {
+    type: Boolean,
+    default: false
+  },
   subscription: {
     plan: {
       type: String,
-      enum: ['basic', 'premium']
+      enum: ['basic', 'intermediate', 'premium']
     },
     status: {
       type: String,
