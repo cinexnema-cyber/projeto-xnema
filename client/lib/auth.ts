@@ -18,17 +18,23 @@ export class AuthService {
   // Register new user
   static async register(userData: RegisterData): Promise<{ user: User | null; error: string | null }> {
     try {
+      // Test Supabase connection first
+      console.log('Testing Supabase connection...');
+
       // First, create auth user in Supabase Auth
+      console.log('Attempting to create auth user...');
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: userData.email,
         password: userData.password,
       });
 
       if (authError) {
+        console.error('Auth error:', authError);
         return { user: null, error: authError.message };
       }
 
       if (!authData.user) {
+        console.error('No user returned from auth');
         return { user: null, error: 'Failed to create user' };
       }
 

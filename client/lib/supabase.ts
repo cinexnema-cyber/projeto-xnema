@@ -12,7 +12,30 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Supabase configuration is required');
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Create Supabase client with additional options
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+});
+
+// Test connection
+export const testSupabaseConnection = async () => {
+  try {
+    const { data, error } = await supabase.from('users').select('count').limit(1);
+    if (error) {
+      console.warn('Supabase connection test failed:', error.message);
+      return false;
+    }
+    console.log('✅ Supabase connection successful');
+    return true;
+  } catch (error) {
+    console.warn('⚠️ Supabase connection error:', error);
+    return false;
+  }
+};
 
 // Database types
 export interface User {
