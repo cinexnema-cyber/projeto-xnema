@@ -25,8 +25,8 @@ export default function Dashboard() {
       console.log('🚀 Redirecting admin to admin dashboard');
       navigate('/admin-dashboard', { replace: true });
     } else if (user.role === 'creator') {
-      console.log('🚀 Redirecting creator to creator portal');
-      navigate('/creator-portal', { replace: true });
+      console.log('🚀 Redirecting creator to creator dashboard');
+      navigate('/creator-dashboard', { replace: true });
     } else {
       // Fallback for unknown roles - default to user dashboard
       console.log('🚀 Unknown role, redirecting to user dashboard');
