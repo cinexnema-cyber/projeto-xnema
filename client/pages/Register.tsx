@@ -13,6 +13,7 @@ import { Loader2, Crown, Calendar, CreditCard } from 'lucide-react';
 export default function Register() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
