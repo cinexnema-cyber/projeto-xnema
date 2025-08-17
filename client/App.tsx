@@ -45,6 +45,8 @@ import VisitorLanding from "./pages/VisitorLanding";
 import CreatorDashboard from "./pages/CreatorDashboard";
 import Watch from "./pages/Watch";
 import SeriesDetail from "./pages/SeriesDetail";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -215,6 +217,8 @@ const App = () => (
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/creator-terms" element={<CreatorTerms />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
