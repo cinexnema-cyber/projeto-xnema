@@ -73,6 +73,9 @@ export default function Register() {
         return;
       }
 
+      console.log('🔍 Debug - User object after registration:', user);
+      console.log('🔍 Debug - User ID type:', typeof user.id, 'Value:', user.id);
+
       // Create subscription
       const { error: subscriptionError } = await AuthService.createSubscription(user.id, selectedPlan);
 
