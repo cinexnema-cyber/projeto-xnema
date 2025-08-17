@@ -232,7 +232,8 @@ export class AuthService {
 
       if (userError) {
         console.error('❌ User update error:', userError);
-        return { error: userError.message };
+        console.error('❌ Error details:', JSON.stringify(userError, null, 2));
+        return { error: userError.message || 'Failed to update user subscription status' };
       }
 
       console.log('✅ User subscription status updated successfully');
