@@ -3,7 +3,8 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Star, Crown, Users, Zap, Shield, Check, Eye, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Play, Star, Crown, Users, Zap, Shield, Check, Eye, Calendar, Info, Video } from "lucide-react";
 
 export default function VisitorLanding() {
   const featuredContent = [
