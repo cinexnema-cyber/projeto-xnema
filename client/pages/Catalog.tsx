@@ -245,9 +245,14 @@ export default function Catalog() {
                         <Button
                           size="sm"
                           className="w-full bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-white/30"
+                          asChild
                         >
-                          <Play className="w-4 h-4 mr-2" />
-                          {item.isPremium ? "Assistir" : "Assistir Grátis"}
+                          <Link to={item.type === "Série" ? `/series/${item.id}` : `/watch/${item.id}`}>
+                            <div className="flex items-center">
+                              <Play className="w-4 h-4 mr-2" />
+                              {item.type === "Série" ? "Ver Série" : (item.isPremium ? "Assistir" : "Assistir Grátis")}
+                            </div>
+                          </Link>
                         </Button>
                       )}
                     </div>
