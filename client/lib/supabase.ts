@@ -39,7 +39,8 @@ export const testSupabaseConnection = async () => {
 
 // Database types
 export interface User {
-  user_id: string;
+  id?: string; // Supabase Auth UUID
+  user_id: string; // Database table UUID
   username: string;
   email: string;
   displayName: string;
@@ -48,6 +49,7 @@ export interface User {
   subscriptionStatus: 'ativo' | 'inativo';
   subscriptionStart?: Date;
   comissaoPercentual: number;
+  confirmationLink?: string; // For email confirmation
 }
 
 export interface Subscription {
