@@ -43,8 +43,35 @@ export default function Login() {
         return;
       }
 
-      // Successful login - redirect to dashboard
-      navigate('/dashboard');
+      // Wait a moment for user state to update
+      setTimeout(() => {
+        // Get current user from context (after login)
+        const savedUser = localStorage.getItem('xnema_user');
+        if (savedUser) {
+          const currentUser = JSON.parse(savedUser);
+
+          // Redirect based on user type
+          if (currentUser.assinante && currentUser.role === 'subscriber') {
+            console.log('✅ Redirecting subscriber to subscriber dashboard');
+            navigate('/subscriber-dashboard');
+          } else if (currentUser.role === 'user') {
+            console.log('✅ Redirecting basic user to user dashboard');
+            navigate('/user-dashboard');
+          } else if (currentUser.role === 'admin') {
+            console.log('✅ Redirecting admin to admin dashboard');
+            navigate('/admin-dashboard');
+          } else if (currentUser.role === 'creator') {
+            console.log('✅ Redirecting creator to creator portal');
+            navigate('/creator-portal');
+          } else {
+            console.log('✅ Redirecting to general dashboard');
+            navigate('/dashboard');
+          }
+        } else {
+          // Fallback
+          navigate('/dashboard');
+        }
+      }, 100);
 
     } catch (error) {
       console.error('Login error:', error);
