@@ -209,8 +209,10 @@ export default function UserDashboard() {
                     </div>
                     <Button asChild className="w-full" size="lg">
                       <Link to="/register">
-                        <Crown className="w-4 h-4 mr-2" />
-                        Assinar Premium
+                        <div className="flex items-center">
+                          <Crown className="w-4 h-4 mr-2" />
+                          Assinar Premium
+                        </div>
                       </Link>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="w-full">
