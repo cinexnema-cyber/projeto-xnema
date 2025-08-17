@@ -211,23 +211,29 @@ export default function Dashboard() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               <Button asChild className="h-auto p-4 flex flex-col items-start">
                 <Link to="/between-heaven-hell">
-                  <Crown className="h-6 w-6 text-xnema-orange mb-2" />
-                  <h4 className="font-semibold mb-1">Entre o Céu e o Inferno</h4>
-                  <p className="text-sm text-muted-foreground">Série exclusiva XNEMA</p>
+                  <div className="flex flex-col items-start">
+                    <Crown className="h-6 w-6 text-xnema-orange mb-2" />
+                    <h4 className="font-semibold mb-1">Entre o Céu e o Inferno</h4>
+                    <p className="text-sm text-muted-foreground">Série exclusiva XNEMA</p>
+                  </div>
                 </Link>
               </Button>
               <Button asChild variant="outline" className="h-auto p-4 flex flex-col items-start">
                 <Link to="/catalog">
-                  <Download className="h-6 w-6 mb-2" />
-                  <h4 className="font-semibold mb-1">Catálogo Completo</h4>
-                  <p className="text-sm text-muted-foreground">Todos os filmes e séries</p>
+                  <div className="flex flex-col items-start">
+                    <Download className="h-6 w-6 mb-2" />
+                    <h4 className="font-semibold mb-1">Catálogo Completo</h4>
+                    <p className="text-sm text-muted-foreground">Todos os filmes e séries</p>
+                  </div>
                 </Link>
               </Button>
               <Button asChild variant="outline" className="h-auto p-4 flex flex-col items-start">
                 <Link to="/categories">
-                  <Settings className="h-6 w-6 mb-2" />
-                  <h4 className="font-semibold mb-1">Categorias</h4>
-                  <p className="text-sm text-muted-foreground">Navegue por gênero</p>
+                  <div className="flex flex-col items-start">
+                    <Settings className="h-6 w-6 mb-2" />
+                    <h4 className="font-semibold mb-1">Categorias</h4>
+                    <p className="text-sm text-muted-foreground">Navegue por gênero</p>
+                  </div>
                 </Link>
               </Button>
             </div>
