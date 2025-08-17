@@ -240,16 +240,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const { user: currentUser } = await AuthService.getCurrentUser();
         if (currentUser) {
           const transformedUser: AuthUser = {
-            id: currentUser.user_id,
+            id: currentUser.id || currentUser.user_id,
+            user_id: currentUser.user_id,
             email: currentUser.email,
             username: currentUser.username,
-            display_name: currentUser.displayName,
+            displayName: currentUser.displayName,
             bio: currentUser.bio || '',
-            subscription_status: currentUser.subscriptionStatus === 'ativo' ? 'active' : 'inactive',
-            subscription_start: currentUser.subscriptionStart?.toString() || '',
-            subscription_end: '',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
+            subscriptionStatus: currentUser.subscriptionStatus,
+            subscriptionStart: currentUser.subscriptionStart,
+            subscriptionEnd: currentUser.subscriptionEnd,
+            subscriptionPlan: currentUser.subscriptionPlan,
             name: currentUser.displayName,
             assinante: currentUser.subscriptionStatus === 'ativo',
             role: currentUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
