@@ -61,7 +61,22 @@ export class AuthService {
         return { user: null, error: profileError.message };
       }
 
-      return { user: userProfile, error: null };
+      // Generate JWT token for email confirmation
+      const confirmationToken = await this.generateConfirmationToken(authData.user.id, userData.email, 'subscriber');
+      const confirmationLink = `${window.location.origin}/welcome?token=${confirmationToken}`;
+
+      console.log('🔗 Link de confirmação gerado:', confirmationLink);
+      console.log('📧 Copie este link para acessar diretamente:', confirmationLink);
+
+      // Return user profile with Supabase Auth UUID (not table ID)
+      return {
+        user: {
+          ...userProfile,
+          id: authData.user.id, // Use Supabase Auth UUID instead of table ID
+          confirmationLink
+        },
+        error: null
+      };
     } catch (error) {
       return { user: null, error: 'Registration failed' };
     }
