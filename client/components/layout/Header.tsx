@@ -23,19 +23,18 @@ export function Header() {
           <Link to="/catalog" className="text-foreground hover:text-xnema-orange transition-colors">
             {t('nav.home')}
           </Link>
-          <Link to="/between-heaven-hell" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
-            <span>Série</span>
+          <Link to="/series" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
+            <span>Séries</span>
             <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
           </Link>
           <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors">
             {t('nav.categories')}
           </Link>
-          <Link to="/premium" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
-            <Crown className="w-4 h-4" />
-            <span>Premium</span>
+          <Link to="/about" className="text-foreground hover:text-xnema-orange transition-colors">
+            Sobre
           </Link>
-          <Link to="/creators" className="text-foreground hover:text-xnema-orange transition-colors">
-            Criadores
+          <Link to="/contact" className="text-foreground hover:text-xnema-orange transition-colors">
+            Contato
           </Link>
         </nav>
 
@@ -127,20 +126,23 @@ export function Header() {
               />
             </div>
             <Link to="/catalog" className="text-foreground hover:text-xnema-orange transition-colors py-2">
-              Início
+              Catálogo
             </Link>
-            <Link to="/between-heaven-hell" className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2">
-              <span>Série Exclusiva</span>
+            <Link to="/series" className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2">
+              <span>Séries</span>
               <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
             </Link>
             <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors py-2">
               Categorias
             </Link>
+            <Link to="/about" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+              Sobre Nós
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+              Contato
+            </Link>
             <Link to="/pricing" className="text-foreground hover:text-xnema-orange transition-colors py-2">
               Planos
-            </Link>
-            <Link to="/creators" className="text-foreground hover:text-xnema-orange transition-colors py-2">
-              Criadores
             </Link>
           </nav>
         </div>
