@@ -88,19 +88,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
       // Transform Supabase user to AuthUser
       const transformedUser: AuthUser = {
-        id: authUser.user_id,
+        id: authUser.id || authUser.user_id,
+        user_id: authUser.user_id,
         email: authUser.email,
         username: authUser.username,
-        display_name: authUser.displayName,
+        displayName: authUser.displayName,
         bio: authUser.bio || '',
-        subscription_status: authUser.subscriptionStatus === 'ativo' ? 'active' : 'inactive',
-        subscription_start: authUser.subscriptionStart?.toString() || '',
-        subscription_end: '',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
+        subscriptionStatus: authUser.subscriptionStatus,
+        subscriptionStart: authUser.subscriptionStart,
+        subscriptionEnd: authUser.subscriptionEnd,
+        subscriptionPlan: authUser.subscriptionPlan,
         name: authUser.displayName,
         assinante: authUser.subscriptionStatus === 'ativo',
-        role: authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
+        role: authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user',
+        confirmationLink: authUser.confirmationLink
       };
 
       setUser(transformedUser);
