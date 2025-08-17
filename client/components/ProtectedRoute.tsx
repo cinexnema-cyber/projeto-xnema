@@ -27,6 +27,14 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const location = useLocation();
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
 
+  // Auto-show subscription prompt for premium content - MOVED TO TOP
+  React.useEffect(() => {
+    if (requireSubscription && user && !user.assinante) {
+      const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [requireSubscription, user?.assinante]);
+
   // Show loading while checking authentication
   if (isLoading) {
     return (
@@ -73,14 +81,6 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       </div>
     );
   }
-
-  // Auto-show subscription prompt for premium content
-  React.useEffect(() => {
-    if (requireSubscription && !user?.assinante) {
-      const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
-      return () => clearTimeout(timer);
-    }
-  }, [requireSubscription, user?.assinante]);
 
   // Check subscription requirement - show prompt instead of blocking
   if (requireSubscription && !user.assinante) {
