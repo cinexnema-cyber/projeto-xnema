@@ -244,4 +244,48 @@ export class AuthService {
       return { error: 'Failed to create subscription' };
     }
   }
+
+  // Generate confirmation token (simulated - in production, this would be done server-side)
+  private static async generateConfirmationToken(userId: string, email: string, role: string): Promise<string> {
+    // In a real implementation, this would call your backend to generate the JWT
+    // For now, we'll create a simple token structure
+    const payload = {
+      userId,
+      email,
+      role,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60 // 24 hours
+    };
+
+    // In production, encode this properly with your JWT secret
+    return btoa(JSON.stringify(payload));
+  }
+
+  // Validate and auto-login from token
+  static async loginFromToken(token: string): Promise<{ user: User | null; error: string | null }> {
+    try {
+      // Decode token (in production, verify with JWT library)
+      const payload = JSON.parse(atob(token));
+
+      // Check token expiry
+      if (payload.exp < Math.floor(Date.now() / 1000)) {
+        return { user: null, error: 'Token expired' };
+      }
+
+      // Get user profile
+      const { data: userProfile, error: profileError } = await supabase
+        .from('CineXnema')
+        .select('*')
+        .eq('user_id', payload.userId)
+        .single();
+
+      if (profileError) {
+        return { user: null, error: 'Invalid token or user not found' };
+      }
+
+      return { user: userProfile, error: null };
+    } catch (error) {
+      return { user: null, error: 'Invalid token format' };
+    }
+  }
 }
