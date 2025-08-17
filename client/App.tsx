@@ -121,6 +121,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            {/* Smart Dashboard Router */}
             <Route
               path="/dashboard"
               element={
@@ -129,22 +130,45 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+
+            {/* Visitor Dashboard (Public) */}
+            <Route path="/visitor-dashboard" element={<VisitorDashboard />} />
+
+            {/* Role-specific Dashboards */}
             <Route
-              path="/series"
+              path="/user-dashboard"
               element={
-                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <Series />
+                <ProtectedRoute allowedRoles={["user"]}>
+                  <UserDashboard />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/category/:categoryId"
+              path="/subscriber-dashboard"
               element={
                 <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <Category />
+                  <SubscriberDashboard />
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/creator-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
+                  <CreatorDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["admin"]}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/series" element={<Series />} />
+            <Route path="/category/:categoryId" element={<Category />} />
             <Route
               path="/watch/:contentId"
               element={
