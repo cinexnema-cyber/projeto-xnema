@@ -53,8 +53,10 @@ export default function CreatorLogin() {
             <CardContent className="space-y-4">
               <Button className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
                 <Link to="/creator-portal">
-                  Acessar Portal do Criador
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <div className="flex items-center">
+                    Acessar Portal do Criador
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </div>
                 </Link>
               </Button>
               <Button variant="outline" className="w-full" onClick={() => setIsLoggedIn(false)}>
