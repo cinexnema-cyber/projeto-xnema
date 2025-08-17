@@ -71,8 +71,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
               {allowedRoles.includes("subscriber") && " This area is restricted to subscribers."}
             </p>
             <div className="space-y-3">
-              <Button asChild variant="outline" className="w-full">
-                <Navigate to="/" replace />
+              <Button
+                variant="outline"
+                className="w-full"
+                onClick={() => navigate("/")}
+              >
                 Back to Home
               </Button>
               <p className="text-sm text-muted-foreground">
