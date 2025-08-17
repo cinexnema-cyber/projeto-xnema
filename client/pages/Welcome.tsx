@@ -52,9 +52,15 @@ export default function Welcome() {
       // Store token for future requests (in production, use the proper JWT)
       localStorage.setItem('authToken', token);
       
-      // Redirect to dashboard after 2 seconds
+      // Redirect based on user type after 2 seconds
       setTimeout(() => {
-        navigate('/');
+        if (user.assinante && user.role === 'subscriber') {
+          navigate('/subscriber-dashboard');
+        } else if (user.role === 'user') {
+          navigate('/user-dashboard');
+        } else {
+          navigate('/dashboard'); // Let Dashboard router handle it
+        }
       }, 2000);
 
     } catch (error) {
