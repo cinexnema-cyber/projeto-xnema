@@ -199,15 +199,19 @@ export default function PublicCatalog() {
                       {isSubscriber ? (
                         <Button size="sm" asChild>
                           <Link to={`/watch/${item.id}`}>
-                            <Play className="w-4 h-4 mr-2" />
-                            Assistir
+                            <div className="flex items-center">
+                              <Play className="w-4 h-4 mr-2" />
+                              Assistir
+                            </div>
                           </Link>
                         </Button>
                       ) : (
                         <Button size="sm" asChild>
                           <Link to="/register">
-                            <Crown className="w-4 h-4 mr-2" />
-                            Assinar para Assistir
+                            <div className="flex items-center">
+                              <Crown className="w-4 h-4 mr-2" />
+                              Assinar para Assistir
+                            </div>
                           </Link>
                         </Button>
                       )}
