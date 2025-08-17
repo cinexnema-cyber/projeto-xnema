@@ -227,8 +227,6 @@ export class AuthService {
         .update({
           subscriptionStatus: 'ativo',
           subscriptionStart: startDate,
-          subscriptionEnd: endDate,
-          subscriptionPlan: planType,
         })
         .eq('user_id', userIdString);
 
