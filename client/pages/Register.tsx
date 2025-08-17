@@ -70,10 +70,11 @@ export default function Register() {
         return;
       }
 
-      setSuccess('Registro realizado com sucesso! Bem-vindo ao XNEMA. Redirecionando...');
+      setSuccess('Registro realizado com sucesso! Bem-vindo ao XNEMA Premium. Redirecionando...');
 
+      // Users who register with a plan become subscribers automatically
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate('/subscriber-dashboard');
       }, 2000);
 
     } catch (error) {
