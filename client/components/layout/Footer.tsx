@@ -57,12 +57,12 @@ export function Footer() {
             <ul className="space-y-3">
               <li>
                 <Link to="/catalog" className="text-muted-foreground hover:text-xnema-orange transition-colors">
-                  Início
+                  Catálogo
                 </Link>
               </li>
               <li>
-                <Link to="/between-heaven-hell" className="text-muted-foreground hover:text-xnema-orange transition-colors">
-                  Between Heaven and Hell
+                <Link to="/series" className="text-muted-foreground hover:text-xnema-orange transition-colors">
+                  Séries
                 </Link>
               </li>
               <li>
@@ -75,6 +75,11 @@ export function Footer() {
                   Planos
                 </Link>
               </li>
+              <li>
+                <Link to="/about" className="text-muted-foreground hover:text-xnema-orange transition-colors">
+                  Sobre Nós
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -82,6 +87,11 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-semibold text-foreground mb-4">Suporte</h3>
             <ul className="space-y-3">
+              <li>
+                <Link to="/contact" className="text-muted-foreground hover:text-xnema-orange transition-colors">
+                  Contato
+                </Link>
+              </li>
               <li>
                 <Link to="/creators" className="text-muted-foreground hover:text-xnema-orange transition-colors">
                   Área do Criador
@@ -97,15 +107,7 @@ export function Footer() {
                   onClick={handleWhatsAppClick}
                   className="text-muted-foreground hover:text-xnema-orange transition-colors text-left"
                 >
-                  Contato via WhatsApp
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={handleEmailClick}
-                  className="text-muted-foreground hover:text-xnema-orange transition-colors text-left"
-                >
-                  Suporte por Email
+                  WhatsApp
                 </button>
               </li>
             </ul>
