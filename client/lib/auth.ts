@@ -236,24 +236,7 @@ export class AuthService {
       }
 
       console.log('✅ User subscription status updated successfully');
-
-      // Create subscription record with validated UUID
-      const { error: subscriptionError } = await supabase
-        .from('subscriptions')
-        .insert([{
-          user_id: userIdString, // Now guaranteed to be a valid UUID
-          status: 'active',
-          plan_type: planType,
-          start_date: startDate.toISOString(),
-          end_date: endDate.toISOString()
-        }]);
-
-      if (subscriptionError) {
-        console.error('❌ Subscription creation error:', subscriptionError);
-        return { error: subscriptionError.message };
-      }
-
-      console.log('✅ Subscription created successfully for user:', userIdString);
+      console.log('✅ Subscription activated for user:', userIdString, 'Plan:', planType);
       return { error: null };
     } catch (error) {
       console.error('Unexpected error in createSubscription:', error);
