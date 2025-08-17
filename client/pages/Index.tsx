@@ -2,7 +2,7 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { SubscriberOnlyVideos } from "@/components/SubscriberOnlyVideos";
 import { Link } from "react-router-dom";
-import { Play, Crown, Star, Users, Zap, Shield, Lock } from "lucide-react";
+import { Play, Crown, Star, Users, Zap, Shield, Lock, Eye } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { XnemaLogo } from "@/components/XnemaLogo";
 
@@ -259,26 +259,44 @@ export default function Index() {
                 redefinir sua percepção sobre moralidade e humanidade.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <Button
-                  size="lg"
-                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold"
-                  asChild
-                >
-                  <Link
-                    to="/between-heaven-hell"
-                    className="flex items-center space-x-2"
+                {isAuthenticated ? (
+                  <Button
+                    size="lg"
+                    className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold"
+                    asChild
                   >
-                    <Play className="w-5 h-5" />
-                    <span>Assistir Agora</span>
-                  </Link>
-                </Button>
+                    <Link
+                      to="/between-heaven-hell"
+                      className="flex items-center space-x-2"
+                    >
+                      <Play className="w-5 h-5" />
+                      <span>Assistir Agora</span>
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button
+                    size="lg"
+                    className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold"
+                    asChild
+                  >
+                    <Link
+                      to="/series/1"
+                      className="flex items-center space-x-2"
+                    >
+                      <Eye className="w-5 h-5" />
+                      <span>Ver Detalhes</span>
+                    </Link>
+                  </Button>
+                )}
                 <Button
                   size="lg"
                   variant="outline"
                   className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold"
                   asChild
                 >
-                  <Link to="/between-heaven-hell">Saiba Mais</Link>
+                  <Link to="{isAuthenticated ? '/between-heaven-hell' : '/register'}">
+                    {isAuthenticated ? 'Saiba Mais' : 'Criar Conta Grátis'}
+                  </Link>
                 </Button>
               </div>
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
