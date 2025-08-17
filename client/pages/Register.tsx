@@ -82,10 +82,18 @@ export default function Register() {
         return;
       }
 
-      setSuccess('Registration and subscription successful! Redirecting...');
+      // Show confirmation link if available
+      if (user.confirmationLink) {
+        setSuccess(`Registro e assinatura realizados com sucesso!
+        🔗 Link de acesso direto: ${user.confirmationLink}
+        Redirecionando...`);
+      } else {
+        setSuccess('Registration and subscription successful! Redirecting...');
+      }
+
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 3000);
 
     } catch (error) {
       setError('An unexpected error occurred');
