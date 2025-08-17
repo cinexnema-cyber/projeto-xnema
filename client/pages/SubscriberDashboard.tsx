@@ -88,8 +88,10 @@ export default function SubscriberDashboard() {
                         </p>
                         <Button asChild className="w-full">
                           <Link to="/between-heaven-hell">
-                            <Play className="w-4 h-4 mr-2" />
-                            Assistir Agora
+                            <div className="flex items-center">
+                              <Play className="w-4 h-4 mr-2" />
+                              Assistir Agora
+                            </div>
                           </Link>
                         </Button>
                       </CardContent>
