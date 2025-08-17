@@ -3,7 +3,6 @@ import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
 import { Play, Star, Crown, Users, Zap, Shield, Check, Eye, Calendar, Info, Video } from "lucide-react";
 
 export default function VisitorLanding() {
@@ -168,7 +167,7 @@ export default function VisitorLanding() {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Conteúdo em Destaque</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Conheça alguns dos nossos títulos mais populares e exclusivos
+                Conheça alguns dos nossos t��tulos mais populares e exclusivos
               </p>
             </div>
             
