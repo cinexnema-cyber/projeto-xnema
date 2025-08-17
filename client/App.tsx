@@ -62,6 +62,7 @@ const App = () => (
             <Route path="/register" element={<Register />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/welcome" element={<Welcome />} />
             <Route path="/subscribe" element={<Subscribe />} />
 
             {/* Rotas protegidas - Assinantes */}
