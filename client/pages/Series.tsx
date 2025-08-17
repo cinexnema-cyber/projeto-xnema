@@ -11,6 +11,16 @@ export default function Series() {
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
 
   const handleWatchClick = (seriesId: number, isAvailable: boolean) => {
+    if (!isAvailable) {
+      alert('Esta série estará disponível em breve!');
+      return;
+    }
+
+    // Navegar para a página de detalhes da série
+    navigate(`/series/${seriesId}`);
+  };
+
+  const handleDirectWatch = (seriesId: number, isAvailable: boolean) => {
     if (!isAvailable) return;
 
     if (!user) {
@@ -21,11 +31,10 @@ export default function Series() {
       return;
     }
 
-    // Usuário logado - navegar para a série
+    // Usuário logado - navegar diretamente para assistir
     if (seriesId === 1) {
       navigate('/between-heaven-hell');
     } else {
-      // Para outras séries, mostrar em breve
       alert('Esta série estará disponível em breve!');
     }
   };
@@ -160,7 +169,7 @@ export default function Series() {
                 <Button
                 size="lg"
                 className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold text-lg px-8 py-4"
-                onClick={() => handleWatchClick(1, true)}
+                onClick={() => handleDirectWatch(1, true)}
               >
                 <Play className="w-5 h-5 mr-2" />
                 <span>{user ? 'Assistir Agora' : 'Entrar para Assistir'}</span>
@@ -239,7 +248,7 @@ export default function Series() {
                         className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
                         onClick={() => handleWatchClick(series.id, series.isAvailable)}
                       >
-                        {user ? 'Assistir Série' : 'Cadastre-se para Assistir'}
+                        Ver Detalhes
                       </Button>
                     </div>
                   </div>
@@ -316,8 +325,7 @@ export default function Series() {
                             onClick={() => handleWatchClick(series.id, series.isAvailable)}
                           >
                             <Play className="w-4 h-4 mr-2" />
-                            <span>{user ? 'Assistir Agora' : 'Entrar para Assistir'}</span>
-                            {!user && <Lock className="w-4 h-4 ml-2" />}
+                            <span>Ver Detalhes</span>
                           </Button>
                         ) : (
                           <Button variant="outline" className="w-full border-xnema-border text-muted-foreground" disabled>
