@@ -53,59 +53,32 @@ export default function Register() {
     }
 
     try {
-      // Register user
-      const { user, error: registerError } = await AuthService.register({
+      // Register user using AuthContext
+      const result = await register({
         email: formData.email,
         password: formData.password,
         username: formData.nomeCompleto,
         displayName: formData.nomeCompleto,
-        bio: formData.bio
+        bio: formData.bio,
+        role: 'subscriber',
+        selectedPlan // Pass the plan to the register function
       });
 
-      if (registerError) {
-        setError(registerError);
+      if (!result.success) {
+        setError(result.message || 'Registration failed');
         setLoading(false);
         return;
       }
 
-      if (!user) {
-        setError('Registration failed');
-        setLoading(false);
-        return;
-      }
-
-      console.log('🔍 Debug - User object after registration:', user);
-      console.log('🔍 Debug - User ID:', user.id, 'Type:', typeof user.id);
-      console.log('🔍 Debug - User user_id:', user.user_id, 'Type:', typeof user.user_id);
-
-      // Use the correct UUID field - prioritize the explicitly set id field
-      const userIdForSubscription = user.id || user.user_id;
-      console.log('🔍 Debug - Using ID for subscription:', userIdForSubscription);
-
-      // Create subscription
-      const { error: subscriptionError } = await AuthService.createSubscription(userIdForSubscription, selectedPlan);
-
-      if (subscriptionError) {
-        setError(`Registration successful but subscription failed: ${subscriptionError}`);
-        setLoading(false);
-        return;
-      }
-
-      // Show confirmation link if available
-      if (user.confirmationLink) {
-        setSuccess(`Registro e assinatura realizados com sucesso!
-        🔗 Link de acesso direto: ${user.confirmationLink}
-        Redirecionando...`);
-      } else {
-        setSuccess('Registration and subscription successful! Redirecting...');
-      }
+      setSuccess('Registro realizado com sucesso! Bem-vindo ao XNEMA. Redirecionando...');
 
       setTimeout(() => {
-        navigate('/');
-      }, 3000);
+        navigate('/dashboard');
+      }, 2000);
 
     } catch (error) {
-      setError('An unexpected error occurred');
+      console.error('Registration error:', error);
+      setError('Erro inesperado no registro');
     } finally {
       setLoading(false);
     }
