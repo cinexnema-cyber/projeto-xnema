@@ -213,15 +213,29 @@ export class AuthService {
       console.log('✅ UUID validation passed for:', userIdString);
 
       const startDate = new Date();
-      const endDate = new Date();
 
-      if (planType === 'monthly') {
-        endDate.setMonth(endDate.getMonth() + 1);
-      } else {
-        endDate.setFullYear(endDate.getFullYear() + 1);
+      // First, check if user exists
+      console.log('🔍 Checking if user exists in CineXnema table...');
+      const { data: existingUser, error: checkError } = await supabase
+        .from('CineXnema')
+        .select('user_id, subscriptionStatus')
+        .eq('user_id', userIdString)
+        .single();
+
+      if (checkError) {
+        console.error('❌ Error checking user existence:', checkError);
+        return { error: `User not found in database: ${checkError.message}` };
       }
 
-      // Update user subscription status with plan details
+      if (!existingUser) {
+        console.error('❌ User not found in CineXnema table');
+        return { error: 'User profile not found. Please contact support.' };
+      }
+
+      console.log('✅ User found:', existingUser);
+
+      // Update user subscription status
+      console.log('🔄 Updating user subscription status...');
       const { error: userError } = await supabase
         .from('CineXnema')
         .update({
