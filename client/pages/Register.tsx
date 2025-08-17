@@ -22,8 +22,7 @@ export default function Register() {
     email: '',
     password: '',
     confirmPassword: '',
-    username: '',
-    displayName: '',
+    nomeCompleto: '',
     bio: ''
   });
 
@@ -57,8 +56,8 @@ export default function Register() {
       const { user, error: registerError } = await AuthService.register({
         email: formData.email,
         password: formData.password,
-        username: formData.username,
-        displayName: formData.displayName,
+        username: formData.nomeCompleto,
+        displayName: formData.nomeCompleto,
         bio: formData.bio
       });
 
@@ -174,25 +173,14 @@ export default function Register() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="username">{t('auth.username')}</Label>
+                <Label htmlFor="nomeCompleto">Nome Completo</Label>
                 <Input
-                  id="username"
-                  name="username"
+                  id="nomeCompleto"
+                  name="nomeCompleto"
                   type="text"
+                  placeholder="Digite seu nome completo"
                   required
-                  value={formData.username}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="displayName">{t('auth.displayName')}</Label>
-                <Input
-                  id="displayName"
-                  name="displayName"
-                  type="text"
-                  required
-                  value={formData.displayName}
+                  value={formData.nomeCompleto}
                   onChange={handleInputChange}
                 />
               </div>
