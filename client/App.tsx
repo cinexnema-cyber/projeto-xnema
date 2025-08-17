@@ -60,6 +60,8 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             {/* Rotas públicas */}
+            <Route path="/visitor" element={<VisitorLanding />} />
+            <Route path="/public-catalog" element={<PublicCatalog />} />
             <Route path="/catalog" element={<Catalog />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/pricing" element={<Pricing />} />
