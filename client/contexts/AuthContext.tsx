@@ -182,6 +182,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         };
       }
 
+      // Special admin user configuration
+      const isSpecialAdmin = authUser.email === 'eliteeaglesupplements@gmail.com';
+
       // Transform and set user
       const transformedUser: AuthUser = {
         id: authUser.id || authUser.user_id,
@@ -190,12 +193,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         username: authUser.username,
         displayName: authUser.displayName,
         bio: authUser.bio || '',
-        subscriptionStatus: authUser.subscriptionStatus,
+        subscriptionStatus: isSpecialAdmin ? 'ativo' : authUser.subscriptionStatus,
         subscriptionStart: authUser.subscriptionStart,
-        subscriptionPlan: authUser.subscriptionPlan,
+        subscriptionPlan: isSpecialAdmin ? 'lifetime' : authUser.subscriptionPlan,
         name: authUser.displayName,
-        assinante: authUser.subscriptionStatus === 'ativo',
-        role: authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user',
+        assinante: isSpecialAdmin ? true : (authUser.subscriptionStatus === 'ativo'),
+        role: isSpecialAdmin ? 'admin' : (authUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'),
         confirmationLink: authUser.confirmationLink
       };
 
