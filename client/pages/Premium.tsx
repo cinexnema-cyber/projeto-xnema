@@ -17,7 +17,7 @@ export default function Premium() {
       features: [
         'Acesso total à série "Between Heaven and Hell"',
         'Todos os filmes e séries exclusivas',
-        'Qualidade 4K sem anúncios',
+        'Qualidade 4K sem an��ncios',
         'Assista em múltiplos dispositivos',
         'Downloads para assistir offline'
       ]
@@ -126,14 +126,16 @@ export default function Premium() {
                     ))}
                   </ul>
 
-                  <Button 
-                    asChild 
+                  <Button
+                    asChild
                     className={`w-full ${plan.id === 'yearly' ? 'bg-xnema-orange hover:bg-xnema-orange/90 text-black' : 'bg-xnema-purple hover:bg-xnema-purple/90'}`}
                     size="lg"
                   >
                     <Link to="/register" state={{ plan: plan.id }}>
-                      <Crown className="w-4 h-4 mr-2" />
-                      Começar Agora
+                      <div className="flex items-center">
+                        <Crown className="w-4 h-4 mr-2" />
+                        Começar Agora
+                      </div>
                     </Link>
                   </Button>
                 </CardContent>
