@@ -35,37 +35,20 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const { user, error: loginError } = await AuthService.login({
-        email: formData.email,
-        password: formData.password
-      });
+      const success = await login(formData.email, formData.password);
 
-      if (loginError) {
-        setError(loginError);
+      if (!success) {
+        setError('Email ou senha incorretos');
         setLoading(false);
         return;
       }
 
-      if (!user) {
-        setError('Login failed');
-        setLoading(false);
-        return;
-      }
-
-      // Check subscription status
-      const hasSubscription = await AuthService.hasActiveSubscription(user.id);
-      
-      if (!hasSubscription) {
-        // Redirect to subscription page if no active subscription
-        navigate('/register');
-        return;
-      }
-
-      // Successful login with active subscription
-      navigate('/');
+      // Successful login - redirect to dashboard
+      navigate('/dashboard');
 
     } catch (error) {
-      setError('An unexpected error occurred');
+      console.error('Login error:', error);
+      setError('Erro inesperado no login');
     } finally {
       setLoading(false);
     }
