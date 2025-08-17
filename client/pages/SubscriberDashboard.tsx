@@ -112,8 +112,10 @@ export default function SubscriberDashboard() {
                         </p>
                         <Button asChild variant="outline" className="w-full">
                           <Link to="/catalog">
-                            <Play className="w-4 h-4 mr-2" />
-                            Explorar Catálogo
+                            <div className="flex items-center">
+                              <Play className="w-4 h-4 mr-2" />
+                              Explorar Catálogo
+                            </div>
                           </Link>
                         </Button>
                       </CardContent>
