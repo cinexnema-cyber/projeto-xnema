@@ -245,7 +245,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             bio: currentUser.bio || '',
             subscriptionStatus: currentUser.subscriptionStatus,
             subscriptionStart: currentUser.subscriptionStart,
-            subscriptionEnd: currentUser.subscriptionEnd,
             subscriptionPlan: currentUser.subscriptionPlan,
             name: currentUser.displayName,
             assinante: currentUser.subscriptionStatus === 'ativo',
