@@ -212,9 +212,11 @@ export default function BetweenHeavenHell() {
                   className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold"
                   asChild
                 >
-                  <Link to="/subscribe" className="flex items-center space-x-2">
-                    <Crown className="w-5 h-5" />
-                    <span>Assinar para Assistir</span>
+                  <Link to="/subscribe">
+                    <div className="flex items-center space-x-2">
+                      <Crown className="w-5 h-5" />
+                      <span>Assinar para Assistir</span>
+                    </div>
                   </Link>
                 </Button>
 
