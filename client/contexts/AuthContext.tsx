@@ -189,7 +189,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         bio: authUser.bio || '',
         subscriptionStatus: authUser.subscriptionStatus,
         subscriptionStart: authUser.subscriptionStart,
-        subscriptionEnd: authUser.subscriptionEnd,
         subscriptionPlan: authUser.subscriptionPlan,
         name: authUser.displayName,
         assinante: authUser.subscriptionStatus === 'ativo',
