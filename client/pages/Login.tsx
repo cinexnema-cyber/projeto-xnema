@@ -12,7 +12,7 @@ import { Loader2, LogIn } from 'lucide-react';
 export default function Login() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [resetEmailSent, setResetEmailSent] = useState(false);
