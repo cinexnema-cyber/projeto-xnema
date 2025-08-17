@@ -43,6 +43,8 @@ import PaymentHistory from "./pages/PaymentHistory";
 import PublicCatalog from "./pages/PublicCatalog";
 import VisitorLanding from "./pages/VisitorLanding";
 import CreatorDashboard from "./pages/CreatorDashboard";
+import Watch from "./pages/Watch";
+import SeriesDetail from "./pages/SeriesDetail";
 
 const queryClient = new QueryClient();
 
@@ -138,6 +140,22 @@ const App = () => (
               element={
                 <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
                   <Category />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/watch/:contentId"
+              element={
+                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
+                  <Watch />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/series/:seriesId"
+              element={
+                <ProtectedRoute allowedRoles={["user", "subscriber"]}>
+                  <SeriesDetail />
                 </ProtectedRoute>
               }
             />
