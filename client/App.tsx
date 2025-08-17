@@ -47,6 +47,7 @@ import Watch from "./pages/Watch";
 import SeriesDetail from "./pages/SeriesDetail";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import VisitorDashboard from "./pages/VisitorDashboard";
 
 const queryClient = new QueryClient();
 
