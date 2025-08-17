@@ -92,9 +92,9 @@ export function Header() {
                   </Link>
                 </Button>
                 <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-medium" asChild>
-                  <Link to="/catalog" className="flex items-center space-x-2">
+                  <Link to="/pricing" className="flex items-center space-x-2">
                     <Crown className="w-4 h-4" />
-                    <span>Explorar</span>
+                    <span>Assinar</span>
                   </Link>
                 </Button>
               </>
