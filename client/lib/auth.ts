@@ -129,7 +129,8 @@ export class AuthService {
         return { user: null, error: profileError.message };
       }
 
-      return { user: userProfile, error: null };
+      // Return user with auth UUID for subscription creation
+      return { user: { ...userProfile, id: authData.user.id }, error: null };
     } catch (error) {
       return { user: null, error: 'Failed to get current user' };
     }
@@ -181,9 +182,18 @@ export class AuthService {
   // Create subscription
   static async createSubscription(userId: string, planType: 'monthly' | 'yearly'): Promise<{ error: string | null }> {
     try {
+      console.log('Creating subscription for userId:', userId, 'planType:', planType);
+
+      // Validate UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(userId)) {
+        console.error('Invalid UUID format:', userId);
+        return { error: `Invalid user ID format: ${userId}` };
+      }
+
       const startDate = new Date();
       const endDate = new Date();
-      
+
       if (planType === 'monthly') {
         endDate.setMonth(endDate.getMonth() + 1);
       } else {
@@ -200,14 +210,15 @@ export class AuthService {
         .eq('user_id', userId);
 
       if (userError) {
+        console.error('User update error:', userError);
         return { error: userError.message };
       }
 
-      // Create subscription record
+      // Create subscription record with validated UUID
       const { error: subscriptionError } = await supabase
         .from('subscriptions')
         .insert([{
-          user_id: userId,
+          user_id: userId, // Now guaranteed to be a valid UUID
           status: 'active',
           plan_type: planType,
           start_date: startDate.toISOString(),
@@ -215,11 +226,14 @@ export class AuthService {
         }]);
 
       if (subscriptionError) {
+        console.error('Subscription creation error:', subscriptionError);
         return { error: subscriptionError.message };
       }
 
+      console.log('Subscription created successfully for user:', userId);
       return { error: null };
     } catch (error) {
+      console.error('Unexpected error in createSubscription:', error);
       return { error: 'Failed to create subscription' };
     }
   }
