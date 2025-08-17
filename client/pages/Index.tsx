@@ -294,7 +294,7 @@ export default function Index() {
                   className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold"
                   asChild
                 >
-                  <Link to="{isAuthenticated ? '/between-heaven-hell' : '/register'}">
+                  <Link to={isAuthenticated ? '/between-heaven-hell' : '/register'}>
                     {isAuthenticated ? 'Saiba Mais' : 'Criar Conta Grátis'}
                   </Link>
                 </Button>
