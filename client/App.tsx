@@ -35,6 +35,7 @@ import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CreatorTerms from "./pages/CreatorTerms";
 import ForgotPassword from "./pages/ForgotPassword";
+import Welcome from "./pages/Welcome";
 
 const queryClient = new QueryClient();
 
