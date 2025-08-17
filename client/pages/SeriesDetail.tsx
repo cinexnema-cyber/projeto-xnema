@@ -86,7 +86,7 @@ export default function SeriesDetail() {
     status: "Em Produção",
     image: "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=600",
     trailerUrl: "https://www.youtube.com/embed/-KmVyIbsV0Y",
-    director: "Roberto Silva",
+    director: "Iarima Temiski",
     cast: [
       "Alexandra Stone como Lilith Morgenstern",
       "Marcus Rivera como Gabriel Santos", 
@@ -465,9 +465,35 @@ export default function SeriesDetail() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-xl font-semibold mb-4 text-xnema-orange">História Completa</h3>
-                  <p className="text-gray-300 leading-relaxed">
-                    {series.fullStory}
-                  </p>
+                  <div className="text-gray-300 leading-relaxed">
+                    <p className="mb-4">
+                      <strong>Between Heaven and Hell</strong>{" "}
+                      – Em um mundo onde a linha entre o céu e o inferno é
+                      tênue, cada escolha tem consequências devastadoras.
+                      Quando forças celestiais e demoníacas entram em
+                      conflito pelo destino da humanidade, um indivíduo
+                      comum se vê arrastado para uma batalha que desafia
+                      tudo o que ele conhece sobre moralidade, fé e
+                      coragem. Entre encontros com seres sobrenaturais,
+                      traições inesperadas e decisões impossíveis, ele
+                      precisará enfrentar seus maiores medos e descobrir
+                      até onde está disposto a ir para proteger aqueles
+                      que ama.
+                    </p>
+                    <p>
+                      Com cenas de ação arrebatadoras, efeitos visuais
+                      impressionantes e uma narrativa intensa,{" "}
+                      <strong>Between Heaven and Hell</strong>{" "}
+                      mergulha o espectador em uma aventura épica que
+                      questiona os limites entre o bem e o mal. Cada
+                      capítulo revela segredos sombrios, alianças
+                      inesperadas e dilemas morais que fazem o público
+                      refletir sobre seus próprios valores. Uma obra que
+                      combina drama, suspense e fantasia de forma única,
+                      levando a uma experiência cinematográfica
+                      inesquecível.
+                    </p>
+                  </div>
                 </div>
 
                 <div className="space-y-6">
