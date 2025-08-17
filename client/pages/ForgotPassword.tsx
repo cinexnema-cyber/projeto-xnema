@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link } from "react-router-dom";
 import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { AuthService } from "@/lib/auth";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -17,20 +18,12 @@ export default function ForgotPassword() {
     setErrorMessage("");
 
     try {
-      const response = await fetch("/api/auth/forgot-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
+      const { error } = await AuthService.requestPasswordReset(email);
 
-      const data = await response.json();
-
-      if (data.success) {
-        setEmailSent(true);
+      if (error) {
+        setErrorMessage(error);
       } else {
-        setErrorMessage(data.message || "Erro ao enviar email de recuperação");
+        setEmailSent(true);
       }
     } catch (error) {
       setErrorMessage("Erro de conexão. Tente novamente.");
