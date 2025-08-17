@@ -48,6 +48,8 @@ export interface User {
   passwordHash?: string;
   subscriptionStatus: 'ativo' | 'inativo';
   subscriptionStart?: Date;
+  subscriptionEnd?: Date;
+  subscriptionPlan?: 'monthly' | 'yearly';
   comissaoPercentual: number;
   confirmationLink?: string; // For email confirmation
 }
