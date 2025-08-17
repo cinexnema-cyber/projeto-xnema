@@ -75,9 +75,11 @@ export default function ForgotPassword() {
 
                   <div className="flex space-x-3">
                     <Button variant="outline" asChild className="flex-1">
-                      <Link to="/login" className="flex items-center justify-center space-x-2">
-                        <ArrowLeft className="w-4 h-4" />
-                        <span>Voltar ao Login</span>
+                      <Link to="/login">
+                        <div className="flex items-center justify-center space-x-2">
+                          <ArrowLeft className="w-4 h-4" />
+                          <span>Voltar ao Login</span>
+                        </div>
                       </Link>
                     </Button>
                     <Button 
