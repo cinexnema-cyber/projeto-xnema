@@ -67,7 +67,25 @@ const App = () => (
             <Route path="/welcome" element={<Welcome />} />
             <Route path="/subscribe" element={<Subscribe />} />
 
+            {/* Rotas protegidas - Usuários Básicos */}
+            <Route
+              path="/user-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["user"]}>
+                  <UserDashboard />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Rotas protegidas - Assinantes */}
+            <Route
+              path="/subscriber-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
+                  <SubscriberDashboard />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/between-heaven-hell"
               element={
@@ -79,7 +97,7 @@ const App = () => (
             <Route
               path="/dashboard"
               element={
-                <ProtectedRoute allowedRoles={["subscriber", "creator", "admin"]}>
+                <ProtectedRoute allowedRoles={["subscriber", "creator", "admin", "user"]}>
                   <Dashboard />
                 </ProtectedRoute>
               }
