@@ -196,14 +196,21 @@ export class AuthService {
   // Create subscription
   static async createSubscription(userId: string, planType: 'monthly' | 'yearly'): Promise<{ error: string | null }> {
     try {
-      console.log('Creating subscription for userId:', userId, 'planType:', planType);
+      console.log('🔍 createSubscription called with:', { userId, planType, userIdType: typeof userId });
+
+      // Convert to string if needed
+      const userIdString = String(userId);
+      console.log('🔍 Converted userId to string:', userIdString);
 
       // Validate UUID format
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-      if (!uuidRegex.test(userId)) {
-        console.error('Invalid UUID format:', userId);
-        return { error: `Invalid user ID format: ${userId}` };
+      if (!uuidRegex.test(userIdString)) {
+        console.error('❌ Invalid UUID format. Expected UUID, got:', userIdString);
+        console.error('❌ This typically means the user ID is coming from the database table ID instead of Supabase Auth UUID');
+        return { error: `Invalid user ID format: ${userIdString}. Expected UUID format.` };
       }
+
+      console.log('✅ UUID validation passed for:', userIdString);
 
       const startDate = new Date();
       const endDate = new Date();
