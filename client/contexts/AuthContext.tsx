@@ -225,20 +225,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log('🔄 AuthContext: useEffect triggered - initializing auth');
     const initializeAuth = async () => {
       try {
         // Check for saved user in localStorage first
         const savedUser = localStorage.getItem('xnema_user');
         if (savedUser) {
-          console.log('📦 AuthContext: Loading user from localStorage');
           setUser(JSON.parse(savedUser));
         }
 
         // Try to get current user from Supabase
         const { user: currentUser } = await AuthService.getCurrentUser();
         if (currentUser) {
-          console.log('✅ AuthContext: User loaded from Supabase');
           const transformedUser: AuthUser = {
             id: currentUser.id || currentUser.user_id,
             user_id: currentUser.user_id,
