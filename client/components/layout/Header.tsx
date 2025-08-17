@@ -68,9 +68,11 @@ export function Header() {
                   )}
                 </div>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link to="/smart-dashboard" className="text-foreground hover:text-xnema-orange flex items-center space-x-1">
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">Painel</span>
+                  <Link to="/smart-dashboard" className="text-foreground hover:text-xnema-orange">
+                    <div className="flex items-center space-x-1">
+                      <User className="w-4 h-4" />
+                      <span className="hidden sm:inline">Painel</span>
+                    </div>
                   </Link>
                 </Button>
                 <Button
