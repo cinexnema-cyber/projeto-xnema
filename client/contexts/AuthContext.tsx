@@ -115,8 +115,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const register = async (userData: any) => {
     try {
-      console.log('Attempting registration with Supabase...');
-      const { user: authUser, error } = await AuthService.register(userData);
+      console.log('Attempting registration with Supabase...', userData);
+
+      // Extract plan and create registration data
+      const { selectedPlan, ...registrationData } = userData;
+      const { user: authUser, error } = await AuthService.register(registrationData);
+
+      if (!error && authUser && selectedPlan) {
+        // Create subscription after successful registration
+        const subscriptionResult = await AuthService.createSubscription(
+          authUser.id || authUser.user_id,
+          selectedPlan
+        );
+
+        if (subscriptionResult.error) {
+          console.error('Subscription creation failed:', subscriptionResult.error);
+          // Continue anyway - user is registered
+        }
+      }
 
       if (error || !authUser) {
         console.log('Supabase registration failed, trying fallback...');
