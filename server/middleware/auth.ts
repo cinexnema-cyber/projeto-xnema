@@ -82,4 +82,21 @@ export const generateToken = (
   return jwt.sign(payload, JWT_SECRET);
 };
 
+// Generate token specifically for email confirmation links (24h expiry)
+export const generateEmailConfirmationToken = (
+  userId: string,
+  email: string,
+  role: UserRole,
+): string => {
+  const payload: TokenPayload = {
+    userId,
+    email,
+    role,
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + 24 * 60 * 60, // 24 hours for email confirmation
+  };
+
+  return jwt.sign(payload, JWT_SECRET);
+};
+
 export type { AuthenticatedRequest };
