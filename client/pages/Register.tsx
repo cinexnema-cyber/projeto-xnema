@@ -74,10 +74,15 @@ export default function Register() {
       }
 
       console.log('🔍 Debug - User object after registration:', user);
-      console.log('🔍 Debug - User ID type:', typeof user.id, 'Value:', user.id);
+      console.log('🔍 Debug - User ID:', user.id, 'Type:', typeof user.id);
+      console.log('🔍 Debug - User user_id:', user.user_id, 'Type:', typeof user.user_id);
+
+      // Use the correct UUID field - prioritize the explicitly set id field
+      const userIdForSubscription = user.id || user.user_id;
+      console.log('🔍 Debug - Using ID for subscription:', userIdForSubscription);
 
       // Create subscription
-      const { error: subscriptionError } = await AuthService.createSubscription(user.id, selectedPlan);
+      const { error: subscriptionError } = await AuthService.createSubscription(userIdForSubscription, selectedPlan);
 
       if (subscriptionError) {
         setError(`Registration successful but subscription failed: ${subscriptionError}`);
