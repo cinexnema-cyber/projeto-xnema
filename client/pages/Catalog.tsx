@@ -235,8 +235,10 @@ export default function Catalog() {
                           asChild
                         >
                           <Link to="/pricing">
-                            <Lock className="w-4 h-4 mr-2" />
-                            Assinar para Assistir
+                            <div className="flex items-center">
+                              <Lock className="w-4 h-4 mr-2" />
+                              Assinar para Assistir
+                            </div>
                           </Link>
                         </Button>
                       ) : (
