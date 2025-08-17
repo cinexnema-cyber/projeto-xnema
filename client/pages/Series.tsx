@@ -168,9 +168,11 @@ export default function Series() {
               </Button>
                 
                 <Button size="lg" variant="outline" className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-black font-semibold text-lg px-8 py-4" asChild>
-                <Link to="/login" className="flex items-center space-x-2">
-                  <Crown className="w-5 h-5" />
-                  <span>Criar Conta</span>
+                <Link to="/login">
+                  <div className="flex items-center space-x-2">
+                    <Crown className="w-5 h-5" />
+                    <span>Criar Conta</span>
+                  </div>
                 </Link>
               </Button>
               </div>
