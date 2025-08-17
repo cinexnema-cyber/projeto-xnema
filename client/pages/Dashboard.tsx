@@ -7,13 +7,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
-  const userInfo = {
-    name: "João Silva",
-    email: "joao.silva@email.com",
-    subscription: "Premium",
-    nextBilling: "15/01/2025",
-    subscriptionDate: "15/12/2024"
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
   };
+
+  const isSubscriber = user.assinante;
+  const subscriptionStatus = user.subscriptionStatus === 'ativo' ? 'Ativo' : 'Inativo';
+  const userRole = user.role === 'subscriber' ? 'Assinante Premium' : 'Usuário Básico';
 
   const paymentHistory = [
     {
@@ -326,7 +335,7 @@ export default function Dashboard() {
                       <li>Criptografia SSL/TLS para transmissão de dados</li>
                       <li>Armazenamento seguro com criptografia</li>
                       <li>Acesso restrito aos dados pessoais</li>
-                      <li>Monitoramento contínuo de segurança</li>
+                      <li>Monitoramento contínuo de seguran��a</li>
                     </ul>
 
                     <h3 className="text-lg font-semibold text-foreground mb-4">Seus Direitos</h3>
