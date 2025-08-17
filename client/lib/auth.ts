@@ -228,18 +228,20 @@ export class AuthService {
           subscriptionStatus: 'ativo',
           subscriptionStart: startDate,
         })
-        .eq('user_id', userId);
+        .eq('user_id', userIdString);
 
       if (userError) {
-        console.error('User update error:', userError);
+        console.error('❌ User update error:', userError);
         return { error: userError.message };
       }
+
+      console.log('✅ User subscription status updated successfully');
 
       // Create subscription record with validated UUID
       const { error: subscriptionError } = await supabase
         .from('subscriptions')
         .insert([{
-          user_id: userId, // Now guaranteed to be a valid UUID
+          user_id: userIdString, // Now guaranteed to be a valid UUID
           status: 'active',
           plan_type: planType,
           start_date: startDate.toISOString(),
@@ -247,11 +249,11 @@ export class AuthService {
         }]);
 
       if (subscriptionError) {
-        console.error('Subscription creation error:', subscriptionError);
+        console.error('❌ Subscription creation error:', subscriptionError);
         return { error: subscriptionError.message };
       }
 
-      console.log('Subscription created successfully for user:', userId);
+      console.log('✅ Subscription created successfully for user:', userIdString);
       return { error: null };
     } catch (error) {
       console.error('Unexpected error in createSubscription:', error);
