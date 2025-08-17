@@ -153,14 +153,7 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="/series/:seriesId"
-              element={
-                <ProtectedRoute allowedRoles={["user", "subscriber"]}>
-                  <SeriesDetail />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/series/:seriesId" element={<SeriesDetail />} />
 
             {/* Rotas protegidas - Criadores */}
             <Route
