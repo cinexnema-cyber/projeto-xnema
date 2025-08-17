@@ -144,15 +144,7 @@ export class AuthService {
         return { user: null, error: profileError.message };
       }
 
-      // Generate JWT token for email confirmation
-      const confirmationToken = await this.generateConfirmationToken(authData.user.id, userData.email, 'subscriber');
-      const confirmationLink = `${window.location.origin}/welcome?token=${confirmationToken}`;
-
-      console.log('🔗 Link de confirmação gerado:', confirmationLink);
-      console.log('📧 Copie este link para acessar diretamente:', confirmationLink);
-
-      // Return user with auth UUID for subscription creation
-      return { user: { ...userProfile, id: authData.user.id, confirmationLink }, error: null };
+      return { user: userProfile, error: null };
     } catch (error) {
       return { user: null, error: 'Failed to get current user' };
     }
