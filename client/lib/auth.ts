@@ -221,12 +221,14 @@ export class AuthService {
         endDate.setFullYear(endDate.getFullYear() + 1);
       }
 
-      // Update user subscription status
+      // Update user subscription status with plan details
       const { error: userError } = await supabase
         .from('CineXnema')
         .update({
           subscriptionStatus: 'ativo',
           subscriptionStart: startDate,
+          subscriptionEnd: endDate,
+          subscriptionPlan: planType,
         })
         .eq('user_id', userIdString);
 
