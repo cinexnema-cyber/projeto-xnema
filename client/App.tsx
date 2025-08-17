@@ -144,6 +144,14 @@ const App = () => (
 
             {/* Rotas protegidas - Criadores */}
             <Route
+              path="/creator-dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
+                  <CreatorDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/creator-portal"
               element={
                 <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
