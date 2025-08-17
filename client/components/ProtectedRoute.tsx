@@ -33,7 +33,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
       return () => clearTimeout(timer);
     }
-  }, [requireSubscription, user?.assinante, isAuthenticated, user]);
+  }, [requireSubscription, user?.assinante, isAuthenticated]);
 
   // Show loading while checking authentication
   if (isLoading) {
