@@ -231,14 +231,18 @@ export default function ResetPassword() {
               <div className="flex space-x-3">
                 <Button variant="outline" asChild className="flex-1 border-gray-600 text-gray-300">
                   <Link to="/forgot-password">
-                    <Key className="w-4 h-4 mr-2" />
-                    Solicitar Novo Link
+                    <div className="flex items-center">
+                      <Key className="w-4 h-4 mr-2" />
+                      Solicitar Novo Link
+                    </div>
                   </Link>
                 </Button>
                 <Button variant="outline" asChild className="flex-1 border-gray-600 text-gray-300">
                   <Link to="/login">
-                    <ArrowLeft className="w-4 h-4 mr-2" />
-                    Voltar ao Login
+                    <div className="flex items-center">
+                      <ArrowLeft className="w-4 h-4 mr-2" />
+                      Voltar ao Login
+                    </div>
                   </Link>
                 </Button>
               </div>
