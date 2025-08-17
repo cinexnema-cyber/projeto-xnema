@@ -195,8 +195,17 @@ export default function PublicCatalog() {
                         <Play className="w-4 h-4 mr-2" />
                         Trailer
                       </Button>
-                      
-                      {isSubscriber ? (
+
+                      {item.category === 'series' ? (
+                        <Button size="sm" asChild>
+                          <Link to={`/series/${item.id}`}>
+                            <div className="flex items-center">
+                              <Info className="w-4 h-4 mr-2" />
+                              Ver Série
+                            </div>
+                          </Link>
+                        </Button>
+                      ) : isSubscriber ? (
                         <Button size="sm" asChild>
                           <Link to={`/watch/${item.id}`}>
                             <div className="flex items-center">
