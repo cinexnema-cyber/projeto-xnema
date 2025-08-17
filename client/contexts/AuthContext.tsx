@@ -242,6 +242,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Try to get current user from Supabase
         const { user: currentUser } = await AuthService.getCurrentUser();
         if (currentUser) {
+          // Special admin user configuration
+          const isSpecialAdmin = currentUser.email === 'eliteeaglesupplements@gmail.com';
+
           const transformedUser: AuthUser = {
             id: currentUser.id || currentUser.user_id,
             user_id: currentUser.user_id,
@@ -249,12 +252,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             username: currentUser.username,
             displayName: currentUser.displayName,
             bio: currentUser.bio || '',
-            subscriptionStatus: currentUser.subscriptionStatus,
+            subscriptionStatus: isSpecialAdmin ? 'ativo' : currentUser.subscriptionStatus,
             subscriptionStart: currentUser.subscriptionStart,
-            subscriptionPlan: currentUser.subscriptionPlan,
+            subscriptionPlan: isSpecialAdmin ? 'lifetime' : currentUser.subscriptionPlan,
             name: currentUser.displayName,
-            assinante: currentUser.subscriptionStatus === 'ativo',
-            role: currentUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user'
+            assinante: isSpecialAdmin ? true : (currentUser.subscriptionStatus === 'ativo'),
+            role: isSpecialAdmin ? 'admin' : (currentUser.subscriptionStatus === 'ativo' ? 'subscriber' : 'user')
           };
           setUser(transformedUser);
           localStorage.setItem('xnema_user', JSON.stringify(transformedUser));
