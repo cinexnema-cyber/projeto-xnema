@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -22,18 +22,21 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireApproval = false,
   fallbackPath = "/login"
 }) => {
+  // ALL HOOKS MUST BE CALLED AT THE TOP - BEFORE ANY CONDITIONAL RETURNS
   const { user, isLoading, isAuthenticated } = useAuth();
   const { t } = useLanguage();
   const location = useLocation();
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
 
-  // Auto-show subscription prompt for premium content - MOVED TO TOP
-  React.useEffect(() => {
+  // Auto-show subscription prompt for premium content
+  useEffect(() => {
     if (requireSubscription && user && !user.assinante && isAuthenticated) {
       const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
       return () => clearTimeout(timer);
     }
   }, [requireSubscription, user?.assinante, isAuthenticated]);
+
+  // NOW WE CAN DO CONDITIONAL LOGIC AND RETURNS
 
   // Show loading while checking authentication
   if (isLoading) {
@@ -116,7 +119,7 @@ export const usePermissions = () => {
   const hasActiveSubscription = () => {
     // Admins always have access
     if (isAdmin()) return true;
-    return user?.assinante === true || user?.subscription_status === 'active';
+    return user?.assinante === true || user?.subscriptionStatus === 'ativo';
   };
 
   return {
