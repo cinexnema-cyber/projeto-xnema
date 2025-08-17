@@ -26,6 +26,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const { user, isLoading, isAuthenticated } = useAuth();
   const { t } = useLanguage();
   const location = useLocation();
+  const navigate = useNavigate();
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
 
   // Auto-show subscription prompt for premium content
