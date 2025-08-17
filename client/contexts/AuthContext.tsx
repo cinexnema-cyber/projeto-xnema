@@ -2,14 +2,26 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { AuthService } from '@/lib/auth';
 import { User } from '@/lib/supabase';
 
-interface AuthUser extends User {
+interface AuthUser {
+  id: string;
+  user_id: string;
+  email: string;
+  username: string;
+  displayName: string;
+  bio?: string;
+  subscriptionStatus: 'ativo' | 'inativo';
+  subscriptionStart?: Date;
+  subscriptionEnd?: Date;
+  subscriptionPlan?: 'monthly' | 'yearly';
   role: 'user' | 'admin' | 'creator' | 'subscriber';
   assinante: boolean;
   name: string;
+  confirmationLink?: string;
 }
 
 interface AuthContextType {
   user: AuthUser | null;
+  setUser: (user: AuthUser | null) => void;
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<boolean>;
