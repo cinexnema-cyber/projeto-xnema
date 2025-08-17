@@ -29,11 +29,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   // Auto-show subscription prompt for premium content - MOVED TO TOP
   React.useEffect(() => {
-    if (requireSubscription && user && !user.assinante) {
+    if (requireSubscription && user && !user.assinante && isAuthenticated) {
       const timer = setTimeout(() => setShowSubscriptionPrompt(true), 2000);
       return () => clearTimeout(timer);
     }
-  }, [requireSubscription, user?.assinante]);
+  }, [requireSubscription, user?.assinante, isAuthenticated, user]);
 
   // Show loading while checking authentication
   if (isLoading) {
