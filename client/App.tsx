@@ -83,6 +83,22 @@ const App = () => (
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/edit-profile"
+              element={
+                <ProtectedRoute allowedRoles={["user", "subscriber", "creator", "admin"]}>
+                  <EditProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payment-history"
+              element={
+                <ProtectedRoute allowedRoles={["subscriber", "admin"]}>
+                  <PaymentHistory />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Rotas protegidas - Assinantes */}
             <Route
