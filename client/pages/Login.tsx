@@ -106,10 +106,20 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-br from-xnema-dark via-xnema-surface to-black flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
+          {/* Logo X com link para home */}
+          <div className="mb-6">
+            <Link
+              to="/"
+              className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-2xl hover:scale-105 transition-transform shadow-lg"
+            >
+              <span className="text-2xl font-black text-white">X</span>
+            </Link>
+          </div>
+
           <CardTitle className="text-2xl font-bold text-xnema-orange">
             {t("nav.login")}
           </CardTitle>
-          <CardDescription>Access your XNEMA account</CardDescription>
+          <CardDescription>Acesse sua conta XNEMA</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleLogin} className="space-y-4">
