@@ -5,6 +5,8 @@ import { connectDB } from "./config/database";
 import { handleDemo } from "./routes/demo";
 import { login, register, validateToken } from "./routes/auth";
 import { authenticateToken, requireSubscriber } from "./middleware/auth";
+import paymentsRouter from "./routes/payments";
+import creatorRouter from "./routes/creator";
 import {
   getSubscriptionPlans,
   createSubscription,
