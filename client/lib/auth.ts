@@ -15,6 +15,107 @@ export interface LoginData {
 }
 
 export class AuthService {
+
+  // Request password reset
+  static async requestPasswordReset(email: string): Promise<{ error: string | null }> {
+    try {
+      console.log('Requesting password reset for:', email);
+
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/password-recovery`,
+      });
+
+      if (error) {
+        console.error('Password reset error:', error);
+        return { error: error.message };
+      }
+
+      console.log('Password reset email sent successfully');
+      return { error: null };
+    } catch (error: any) {
+      console.error('Password reset error:', error);
+      return { error: error.message || 'Erro ao enviar email de recuperação' };
+    }
+  }
+
+  // Update password
+  static async updatePassword(newPassword: string): Promise<{ error: string | null }> {
+    try {
+      console.log('Updating password...');
+
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) {
+        console.error('Password update error:', error);
+        return { error: error.message };
+      }
+
+      console.log('Password updated successfully');
+      return { error: null };
+    } catch (error: any) {
+      console.error('Password update error:', error);
+      return { error: error.message || 'Erro ao atualizar senha' };
+    }
+  }
+
+  // Verify password reset token
+  static async verifyPasswordResetToken(accessToken: string, refreshToken: string): Promise<{ error: string | null }> {
+    try {
+      console.log('Verifying password reset token...');
+
+      const { error } = await supabase.auth.setSession({
+        access_token: accessToken,
+        refresh_token: refreshToken
+      });
+
+      if (error) {
+        console.error('Token verification error:', error);
+        return { error: error.message };
+      }
+
+      console.log('Token verified successfully');
+      return { error: null };
+    } catch (error: any) {
+      console.error('Token verification error:', error);
+      return { error: error.message || 'Token inválido ou expirado' };
+    }
+  }
+
+  // Get current session
+  static async getCurrentSession() {
+    try {
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error('Session error:', error);
+        return { session: null, error: error.message };
+      }
+
+      return { session, error: null };
+    } catch (error: any) {
+      console.error('Session error:', error);
+      return { session: null, error: error.message };
+    }
+  }
+
+  // Logout from Supabase
+  static async logout(): Promise<{ error: string | null }> {
+    try {
+      const { error } = await supabase.auth.signOut();
+
+      if (error) {
+        console.error('Logout error:', error);
+        return { error: error.message };
+      }
+
+      return { error: null };
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      return { error: error.message || 'Erro ao fazer logout' };
+    }
+  }
   // Register new user
   static async register(userData: RegisterData): Promise<{ user: User | null; error: string | null }> {
     try {
