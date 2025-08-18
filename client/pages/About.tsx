@@ -292,7 +292,7 @@ export default function About() {
               Junte-se à Nossa <span className="text-xnema-orange">Comunidade</span>
             </h2>
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Faça parte da revolução do streaming brasileiro. Assine hoje e tenha acesso a 
+              Faça parte da revolução do streaming. Assine hoje e tenha acesso a
               todo nosso catálogo de conteúdo original e exclusivo.
             </p>
             
