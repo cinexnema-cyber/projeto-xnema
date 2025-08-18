@@ -81,23 +81,8 @@ export default function Login() {
     }
   };
 
-  const handleForgotPassword = async () => {
-    if (!formData.email) {
-      setError('Please enter your email address first');
-      return;
-    }
-
-    setLoading(true);
-    const { error } = await AuthService.requestPasswordReset(formData.email);
-    
-    if (error) {
-      setError(error);
-    } else {
-      setResetEmailSent(true);
-      setError('');
-    }
-    
-    setLoading(false);
+  const handleForgotPassword = () => {
+    navigate('/password-recovery');
   };
 
   return (
