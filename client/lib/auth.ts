@@ -23,7 +23,7 @@ export class AuthService {
       console.log("Requesting password reset for:", email);
 
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/password-recovery`,
+        redirectTo: `https://cinexnema.com/reset-password`,
       });
 
       if (error) {
