@@ -345,13 +345,41 @@ export class AuthService {
     password: string,
   ): Promise<{ error: string | null }> {
     try {
-      const { error } = await supabase.auth.updateUser({
+      console.log("🔑 Iniciando reset de senha...");
+
+      // Verificar se há uma sessão ativa
+      const { data: session } = await supabase.auth.getSession();
+      if (!session?.session) {
+        console.error("❌ Nenhuma sessão ativa encontrada para reset de senha");
+        return { error: "Sessão de reset inválida. Solicite um novo link." };
+      }
+
+      console.log("✅ Sessão ativa encontrada, atualizando senha...");
+
+      const { data, error } = await supabase.auth.updateUser({
         password: password,
       });
 
-      return { error: error?.message || null };
-    } catch (error) {
-      return { error: "Failed to reset password" };
+      if (error) {
+        console.error("❌ Erro ao atualizar senha:", error);
+        return { error: error.message };
+      }
+
+      console.log("✅ Senha atualizada com sucesso no Supabase!");
+
+      // Tentar atualizar também no banco de dados local se necessário
+      if (data.user) {
+        console.log("💾 Usuário atualizado:", {
+          id: data.user.id,
+          email: data.user.email,
+          updated_at: data.user.updated_at
+        });
+      }
+
+      return { error: null };
+    } catch (error: any) {
+      console.error("💥 Erro inesperado no reset de senha:", error);
+      return { error: error.message || "Falha ao redefinir senha. Tente novamente." };
     }
   }
 
