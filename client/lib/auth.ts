@@ -353,20 +353,7 @@ export class AuthService {
     }
   }
 
-  // Request password reset
-  static async requestPasswordReset(
-    email: string,
-  ): Promise<{ error: string | null }> {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/reset-password`,
-      });
-
-      return { error: error?.message || null };
-    } catch (error) {
-      return { error: "Failed to send reset email" };
-    }
-  }
+  // Request password reset (duplicate method removed - using the one above)
 
   // Reset password with token
   static async resetPassword(
