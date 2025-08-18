@@ -125,9 +125,9 @@ export default function About() {
             </h1>
             
             <p className="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
-              Somos uma plataforma de streaming dedicada a criar e distribuir conteúdo audiovisual 
-              brasileiro de alta qualidade. Nossa missão é contar histórias que conectam, inspiram 
-              e celebram a diversidade cultural do Brasil.
+              Somos uma plataforma de streaming dedicada a criar e distribuir conteúdo audiovisual
+              de alta qualidade. Nossa missão é contar histórias que conectam, inspiram
+              e celebram a diversidade cultural.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
