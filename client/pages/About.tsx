@@ -120,7 +120,7 @@ export default function About() {
             <h1 className="text-5xl lg:text-6xl font-bold mb-6">
               Redefinindo o
               <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
-                {" "}Streaming Brasileiro
+                {" "}Streaming
               </span>
             </h1>
             
