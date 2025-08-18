@@ -65,15 +65,11 @@ export default function PasswordRecovery() {
     }
 
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-        email,
-        {
-          redirectTo: `${window.location.origin}/password-recovery`,
-        },
-      );
+      const { error: resetError } = await AuthService.requestPasswordReset(email);
 
       if (resetError) {
-        throw resetError;
+        setError(resetError);
+        return;
       }
 
       setMessage(
@@ -81,10 +77,7 @@ export default function PasswordRecovery() {
       );
     } catch (error: any) {
       console.error("Erro ao enviar email de recuperação:", error);
-      setError(
-        error.message ||
-          "Erro ao enviar email de recuperação. Tente novamente.",
-      );
+      setError("Erro ao enviar email de recuperação. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
