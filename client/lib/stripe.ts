@@ -15,9 +15,9 @@ interface PaymentPlan {
 }
 
 export class StripeService {
-  // Using the restricted key provided by user (this should be in environment variables in production)
-  private static readonly STRIPE_RESTRICTED_KEY =
-    "rk_test_51RxFGuJS3YJIZPy4bhsGnK2D4z2Mce5pHKgmGj85mYvQ4RGnfHHvbqW1DDexkKpCR3jpuJfe8D1EBOrA7G607Isu00Kinvydxv";
+  // Using production keys for live payments
+  private static readonly STRIPE_PUBLISHABLE_KEY =
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_live_51RxFGeJm8jhPLplQbsh5Ga8jtpjQcCvYchEWuCRSZsA2ZcRA4N0gzex4JU61PhQNTmGa7t40NflVKfhCSjE7Y6Di00LzdvlbZV";
 
   // Payment plans configuration
   static readonly PLANS: { [key: string]: PaymentPlan } = {
