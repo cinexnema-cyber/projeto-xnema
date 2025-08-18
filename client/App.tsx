@@ -83,6 +83,7 @@ const App = () => (
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/password-recovery" element={<PasswordRecovery />} />
+              <Route path="/area-selection" element={<AreaSelection />} />
               <Route path="/welcome" element={<Welcome />} />
               <Route path="/subscribe" element={<Subscribe />} />
 
