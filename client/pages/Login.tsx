@@ -24,6 +24,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [resetEmailSent, setResetEmailSent] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [formData, setFormData] = useState({
     email: "",
