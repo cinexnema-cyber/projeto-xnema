@@ -17,240 +17,415 @@ import {
   Tv,
   CreditCard,
   ExternalLink,
+  Zap,
+  Users,
+  Download,
+  Play,
+  Loader2
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { StripeService } from "@/lib/stripe";
-
-interface SubscriptionPlan {
-  id: string;
-  name: string;
-  price: number;
-  originalPrice?: number;
-  period: string;
-  features: string[];
-  popular?: boolean;
-  savings?: string;
-}
 
 export default function Pricing() {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
-  const fetchPlans = async () => {
-    try {
-      const response = await fetch("/api/subscription/plans");
-      if (response.ok) {
-        const data = await response.json();
-        setPlans(data.plans);
-      }
-    } catch (error) {
-      console.error("Error fetching plans:", error);
-    } finally {
-      setLoading(false);
+  const plans = [
+    {
+      id: "monthly",
+      name: "Mensal",
+      price: 19.90,
+      period: "mês",
+      description: "Acesso completo por 30 dias",
+      popular: false,
+      features: [
+        "Catálogo completo sem limites",
+        "Qualidade 4K e HDR",
+        "Sem anúncios",
+        "2 telas simultâneas",
+        "Suporte via chat",
+        "Acesso a lançamentos exclusivos"
+      ]
+    },
+    {
+      id: "yearly",
+      name: "Anual",
+      price: 199.00,
+      originalPrice: 238.80,
+      period: "ano",
+      description: "Melhor custo-benefício",
+      popular: true,
+      savings: "Economize R$ 39,80 (16%)",
+      features: [
+        "Catálogo completo sem limites",
+        "Qualidade 4K e HDR",
+        "Sem anúncios",
+        "4 telas simultâneas",
+        "Download para assistir offline",
+        "Suporte prioritário",
+        "Acesso antecipado a novos lançamentos",
+        "2 meses grátis inclusos"
+      ]
     }
-  };
+  ];
 
-  const handleSubscribe = (plan: SubscriptionPlan) => {
+  const features = [
+    {
+      icon: Play,
+      title: "Conteúdo Exclusivo",
+      description: "Séries e filmes produzidos especialmente para XNEMA"
+    },
+    {
+      icon: Star,
+      title: "Qualidade Premium",
+      description: "Streaming em 4K com áudio surround e HDR"
+    },
+    {
+      icon: Smartphone,
+      title: "Multiplataforma",
+      description: "Assista em TV, celular, tablet ou computador"
+    },
+    {
+      icon: Shield,
+      title: "Sem Compromisso",
+      description: "Cancele quando quiser, sem taxa de cancelamento"
+    }
+  ];
+
+  const handleSubscribe = async (planId: string) => {
     if (!user) {
       navigate("/login");
       return;
     }
 
-    // Open Mercado Pago checkout
-    window.open(plan.checkoutUrl, "_blank");
+    if (user.subscriptionStatus === 'ativo') {
+      // User already has subscription
+      navigate("/subscriber-dashboard");
+      return;
+    }
+
+    setLoadingPlan(planId);
+
+    try {
+      await StripeService.redirectToCheckout(
+        planId as 'monthly' | 'yearly',
+        user.id,
+        user.email
+      );
+    } catch (error) {
+      console.error('Error creating checkout session:', error);
+      alert('Erro ao processar pagamento. Tente novamente.');
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(price);
   };
 
   return (
     <Layout>
-      <div className="min-h-screen py-20">
+      <div className="min-h-screen py-20 bg-xnema-dark">
         <div className="container mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-16">
-            <h1 className="text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <Badge className="bg-xnema-orange text-black mb-4 px-4 py-2">
+              🎬 Streaming Premium Brasileiro
+            </Badge>
+            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">
               Planos de{" "}
               <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
                 Assinatura
               </span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Escolha o plano perfeito para você. Primeiro mês grátis para novos
-              assinantes!
+            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+              Escolha o plano ideal para você e tenha acesso ilimitado ao melhor 
+              do entretenimento brasileiro com qualidade 4K.
             </p>
+            
+            {user?.subscriptionStatus === 'ativo' && (
+              <div className="mb-8">
+                <Badge className="bg-green-500 text-white px-4 py-2 text-lg">
+                  ✓ Você já é um assinante Premium
+                </Badge>
+              </div>
+            )}
           </div>
 
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="w-8 h-8 border-4 border-xnema-orange border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-muted-foreground">Carregando planos...</p>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
-              {plans.map((plan, index) => (
-                <Card
-                  key={plan.id}
-                  className={`relative ${plan.id === "premium" ? "border-2 border-xnema-orange scale-105" : "border-xnema-border"} transition-all hover:scale-105`}
-                >
-                  {plan.id === "premium" && (
-                    <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                      <div className="bg-gradient-to-r from-xnema-orange to-xnema-purple px-4 py-1 rounded-full">
-                        <span className="text-black font-bold text-sm flex items-center space-x-1">
-                          <Crown className="w-3 h-3" />
-                          <span>RECOMENDADO</span>
+          {/* Pricing Cards */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+            {plans.map((plan) => (
+              <Card 
+                key={plan.id} 
+                className={`relative overflow-hidden ${
+                  plan.popular 
+                    ? 'bg-gradient-to-br from-xnema-purple/20 to-xnema-orange/20 border-xnema-orange scale-105' 
+                    : 'bg-xnema-surface border-gray-700'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute top-0 left-0 right-0">
+                    <div className="bg-gradient-to-r from-xnema-orange to-xnema-purple text-center py-2">
+                      <span className="text-black font-semibold text-sm">
+                        🔥 MAIS POPULAR
+                      </span>
+                    </div>
+                  </div>
+                )}
+                
+                <CardHeader className={`text-center ${plan.popular ? 'pt-12' : 'pt-6'}`}>
+                  <CardTitle className="text-2xl text-white">
+                    Plano {plan.name}
+                  </CardTitle>
+                  <CardDescription className="text-gray-300">
+                    {plan.description}
+                  </CardDescription>
+                  
+                  <div className="py-6">
+                    <div className="flex items-baseline justify-center gap-2">
+                      <span className="text-5xl font-bold text-xnema-orange">
+                        {formatPrice(plan.price)}
+                      </span>
+                      <span className="text-gray-400">
+                        /{plan.period}
+                      </span>
+                    </div>
+                    
+                    {plan.originalPrice && (
+                      <div className="mt-2 flex items-center justify-center gap-2">
+                        <span className="text-gray-500 line-through text-lg">
+                          {formatPrice(plan.originalPrice)}
                         </span>
+                        <Badge className="bg-green-500 text-white">
+                          Economize 16%
+                        </Badge>
                       </div>
-                    </div>
+                    )}
+                    
+                    {plan.savings && (
+                      <p className="text-green-400 text-sm mt-2 font-semibold">
+                        {plan.savings}
+                      </p>
+                    )}
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-center gap-3">
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
+                        <span className="text-gray-300">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  
+                  <Button
+                    onClick={() => handleSubscribe(plan.id)}
+                    disabled={loadingPlan === plan.id || user?.subscriptionStatus === 'ativo'}
+                    className={`w-full text-lg py-6 ${
+                      plan.popular
+                        ? 'bg-xnema-orange hover:bg-xnema-orange/90 text-black'
+                        : 'bg-xnema-purple hover:bg-xnema-purple/90 text-white'
+                    }`}
+                  >
+                    {loadingPlan === plan.id ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Processando...
+                      </>
+                    ) : user?.subscriptionStatus === 'ativo' ? (
+                      <>
+                        <Check className="w-5 h-5 mr-2" />
+                        Plano Ativo
+                      </>
+                    ) : (
+                      <>
+                        <CreditCard className="w-5 h-5 mr-2" />
+                        Assinar {plan.name}
+                        {plan.id === 'yearly' && (
+                          <Badge className="ml-2 bg-green-500 text-white">
+                            7 dias grátis
+                          </Badge>
+                        )}
+                      </>
+                    )}
+                  </Button>
+                  
+                  {plan.id === 'yearly' && (
+                    <p className="text-center text-xs text-gray-400 mt-3">
+                      Teste gratuito por 7 dias, cancele a qualquer momento
+                    </p>
                   )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-                  <CardHeader className="text-center pb-2">
-                    <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                    <div className="py-4">
-                      <div className="text-4xl font-bold text-xnema-orange">
-                        R$ {plan.price.toFixed(2)}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        por mês
-                      </div>
-                      {plan.id === "premium" && (
-                        <div className="text-sm text-green-500 font-medium mt-1">
-                          Primeiro mês grátis!
-                        </div>
-                      )}
+          {/* Features Grid */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Por que escolher a <span className="text-xnema-orange">XNEMA?</span>
+            </h2>
+            
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {features.map((feature, index) => (
+                <Card key={index} className="bg-xnema-surface border-gray-700 text-center">
+                  <CardContent className="p-6">
+                    <div className="w-16 h-16 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center mx-auto mb-4">
+                      <feature.icon className="w-8 h-8 text-white" />
                     </div>
-                  </CardHeader>
-
-                  <CardContent className="space-y-6">
-                    <ul className="space-y-3">
-                      {plan.features.map((feature, featureIndex) => (
-                        <li
-                          key={featureIndex}
-                          className="flex items-start space-x-3"
-                        >
-                          <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                          <span className="text-sm text-foreground">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <Button
-                      className={`w-full ${plan.id === "premium" ? "bg-gradient-to-r from-xnema-orange to-xnema-purple text-black" : ""}`}
-                      onClick={() => handleSubscribe(plan)}
-                      variant={plan.id === "premium" ? "default" : "outline"}
-                    >
-                      <CreditCard className="w-4 h-4 mr-2" />
-                      Assinar Agora
-                      <ExternalLink className="w-4 h-4 ml-2" />
-                    </Button>
+                    <h3 className="text-lg font-semibold text-white mb-2">
+                      {feature.title}
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      {feature.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
             </div>
-          )}
+          </div>
 
-          {/* Additional Benefits */}
-          <div className="mt-20">
-            <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-              Por que escolher a XNEMA Premium?
+          {/* Comparison Table */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Compare os <span className="text-xnema-orange">Planos</span>
             </h2>
-
-            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-8 h-8 text-black" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  Conteúdo Exclusivo
-                </h3>
-                <p className="text-muted-foreground">
-                  Acesso antecipado a séries como "Between Heaven and Hell" e
-                  filmes exclusivos
-                </p>
+            
+            <Card className="bg-xnema-surface border-gray-700 overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-gray-700">
+                      <th className="text-left p-6 text-white">Recursos</th>
+                      <th className="text-center p-6 text-white">Gratuito</th>
+                      <th className="text-center p-6 text-white">Mensal</th>
+                      <th className="text-center p-6 text-white bg-xnema-orange/10">Anual</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ['Navegar catálogo', true, true, true],
+                      ['Ver trailers', true, true, true],
+                      ['Assistir conteúdo completo', false, true, true],
+                      ['Qualidade 4K/HDR', false, true, true],
+                      ['Sem anúncios', false, true, true],
+                      ['Telas simultâneas', 0, 2, 4],
+                      ['Download offline', false, false, true],
+                      ['Suporte prioritário', false, false, true]
+                    ].map(([feature, free, monthly, yearly], index) => (
+                      <tr key={index} className="border-b border-gray-700">
+                        <td className="p-6 text-gray-300">{feature as string}</td>
+                        <td className="p-6 text-center">
+                          {typeof free === 'boolean' ? (
+                            free ? <Check className="w-5 h-5 text-green-500 mx-auto" /> : '—'
+                          ) : free}
+                        </td>
+                        <td className="p-6 text-center">
+                          {typeof monthly === 'boolean' ? (
+                            monthly ? <Check className="w-5 h-5 text-green-500 mx-auto" /> : '—'
+                          ) : monthly}
+                        </td>
+                        <td className="p-6 text-center bg-xnema-orange/5">
+                          {typeof yearly === 'boolean' ? (
+                            yearly ? <Check className="w-5 h-5 text-green-500 mx-auto" /> : '—'
+                          ) : yearly}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
+            </Card>
+          </div>
 
-              <div className="text-center p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-xnema-purple to-xnema-orange rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Tv className="w-8 h-8 text-black" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  Multi-dispositivos
-                </h3>
-                <p className="text-muted-foreground">
-                  Assista em TV, computador, tablet ou smartphone com até 4
-                  telas simultâneas
-                </p>
-              </div>
-
-              <div className="text-center p-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="w-8 h-8 text-black" />
-                </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  Sem Compromisso
-                </h3>
-                <p className="text-muted-foreground">
-                  Cancele quando quiser, sem multas ou taxas de cancelamento
-                </p>
-              </div>
+          {/* FAQ Section */}
+          <div className="mb-16">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Perguntas <span className="text-xnema-orange">Frequentes</span>
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {[
+                {
+                  q: "Posso cancelar a qualquer momento?",
+                  a: "Sim! Não há fidelidade. Você pode cancelar sua assinatura a qualquer momento."
+                },
+                {
+                  q: "O que acontece após o período gratuito?",
+                  a: "Após 7 dias, sua assinatura será cobrada automaticamente. Você pode cancelar antes disso."
+                },
+                {
+                  q: "Quantas pessoas podem usar a conta?",
+                  a: "Você pode criar até 4 perfis e assistir simultaneamente em 2 (mensal) ou 4 (anual) telas."
+                },
+                {
+                  q: "Há taxa de cancelamento?",
+                  a: "Não cobramos nenhuma taxa de cancelamento. O processo é totalmente gratuito."
+                }
+              ].map((faq, index) => (
+                <Card key={index} className="bg-xnema-surface border-gray-700">
+                  <CardContent className="p-6">
+                    <h3 className="font-semibold text-white mb-2">{faq.q}</h3>
+                    <p className="text-gray-400 text-sm">{faq.a}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
 
-          {/* FAQ */}
-          <div className="mt-20 max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-foreground mb-12">
-              Perguntas Frequentes
+          {/* CTA Section */}
+          <div className="text-center bg-gradient-to-r from-xnema-orange/10 to-xnema-purple/10 rounded-2xl p-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Pronto para começar?
             </h2>
-
-            <div className="space-y-6">
-              <div className="bg-xnema-surface rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Como funciona o primeiro mês grátis?
-                </h3>
-                <p className="text-muted-foreground">
-                  Você tem acesso completo por 30 dias sem pagar nada. Após esse
-                  período, será cobrado R$ 19,90/mês automaticamente.
-                </p>
-              </div>
-
-              <div className="bg-xnema-surface rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Posso cancelar a qualquer momento?
-                </h3>
-                <p className="text-muted-foreground">
-                  Sim! Você pode cancelar sua assinatura a qualquer momento sem
-                  taxas ou multas.
-                </p>
-              </div>
-
-              <div className="bg-xnema-surface rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Quantos dispositivos posso usar?
-                </h3>
-                <p className="text-muted-foreground">
-                  Sua assinatura permite até 4 telas simultâneas em dispositivos
-                  diferentes.
-                </p>
-              </div>
-
-              <div className="bg-xnema-surface rounded-lg p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-2">
-                  Como funciona o pagamento?
-                </h3>
-                <p className="text-muted-foreground">
-                  Utilizamos o Mercado Pago para processar os pagamentos de
-                  forma segura. Você pode pagar com cartão de crédito, débito ou
-                  PIX.
-                </p>
-              </div>
+            <p className="text-xl text-gray-300 mb-8">
+              Junte-se a milhares de brasileiros que já escolheram a XNEMA
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              {!user ? (
+                <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                  <a href="/register">
+                    <Crown className="w-5 h-5 mr-2" />
+                    Criar Conta Grátis
+                  </a>
+                </Button>
+              ) : user.subscriptionStatus !== 'ativo' ? (
+                <Button 
+                  size="lg" 
+                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                  onClick={() => handleSubscribe('yearly')}
+                  disabled={loadingPlan !== null}
+                >
+                  {loadingPlan ? (
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  ) : (
+                    <Zap className="w-5 h-5 mr-2" />
+                  )}
+                  Começar Teste Gratuito
+                </Button>
+              ) : (
+                <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white" asChild>
+                  <a href="/subscriber-dashboard">
+                    <Play className="w-5 h-5 mr-2" />
+                    Acessar Dashboard
+                  </a>
+                </Button>
+              )}
             </div>
+            
+            <p className="text-sm text-gray-400 mt-4">
+              Pagamento seguro via Stripe • Cancele quando quiser • Suporte 24/7
+            </p>
           </div>
         </div>
       </div>
