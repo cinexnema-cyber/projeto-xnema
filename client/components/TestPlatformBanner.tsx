@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, AlertTriangle } from "lucide-react";
+import { X, AlertTriangle, MessageCircle, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function TestPlatformBanner() {
