@@ -107,20 +107,8 @@ export default function Pricing() {
       return;
     }
 
-    setLoadingPlan(planId);
-
-    try {
-      await StripeService.redirectToCheckout(
-        planId as "monthly" | "yearly",
-        user.id,
-        user.email,
-      );
-    } catch (error) {
-      console.error("Error creating checkout session:", error);
-      alert("Erro ao processar pagamento. Tente novamente.");
-    } finally {
-      setLoadingPlan(null);
-    }
+    // Redireciona para a nova página de opções de pagamento
+    navigate(`/payment-options?plan=${planId}`);
   };
 
   const formatPrice = (price: number) => {
