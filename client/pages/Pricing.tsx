@@ -137,7 +137,7 @@ export default function Pricing() {
           {/* Header */}
           <div className="text-center mb-16">
             <Badge className="bg-xnema-orange text-black mb-4 px-4 py-2">
-              🎬 Streaming Premium Brasileiro
+              🎬 Streaming Premium
             </Badge>
             <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6">
               Planos de{" "}
