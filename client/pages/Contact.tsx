@@ -64,14 +64,14 @@ export default function Contact() {
     {
       icon: Mail,
       title: "Email Geral",
-      value: "contato@xnema.com.br",
+      value: "cinexnema@gmail.com",
       description: "Para dúvidas gerais e suporte"
     },
     {
       icon: Phone,
       title: "Telefone",
-      value: "+55 (11) 3456-7890",
-      description: "Seg a Sex, 9h às 18h"
+      value: "+55 (15) 99763-6161",
+      description: "WhatsApp 24h"
     },
     {
       icon: MapPin,
@@ -91,25 +91,25 @@ export default function Contact() {
     {
       icon: Headphones,
       title: "Suporte Técnico",
-      email: "suporte@xnema.com.br",
+      email: "cinexnema@gmail.com",
       description: "Problemas com streaming, login ou app"
     },
     {
       icon: FileText,
       title: "Billing & Assinaturas",
-      email: "billing@xnema.com.br", 
+      email: "cinexnema@gmail.com",
       description: "Dúvidas sobre pagamentos e planos"
     },
     {
       icon: Briefcase,
       title: "Parcerias",
-      email: "parcerias@xnema.com.br",
+      email: "cinexnema@gmail.com",
       description: "Oportunidades de negócio e colaboração"
     },
     {
       icon: Award,
       title: "Criadores",
-      email: "criadores@xnema.com.br",
+      email: "cinexnema@gmail.com",
       description: "Submissão de conteúdo e criação"
     }
   ];
@@ -362,7 +362,7 @@ export default function Contact() {
                   </p>
                   <div className="flex items-center gap-2 text-sm">
                     <Phone className="w-4 h-4 text-xnema-orange" />
-                    <span className="text-white font-medium">+55 (11) 3456-7890</span>
+                    <span className="text-white font-medium">+55 (15) 99763-6161</span>
                   </div>
                 </div>
               </div>
