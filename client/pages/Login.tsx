@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { useNavigate, Link, useSearchParams, useLocation } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { Loader2, LogIn, Eye, EyeOff } from "lucide-react";
 export default function Login() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, user } = useAuth();
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -31,8 +32,26 @@ export default function Login() {
     password: "",
   });
 
-  // Check for success message in URL params
+  // Check for success message and email from navigation state or localStorage
   useEffect(() => {
+    // Check for message in navigation state (from reset password)
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+    }
+
+    // Check for pre-filled email from navigation state
+    if (location.state?.email) {
+      setFormData(prev => ({ ...prev, email: location.state.email }));
+    }
+
+    // Check for email saved in localStorage (from reset password)
+    const savedEmail = localStorage.getItem('reset_email');
+    if (savedEmail && !formData.email) {
+      setFormData(prev => ({ ...prev, email: savedEmail }));
+      localStorage.removeItem('reset_email'); // Remove after using
+    }
+
+    // Check for success message in URL params (fallback)
     const message = searchParams.get("message");
     if (message) {
       setSuccessMessage(message);
@@ -40,7 +59,7 @@ export default function Login() {
       const newUrl = window.location.pathname;
       window.history.replaceState({}, "", newUrl);
     }
-  }, [searchParams]);
+  }, [searchParams, location.state]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
