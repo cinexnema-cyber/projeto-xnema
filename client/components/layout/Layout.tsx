@@ -1,5 +1,6 @@
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+import TestPlatformBanner from "@/components/TestPlatformBanner";
 
 interface LayoutProps {
   children: React.ReactNode;
