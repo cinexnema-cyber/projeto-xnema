@@ -183,23 +183,54 @@ export class AuthService {
     }
   }
 
-  // Login user
+  // Login user with enhanced validation
   static async login(loginData: LoginData): Promise<{ user: User | null; error: string | null }> {
     try {
+      console.log('🔐 Iniciando processo de login para:', loginData.email);
+
+      // Validate input
+      if (!loginData.email || !loginData.password) {
+        return { user: null, error: 'Email e senha são obrigatórios' };
+      }
+
+      // Email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(loginData.email)) {
+        return { user: null, error: 'Formato de email inválido' };
+      }
+
+      // Attempt Supabase authentication
+      console.log('🔍 Verificando credenciais no Supabase...');
       const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email: loginData.email,
+        email: loginData.email.toLowerCase().trim(),
         password: loginData.password,
       });
 
       if (authError) {
+        console.error('❌ Erro de autenticação:', authError.message);
+
+        // Provide user-friendly error messages
+        if (authError.message.includes('Invalid login credentials')) {
+          return { user: null, error: 'Email ou senha incorretos' };
+        }
+        if (authError.message.includes('Email not confirmed')) {
+          return { user: null, error: 'Email não confirmado. Verifique sua caixa de entrada.' };
+        }
+        if (authError.message.includes('Too many requests')) {
+          return { user: null, error: 'Muitas tentativas de login. Tente novamente em alguns minutos.' };
+        }
+
         return { user: null, error: authError.message };
       }
 
       if (!authData.user) {
-        return { user: null, error: 'Login failed' };
+        console.error('❌ Nenhum usuário retornado após autenticação');
+        return { user: null, error: 'Falha na autenticação' };
       }
 
-      // Get user profile
+      console.log('✅ Autenticação bem-sucedida, buscando perfil do usuário...');
+
+      // Get user profile from database
       const { data: userProfile, error: profileError } = await supabase
         .from('CineXnema')
         .select('*')
@@ -207,12 +238,45 @@ export class AuthService {
         .single();
 
       if (profileError) {
-        return { user: null, error: 'Failed to get user profile' };
+        console.error('❌ Erro ao buscar perfil:', profileError.message);
+
+        // If profile doesn't exist, create one
+        if (profileError.code === 'PGRST116') {
+          console.log('📝 Criando perfil de usuário...');
+          const newProfile = {
+            user_id: authData.user.id,
+            email: authData.user.email,
+            username: authData.user.email?.split('@')[0] || 'usuario',
+            displayName: authData.user.user_metadata?.display_name || authData.user.email?.split('@')[0] || 'Usuário',
+            bio: '',
+            subscriptionStatus: 'inativo' as const,
+            comissaoPercentual: 0
+          };
+
+          const { data: createdProfile, error: createError } = await supabase
+            .from('CineXnema')
+            .insert([newProfile])
+            .select()
+            .single();
+
+          if (createError) {
+            console.error('❌ Erro ao criar perfil:', createError.message);
+            return { user: null, error: 'Erro ao criar perfil do usuário' };
+          }
+
+          console.log('✅ Perfil criado com sucesso');
+          return { user: createdProfile, error: null };
+        }
+
+        return { user: null, error: 'Erro ao carregar perfil do usuário' };
       }
 
+      console.log('✅ Login completo para usuário:', userProfile.displayName);
       return { user: userProfile, error: null };
-    } catch (error) {
-      return { user: null, error: 'Login failed' };
+
+    } catch (error: any) {
+      console.error('💥 Erro inesperado no login:', error);
+      return { user: null, error: 'Erro interno do sistema. Tente novamente.' };
     }
   }
 
