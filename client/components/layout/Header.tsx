@@ -186,17 +186,19 @@ export function Header() {
               to="/about"
               className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2"
             >
-              Sobre Nós
+              <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+              <span>Sobre Nós</span>
             </Link>
             <Link
               to="/contact"
-              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2"
             >
-              Contato
+              <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+              <span>Contato</span>
             </Link>
             <Link
               to="/pricing"
-              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2"
             >
               Planos
             </Link>
