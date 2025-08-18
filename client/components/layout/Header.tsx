@@ -52,7 +52,8 @@ export function Header() {
             to="/contact"
             className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
-            Contato
+            <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+            <span>Contato</span>
           </Link>
         </nav>
 
