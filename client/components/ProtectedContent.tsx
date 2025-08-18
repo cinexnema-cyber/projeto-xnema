@@ -32,7 +32,7 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { hasAccess, isSubscriber, subscriptionStatus, isLoading } =
+  const { hasAccess, isSubscriber, subscriptionStatus, isLoading, paymentConfirmed, subscriptionDetails } =
     useContentAccess();
 
   if (isLoading) {
@@ -84,12 +84,23 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
     }
 
     if (isSubscriber) {
+      if (!paymentConfirmed) {
+        return {
+          title: "Pagamento Pendente",
+          description:
+            "Sua assinatura foi criada, mas o pagamento ainda não foi confirmado. Vídeos serão liberados apenas após confirmação do pagamento.",
+          action: () => navigate("/payment-history"),
+          actionText: "Verificar Pagamento",
+          icon: <AlertCircle className="w-6 h-6" />,
+        };
+      }
+
       if (subscriptionStatus === "pending") {
         return {
           title: "Pagamento em Processamento",
           description:
             "Seu pagamento está sendo processado. Você receberá acesso assim que for aprovado.",
-          action: () => navigate("/smart-dashboard"),
+          action: () => navigate("/dashboard"),
           actionText: "Ver Status da Assinatura",
           icon: <AlertCircle className="w-6 h-6" />,
         };
@@ -97,7 +108,8 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
 
       if (
         subscriptionStatus === "cancelled" ||
-        subscriptionStatus === "inactive"
+        subscriptionStatus === "inactive" ||
+        subscriptionStatus === "inativo"
       ) {
         return {
           title: "Assinatura Inativa",
@@ -136,6 +148,21 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
       </CardHeader>
 
       <CardContent className="space-y-6">
+        {/* Mostrar informações de status de pagamento se usuário é assinante mas sem acesso */}
+        {isSubscriber && !hasAccess && !paymentConfirmed && (
+          <Alert className="border-yellow-500/20 bg-yellow-500/10">
+            <AlertCircle className="h-4 w-4 text-yellow-500" />
+            <AlertDescription className="text-yellow-700">
+              <strong>Aguardando Confirmação:</strong> Sua assinatura foi criada, mas os vídeos só serão liberados após a confirmação do pagamento.
+              {subscriptionDetails && (
+                <div className="mt-2 text-xs">
+                  Plano: {subscriptionDetails.plan_type} | Status: {subscriptionDetails.status}
+                </div>
+              )}
+            </AlertDescription>
+          </Alert>
+        )}
+
         {showPreview && (
           <Alert>
             <Play className="h-4 w-4" />
