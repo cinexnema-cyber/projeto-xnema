@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -82,7 +82,7 @@ export default function Login() {
             navigate("/creator-portal");
           } else {
             // For users without a clear role preference, show area selection
-            console.log("✅ Redirecting to area selection");
+            console.log("��� Redirecting to area selection");
             navigate("/area-selection");
           }
         } else {
