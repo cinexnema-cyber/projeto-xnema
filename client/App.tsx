@@ -272,6 +272,8 @@ const App = () => (
               <Route path="/creator-terms" element={<CreatorTerms />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/content/:id" element={<ContentInfo />} />
+              <Route path="/payment-options" element={<PaymentOptions />} />
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/payment-cancelled" element={<PaymentCancelled />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
