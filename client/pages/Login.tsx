@@ -154,7 +154,7 @@ export default function Login() {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                placeholder="your.email@example.com"
+                placeholder="seu@email.com"
               />
             </div>
 
