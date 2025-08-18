@@ -1,173 +1,149 @@
-import mongoose from "mongoose";
-import bcrypt from "bcrypt";
-import { UserRole, AdminPermission } from "@shared/auth";
+import mongoose, { Document, Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
-interface IUser extends mongoose.Document {
+export interface IUser extends Document {
+  id: string;
+  nome: string;
   email: string;
   password: string;
-  name: string;
-  role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
+  tipo: 'assinante' | 'criador' | 'visitante' | 'admin';
+  data_criacao: Date;
+  assinante: boolean;
+  subscriptionStatus: 'ativo' | 'inativo';
+  subscriptionPlan?: 'monthly' | 'yearly';
+  subscriptionStart?: Date;
+  subscriptionEnd?: Date;
+  comissaoPercentual: number; // Percentual de comissão para criadores (padrão 70%)
+  saldoDisponivel: number; // Saldo acumulado do criador
+  totalGanho: number; // Total já ganho pelo criador
+  bio?: string;
+  avatar?: string;
+  verificado: boolean;
   comparePassword(candidatePassword: string): Promise<boolean>;
 }
 
-interface IAdminUser extends IUser {
-  role: "admin";
-  permissions: AdminPermission[];
-}
-
-interface ISubscriberUser extends IUser {
-  role: "subscriber";
-  assinante?: boolean;
-  subscription: {
-    plan: "basic" | "intermediate" | "premium";
-    status: "active" | "inactive" | "pending" | "cancelled";
-    startDate: Date;
-    nextBilling?: Date;
-    paymentMethod?: string;
-    mercadoPagoId?: string;
-  };
-  watchHistory: string[];
-}
-
-interface ICreatorUser extends IUser {
-  role: "creator";
-  profile: {
-    bio?: string;
-    portfolio?: string;
-    approvedAt?: Date;
-    status: "pending" | "approved" | "rejected";
-  };
-  content: {
-    totalVideos: number;
-    totalViews: number;
-    totalEarnings: number;
-    monthlyEarnings: number;
-  };
-}
-
-const userSchema = new mongoose.Schema(
-  {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-    },
-    password: {
-      type: String,
-      required: true,
-      minlength: 6,
-    },
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    role: {
-      type: String,
-      enum: ["admin", "subscriber", "creator"],
-      required: true,
-    },
-    // Admin-specific fields
-    permissions: [
-      {
-        type: String,
-        enum: [
-          "manage_users",
-          "manage_content",
-          "approve_creators",
-          "view_analytics",
-          "manage_payments",
-        ],
-      },
-    ],
-    // Subscriber-specific fields
-    assinante: {
-      type: Boolean,
-      default: false,
-    },
-    subscription: {
-      plan: {
-        type: String,
-        enum: ["basic", "intermediate", "premium"],
-      },
-      status: {
-        type: String,
-        enum: ["active", "inactive", "pending", "cancelled"],
-        default: "inactive",
-      },
-      startDate: Date,
-      nextBilling: Date,
-      paymentMethod: String,
-      mercadoPagoId: String,
-    },
-    watchHistory: [String],
-    // Creator-specific fields
-    profile: {
-      bio: String,
-      portfolio: String,
-      approvedAt: Date,
-      status: {
-        type: String,
-        enum: ["pending", "approved", "rejected"],
-        default: "pending",
-      },
-    },
-    content: {
-      totalVideos: {
-        type: Number,
-        default: 0,
-      },
-      totalViews: {
-        type: Number,
-        default: 0,
-      },
-      totalEarnings: {
-        type: Number,
-        default: 0,
-      },
-      monthlyEarnings: {
-        type: Number,
-        default: 0,
-      },
-    },
+const UserSchema = new Schema<IUser>({
+  nome: {
+    type: String,
+    required: true,
+    trim: true
   },
-  {
-    timestamps: true,
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true
   },
-);
+  password: {
+    type: String,
+    required: true,
+    minlength: 6
+  },
+  tipo: {
+    type: String,
+    enum: ['assinante', 'criador', 'visitante', 'admin'],
+    default: 'visitante'
+  },
+  data_criacao: {
+    type: Date,
+    default: Date.now
+  },
+  assinante: {
+    type: Boolean,
+    default: false
+  },
+  subscriptionStatus: {
+    type: String,
+    enum: ['ativo', 'inativo'],
+    default: 'inativo'
+  },
+  subscriptionPlan: {
+    type: String,
+    enum: ['monthly', 'yearly'],
+    required: false
+  },
+  subscriptionStart: {
+    type: Date,
+    required: false
+  },
+  subscriptionEnd: {
+    type: Date,
+    required: false
+  },
+  comissaoPercentual: {
+    type: Number,
+    default: 70, // 70% para o criador
+    min: 0,
+    max: 100
+  },
+  saldoDisponivel: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  totalGanho: {
+    type: Number,
+    default: 0,
+    min: 0
+  },
+  bio: {
+    type: String,
+    maxlength: 500
+  },
+  avatar: {
+    type: String
+  },
+  verificado: {
+    type: Boolean,
+    default: false
+  }
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
 
-// Password hashing middleware
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+// Índices para otimização
+UserSchema.index({ email: 1 });
+UserSchema.index({ tipo: 1 });
+UserSchema.index({ subscriptionStatus: 1 });
+
+// Hash da senha antes de salvar
+UserSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
 
   try {
-    const saltRounds = 12;
-    this.password = await bcrypt.hash(this.password, saltRounds);
+    const salt = await bcrypt.genSalt(12);
+    this.password = await bcrypt.hash(this.password, salt);
     next();
-  } catch (error) {
-    next(error as Error);
+  } catch (error: any) {
+    next(error);
   }
 });
 
-// Password comparison method
-userSchema.methods.comparePassword = async function (
-  candidatePassword: string,
-): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password);
+// Método para comparar senhas
+UserSchema.methods.comparePassword = async function(candidatePassword: string): Promise<boolean> {
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (error) {
+    throw new Error('Erro ao comparar senhas');
+  }
 };
 
-// Transform method to remove password from JSON output
-userSchema.methods.toJSON = function () {
+// Virtual para ID string
+UserSchema.virtual('id').get(function() {
+  return this._id.toHexString();
+});
+
+// Remover senha do JSON de resposta
+UserSchema.methods.toJSON = function() {
   const userObject = this.toObject();
   delete userObject.password;
   return userObject;
 };
 
-const User = mongoose.model<IUser>("User", userSchema);
-
+export const User = mongoose.model<IUser>('User', UserSchema);
 export default User;
-export type { IUser, IAdminUser, ISubscriberUser, ICreatorUser };
