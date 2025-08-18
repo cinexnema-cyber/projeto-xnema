@@ -184,8 +184,8 @@ export default function About() {
                   cinematográfica.
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                  Queremos ser o lar digital da criatividade brasileira, proporcionando uma experiência 
-                  de streaming premium que valoriza nossa cultura e talentos nacionais.
+                  Queremos ser o lar digital da criatividade, proporcionando uma experiência
+                  de streaming premium que valoriza a cultura e talentos artísticos.
                 </p>
                 
                 <div className="flex items-center gap-4">
