@@ -118,7 +118,7 @@ export class StripeService {
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${this.STRIPE_RESTRICTED_KEY}`,
+            Authorization: `Bearer ${this.STRIPE_PUBLISHABLE_KEY}`,
             "Content-Type": "application/x-www-form-urlencoded",
           },
           body: formData,
