@@ -210,37 +210,69 @@ export default function ResetPassword() {
         "Senha redefinida com sucesso! Fazendo login automaticamente...",
       );
 
-      // Aguardar um momento para a atualização da senha
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      console.log("✅ Senha redefinida com sucesso!");
 
-      // Fazer login automático se temos o email
+      // Aguardar um momento para garantir que a senha foi atualizada no Supabase
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Tentar fazer login automático se temos o email
       if (userEmail) {
+        console.log("🔑 Tentando login automático com:", userEmail);
+        setSuccess("Senha redefinida! Fazendo login automático...");
+
         try {
+          // Tentar login com as novas credenciais
           const loginSuccess = await login(userEmail, formData.password);
+
           if (loginSuccess) {
+            console.log("✅ Login automático bem-sucedido!");
             setSuccess("Login realizado com sucesso! Redirecionando...");
+
             setTimeout(() => {
               // Redirecionar baseado no status da assinatura
               if (userInfo?.subscriptionStatus === 'ativo') {
+                console.log("👑 Usuário é assinante, redirecionando para dashboard");
                 navigate("/dashboard");
               } else {
-                navigate("/pricing"); // Direcionar para assinatura se não for assinante
+                console.log("📦 Usuário sem assinatura, redirecionando para pricing");
+                navigate("/pricing");
               }
-            }, 2000);
+            }, 1500);
           } else {
-            setSuccess("Senha redefinida! Redirecionando para o login...");
+            console.log("❌ Login automático falhou, redirecionando para login manual");
+            setSuccess("Senha redefinida com sucesso! Faça login com suas novas credenciais.");
+
+            // Pré-preencher email no localStorage para facilitar login
+            localStorage.setItem('reset_email', userEmail);
+
             setTimeout(() => {
-              navigate("/login");
+              navigate("/login", {
+                state: {
+                  email: userEmail,
+                  message: "Senha redefinida com sucesso! Faça login com sua nova senha."
+                }
+              });
             }, 2000);
           }
         } catch (loginError) {
-          console.error("Erro no login automático:", loginError);
-          setSuccess("Senha redefinida! Redirecionando para o login...");
+          console.error("💥 Erro no login automático:", loginError);
+          setSuccess("Senha redefinida! Use suas novas credenciais para fazer login.");
+
+          // Salvar email para facilitar o login
+          localStorage.setItem('reset_email', userEmail);
+
           setTimeout(() => {
-            navigate("/login");
+            navigate("/login", {
+              state: {
+                email: userEmail,
+                message: "Senha redefinida com sucesso! Faça login com sua nova senha."
+              }
+            });
           }, 2000);
         }
       } else {
+        console.log("⚠️ Email não disponível, redirecionando para login");
+        setSuccess("Senha redefinida com sucesso! Faça login na próxima página.");
         setTimeout(() => {
           navigate("/login");
         }, 2000);
