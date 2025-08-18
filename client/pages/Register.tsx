@@ -8,7 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Crown, Calendar, CreditCard } from 'lucide-react';
+import { Loader2, Crown, Calendar, CreditCard, Eye, EyeOff } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Register() {
   const { t } = useLanguage();
