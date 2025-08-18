@@ -3,26 +3,33 @@
 ## 📋 Configurações Necessárias no Supabase
 
 ### 1️⃣ Site URL
+
 No painel do Supabase:
+
 - Acesse: **Authentication → Settings → Site URL**
 - Configure como: `https://cinexnema.com`
 
 ### 2️⃣ Redirect URLs
+
 No painel do Supabase:
+
 - Acesse: **Authentication → Settings → Redirect URLs**
 - Adicione: `https://cinexnema.com/reset-password`
 
 ## 🔄 Como Funciona o Fluxo
 
-1. **Usuário solicita redefinição**: 
+1. **Usuário solicita redefinição**:
+
    - Vai para `/forgot-password`
    - Insere o email
    - Sistema chama `AuthService.requestPasswordReset(email)`
 
 2. **Supabase envia email**:
+
    - Link no formato: `https://cinexnema.com/reset-password?access_token=XXX&refresh_token=XXX&type=recovery`
 
 3. **Usuário clica no link**:
+
    - É redirecionado para `/reset-password`
    - A página captura os tokens da URL
    - Sistema valida o token com `supabase.auth.setSession()`
@@ -35,12 +42,14 @@ No painel do Supabase:
 ## ✅ Arquivos Implementados
 
 ### Frontend
+
 - ✅ `/client/pages/ForgotPassword.tsx` - Solicitar redefinição
 - ✅ `/client/pages/ResetPassword.tsx` - Redefinir senha
 - ✅ `/client/lib/auth.ts` - Serviços de autenticação
 - ✅ Rotas configuradas no App.tsx
 
 ### Features Implementadas
+
 - ✅ Validação de email em tempo real
 - ✅ Validação de força da senha
 - ✅ Critérios de segurança visuais
@@ -58,6 +67,7 @@ No painel do Supabase:
 ## 🔧 Configuração Técnica
 
 ### AuthService.requestPasswordReset()
+
 ```typescript
 const { error } = await supabase.auth.resetPasswordForEmail(email, {
   redirectTo: `https://cinexnema.com/reset-password`,
@@ -65,6 +75,7 @@ const { error } = await supabase.auth.resetPasswordForEmail(email, {
 ```
 
 ### ResetPassword Component
+
 - Captura `access_token`, `refresh_token` e `type` da URL
 - Valida se `type === 'recovery'`
 - Usa `supabase.auth.setSession()` para autenticar

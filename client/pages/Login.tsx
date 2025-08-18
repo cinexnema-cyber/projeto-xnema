@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, useSearchParams, useLocation } from "react-router-dom";
+import {
+  useNavigate,
+  Link,
+  useSearchParams,
+  useLocation,
+} from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -41,14 +46,14 @@ export default function Login() {
 
     // Check for pre-filled email from navigation state
     if (location.state?.email) {
-      setFormData(prev => ({ ...prev, email: location.state.email }));
+      setFormData((prev) => ({ ...prev, email: location.state.email }));
     }
 
     // Check for email saved in localStorage (from reset password)
-    const savedEmail = localStorage.getItem('reset_email');
+    const savedEmail = localStorage.getItem("reset_email");
     if (savedEmail && !formData.email) {
-      setFormData(prev => ({ ...prev, email: savedEmail }));
-      localStorage.removeItem('reset_email'); // Remove after using
+      setFormData((prev) => ({ ...prev, email: savedEmail }));
+      localStorage.removeItem("reset_email"); // Remove after using
     }
 
     // Check for success message in URL params (fallback)

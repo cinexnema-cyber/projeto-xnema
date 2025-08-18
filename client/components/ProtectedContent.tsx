@@ -32,8 +32,14 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const { hasAccess, isSubscriber, subscriptionStatus, isLoading, paymentConfirmed, subscriptionDetails } =
-    useContentAccess();
+  const {
+    hasAccess,
+    isSubscriber,
+    subscriptionStatus,
+    isLoading,
+    paymentConfirmed,
+    subscriptionDetails,
+  } = useContentAccess();
 
   if (isLoading) {
     return (
@@ -153,10 +159,13 @@ export const ProtectedContent: React.FC<ProtectedContentProps> = ({
           <Alert className="border-yellow-500/20 bg-yellow-500/10">
             <AlertCircle className="h-4 w-4 text-yellow-500" />
             <AlertDescription className="text-yellow-700">
-              <strong>Aguardando Confirmação:</strong> Sua assinatura foi criada, mas os vídeos só serão liberados após a confirmação do pagamento.
+              <strong>Aguardando Confirmação:</strong> Sua assinatura foi
+              criada, mas os vídeos só serão liberados após a confirmação do
+              pagamento.
               {subscriptionDetails && (
                 <div className="mt-2 text-xs">
-                  Plano: {subscriptionDetails.plan_type} | Status: {subscriptionDetails.status}
+                  Plano: {subscriptionDetails.plan_type} | Status:{" "}
+                  {subscriptionDetails.status}
                 </div>
               )}
             </AlertDescription>

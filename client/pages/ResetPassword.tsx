@@ -213,7 +213,7 @@ export default function ResetPassword() {
       console.log("✅ Senha redefinida com sucesso!");
 
       // Aguardar um momento para garantir que a senha foi atualizada no Supabase
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Tentar fazer login automático se temos o email
       if (userEmail) {
@@ -230,49 +230,63 @@ export default function ResetPassword() {
 
             setTimeout(() => {
               // Redirecionar baseado no status da assinatura
-              if (userInfo?.subscriptionStatus === 'ativo') {
-                console.log("👑 Usuário é assinante, redirecionando para dashboard");
+              if (userInfo?.subscriptionStatus === "ativo") {
+                console.log(
+                  "👑 Usuário é assinante, redirecionando para dashboard",
+                );
                 navigate("/dashboard");
               } else {
-                console.log("📦 Usuário sem assinatura, redirecionando para pricing");
+                console.log(
+                  "📦 Usuário sem assinatura, redirecionando para pricing",
+                );
                 navigate("/pricing");
               }
             }, 1500);
           } else {
-            console.log("❌ Login automático falhou, redirecionando para login manual");
-            setSuccess("Senha redefinida com sucesso! Faça login com suas novas credenciais.");
+            console.log(
+              "❌ Login automático falhou, redirecionando para login manual",
+            );
+            setSuccess(
+              "Senha redefinida com sucesso! Faça login com suas novas credenciais.",
+            );
 
             // Pré-preencher email no localStorage para facilitar login
-            localStorage.setItem('reset_email', userEmail);
+            localStorage.setItem("reset_email", userEmail);
 
             setTimeout(() => {
               navigate("/login", {
                 state: {
                   email: userEmail,
-                  message: "Senha redefinida com sucesso! Faça login com sua nova senha."
-                }
+                  message:
+                    "Senha redefinida com sucesso! Faça login com sua nova senha.",
+                },
               });
             }, 2000);
           }
         } catch (loginError) {
           console.error("💥 Erro no login automático:", loginError);
-          setSuccess("Senha redefinida! Use suas novas credenciais para fazer login.");
+          setSuccess(
+            "Senha redefinida! Use suas novas credenciais para fazer login.",
+          );
 
           // Salvar email para facilitar o login
-          localStorage.setItem('reset_email', userEmail);
+          localStorage.setItem("reset_email", userEmail);
 
           setTimeout(() => {
             navigate("/login", {
               state: {
                 email: userEmail,
-                message: "Senha redefinida com sucesso! Faça login com sua nova senha."
-              }
+                message:
+                  "Senha redefinida com sucesso! Faça login com sua nova senha.",
+              },
             });
           }, 2000);
         }
       } else {
         console.log("⚠️ Email não disponível, redirecionando para login");
-        setSuccess("Senha redefinida com sucesso! Faça login na próxima página.");
+        setSuccess(
+          "Senha redefinida com sucesso! Faça login na próxima página.",
+        );
         setTimeout(() => {
           navigate("/login");
         }, 2000);
@@ -415,12 +429,23 @@ export default function ResetPassword() {
             <CardDescription className="text-gray-300">
               {userEmail && (
                 <div className="mb-2 p-2 bg-xnema-orange/10 border border-xnema-orange/20 rounded text-xs">
-                  <span className="text-xnema-orange font-medium">Usuário identificado:</span> {userEmail}
+                  <span className="text-xnema-orange font-medium">
+                    Usuário identificado:
+                  </span>{" "}
+                  {userEmail}
                   {userInfo && (
                     <div className="mt-1">
                       <span className="text-gray-300">Status: </span>
-                      <span className={userInfo.subscriptionStatus === 'ativo' ? 'text-green-400' : 'text-yellow-400'}>
-                        {userInfo.subscriptionStatus === 'ativo' ? 'Assinante Ativo' : 'Sem Assinatura'}
+                      <span
+                        className={
+                          userInfo.subscriptionStatus === "ativo"
+                            ? "text-green-400"
+                            : "text-yellow-400"
+                        }
+                      >
+                        {userInfo.subscriptionStatus === "ativo"
+                          ? "Assinante Ativo"
+                          : "Sem Assinatura"}
                       </span>
                     </div>
                   )}

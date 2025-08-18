@@ -372,14 +372,16 @@ export class AuthService {
         console.log("💾 Usuário atualizado:", {
           id: data.user.id,
           email: data.user.email,
-          updated_at: data.user.updated_at
+          updated_at: data.user.updated_at,
         });
       }
 
       return { error: null };
     } catch (error: any) {
       console.error("💥 Erro inesperado no reset de senha:", error);
-      return { error: error.message || "Falha ao redefinir senha. Tente novamente." };
+      return {
+        error: error.message || "Falha ao redefinir senha. Tente novamente.",
+      };
     }
   }
 

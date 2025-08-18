@@ -7,8 +7,8 @@ import { Crown, Loader2, CreditCard, Zap } from "lucide-react";
 
 // Carregar Stripe com a chave pública
 const stripePromise = loadStripe(
-  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
-  'pk_live_51RxFGeJm8jhPLplQbsh5Ga8jtpjQcCvYchEWuCRSZsA2ZcRA4N0gzex4JU61PhQNTmGa7t40NflVKfhCSjE7Y6Di00LzdvlbZV'
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
+    "pk_live_51RxFGeJm8jhPLplQbsh5Ga8jtpjQcCvYchEWuCRSZsA2ZcRA4N0gzex4JU61PhQNTmGa7t40NflVKfhCSjE7Y6Di00LzdvlbZV",
 );
 
 interface SubscribeButtonProps {
@@ -16,11 +16,11 @@ interface SubscribeButtonProps {
   priceId: string;
   creatorId?: string;
   videoId?: string;
-  planType?: 'monthly' | 'yearly' | 'individual';
+  planType?: "monthly" | "yearly" | "individual";
   amount?: number; // em centavos
   description?: string;
-  variant?: 'default' | 'premium' | 'creator';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "default" | "premium" | "creator";
+  size?: "sm" | "md" | "lg";
   className?: string;
   onSuccess?: () => void;
   onError?: (error: string) => void;
@@ -31,14 +31,14 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   priceId,
   creatorId,
   videoId,
-  planType = 'monthly',
+  planType = "monthly",
   amount,
   description,
-  variant = 'default',
-  size = 'md',
-  className = '',
+  variant = "default",
+  size = "md",
+  className = "",
   onSuccess,
-  onError
+  onError,
 }) => {
   const { user } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -46,23 +46,25 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
   // Configurações visuais baseadas na variante
   const getVariantConfig = () => {
     switch (variant) {
-      case 'premium':
+      case "premium":
         return {
-          className: 'bg-gradient-to-r from-xnema-orange to-xnema-purple hover:from-xnema-orange/90 hover:to-xnema-purple/90 text-white',
+          className:
+            "bg-gradient-to-r from-xnema-orange to-xnema-purple hover:from-xnema-orange/90 hover:to-xnema-purple/90 text-white",
           icon: <Crown className="w-4 h-4 mr-2" />,
-          text: planType === 'yearly' ? 'Assinar Anual' : 'Assinar Premium'
+          text: planType === "yearly" ? "Assinar Anual" : "Assinar Premium",
         };
-      case 'creator':
+      case "creator":
         return {
-          className: 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white',
+          className:
+            "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white",
           icon: <Zap className="w-4 h-4 mr-2" />,
-          text: 'Apoiar Criador'
+          text: "Apoiar Criador",
         };
       default:
         return {
-          className: 'bg-xnema-orange hover:bg-xnema-orange/90 text-black',
+          className: "bg-xnema-orange hover:bg-xnema-orange/90 text-black",
           icon: <CreditCard className="w-4 h-4 mr-2" />,
-          text: 'Assinar Conteúdo'
+          text: "Assinar Conteúdo",
         };
     }
   };
@@ -71,15 +73,15 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
 
   const formatPrice = (cents: number) => {
     const reais = cents / 100;
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     }).format(reais);
   };
 
   const handleSubscribe = async () => {
     if (!user) {
-      onError?.('Você precisa estar logado para assinar');
+      onError?.("Você precisa estar logado para assinar");
       return;
     }
 
@@ -88,59 +90,64 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
     try {
       // Criar cliente no Stripe se necessário
       let currentCustomerId = customerId;
-      
+
       if (!currentCustomerId) {
-        console.log('Criando cliente Stripe...');
-        const customerResponse = await fetch('/api/stripe/create-customer', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            email: user.email, 
-            nome: user.nome || user.displayName || user.username 
+        console.log("Criando cliente Stripe...");
+        const customerResponse = await fetch("/api/stripe/create-customer", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: user.email,
+            nome: user.nome || user.displayName || user.username,
           }),
         });
 
         const customerData = await customerResponse.json();
-        
+
         if (!customerData.sucesso) {
-          throw new Error(customerData.erro || 'Erro ao criar cliente');
+          throw new Error(customerData.erro || "Erro ao criar cliente");
         }
-        
+
         currentCustomerId = customerData.customerId;
-        console.log('Cliente criado:', currentCustomerId);
+        console.log("Cliente criado:", currentCustomerId);
       }
 
       // Criar sessão de checkout
-      console.log('Criando sessão de checkout...');
-      const checkoutResponse = await fetch('/api/stripe/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId,
-          customerId: currentCustomerId,
-          creatorId,
-          videoId,
-          userId: user.id,
-          successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-          cancelUrl: `${window.location.origin}/payment-cancelled`
-        }),
-      });
+      console.log("Criando sessão de checkout...");
+      const checkoutResponse = await fetch(
+        "/api/stripe/create-checkout-session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            priceId,
+            customerId: currentCustomerId,
+            creatorId,
+            videoId,
+            userId: user.id,
+            successUrl: `${window.location.origin}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+            cancelUrl: `${window.location.origin}/payment-cancelled`,
+          }),
+        },
+      );
 
       const checkoutData = await checkoutResponse.json();
-      
+
       if (!checkoutData.sucesso) {
-        throw new Error(checkoutData.erro || 'Erro ao criar sessão de checkout');
+        throw new Error(
+          checkoutData.erro || "Erro ao criar sessão de checkout",
+        );
       }
 
       // Redirecionar para o Stripe Checkout
       const stripe = await stripePromise;
       if (!stripe) {
-        throw new Error('Erro ao carregar Stripe');
+        throw new Error("Erro ao carregar Stripe");
       }
 
-      console.log('Redirecionando para checkout:', checkoutData.sessionId);
-      const { error } = await stripe.redirectToCheckout({ 
-        sessionId: checkoutData.sessionId 
+      console.log("Redirecionando para checkout:", checkoutData.sessionId);
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: checkoutData.sessionId,
       });
 
       if (error) {
@@ -148,10 +155,9 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
       }
 
       onSuccess?.();
-
     } catch (error: any) {
-      console.error('Erro na assinatura:', error);
-      onError?.(error.message || 'Erro ao processar assinatura');
+      console.error("Erro na assinatura:", error);
+      onError?.(error.message || "Erro ao processar assinatura");
     } finally {
       setIsLoading(false);
     }
@@ -183,16 +189,18 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
         {amount && (
           <div className="text-sm font-medium text-foreground">
             {formatPrice(amount)}
-            {planType === 'monthly' && <span className="text-gray-500">/mês</span>}
-            {planType === 'yearly' && <span className="text-gray-500">/ano</span>}
+            {planType === "monthly" && (
+              <span className="text-gray-500">/mês</span>
+            )}
+            {planType === "yearly" && (
+              <span className="text-gray-500">/ano</span>
+            )}
           </div>
         )}
-        
-        {description && (
-          <p className="text-xs text-gray-500">{description}</p>
-        )}
 
-        {planType === 'yearly' && (
+        {description && <p className="text-xs text-gray-500">{description}</p>}
+
+        {planType === "yearly" && (
           <Badge className="bg-green-600 text-white text-xs">
             💰 Economize 16%
           </Badge>
@@ -205,9 +213,7 @@ const SubscribeButton: React.FC<SubscribeButtonProps> = ({
         )}
 
         {!user && (
-          <p className="text-xs text-red-500">
-            Faça login para assinar
-          </p>
+          <p className="text-xs text-red-500">Faça login para assinar</p>
         )}
       </div>
     </div>

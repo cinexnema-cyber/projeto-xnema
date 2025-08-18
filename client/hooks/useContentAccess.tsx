@@ -46,8 +46,12 @@ export const useContentAccess = (): ContentAccessInfo => {
           .single();
 
         if (!userError && supabaseUser) {
-          const isActiveSubscriber = supabaseUser.subscriptionStatus === 'ativo';
-          setSubscriptionData({ hasAccess: isActiveSubscriber, isActive: isActiveSubscriber });
+          const isActiveSubscriber =
+            supabaseUser.subscriptionStatus === "ativo";
+          setSubscriptionData({
+            hasAccess: isActiveSubscriber,
+            isActive: isActiveSubscriber,
+          });
           setPaymentConfirmed(isActiveSubscriber);
 
           // Verificar detalhes da assinatura
@@ -92,13 +96,17 @@ export const useContentAccess = (): ContentAccessInfo => {
   const hasAccess =
     user?.role === "admin" ||
     (user &&
-      ((user as any).assinante === true || user.subscriptionStatus === 'ativo') &&
-      paymentConfirmed
-    ) ||
-    (user?.role === "subscriber" && subscriptionData?.hasAccess && paymentConfirmed);
+      ((user as any).assinante === true ||
+        user.subscriptionStatus === "ativo") &&
+      paymentConfirmed) ||
+    (user?.role === "subscriber" &&
+      subscriptionData?.hasAccess &&
+      paymentConfirmed);
 
-  const isSubscriber = user?.role === "subscriber" || user?.subscriptionStatus === 'ativo';
-  const subscriptionStatus = subscriptionData?.subscription?.status || user?.subscriptionStatus || null;
+  const isSubscriber =
+    user?.role === "subscriber" || user?.subscriptionStatus === "ativo";
+  const subscriptionStatus =
+    subscriptionData?.subscription?.status || user?.subscriptionStatus || null;
 
   return {
     hasAccess,

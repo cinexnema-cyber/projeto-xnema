@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import SubscribeButton from "./SubscribeButton";
 import { Crown, Video, Users } from "lucide-react";
@@ -7,17 +13,17 @@ import { Crown, Video, Users } from "lucide-react";
 const StripePaymentDemo: React.FC = () => {
   // IDs de preços fictícios - em produção, estes viriam do Stripe Dashboard
   const PRICE_IDS = {
-    monthly: 'price_monthly_1990', // R$ 19,90/mês
-    yearly: 'price_yearly_19900',   // R$ 199,00/ano
-    individual: 'price_individual_590' // R$ 5,90 por vídeo
+    monthly: "price_monthly_1990", // R$ 19,90/mês
+    yearly: "price_yearly_19900", // R$ 199,00/ano
+    individual: "price_individual_590", // R$ 5,90 por vídeo
   };
 
   const handlePaymentSuccess = () => {
-    console.log('✅ Pagamento realizado com sucesso!');
+    console.log("✅ Pagamento realizado com sucesso!");
   };
 
   const handlePaymentError = (error: string) => {
-    console.error('❌ Erro no pagamento:', error);
+    console.error("❌ Erro no pagamento:", error);
     alert(`Erro: ${error}`);
   };
 
@@ -28,8 +34,8 @@ const StripePaymentDemo: React.FC = () => {
           Sistema de Pagamentos <span className="text-xnema-orange">XNEMA</span>
         </h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Demonstração da integração Stripe com sistema de comissões automáticas. 
-          70% do valor vai para o criador, 30% para a plataforma.
+          Demonstração da integração Stripe com sistema de comissões
+          automáticas. 70% do valor vai para o criador, 30% para a plataforma.
         </p>
       </div>
 
@@ -38,7 +44,7 @@ const StripePaymentDemo: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Planos de Assinatura da Plataforma
         </h2>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           {/* Plano Mensal */}
           <Card className="bg-xnema-surface border-xnema-border relative">
@@ -67,11 +73,11 @@ const StripePaymentDemo: React.FC = () => {
                   Sem anúncios
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  2 telas simultâneas
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>2
+                  telas simultâneas
                 </li>
               </ul>
-              
+
               <SubscribeButton
                 priceId={PRICE_IDS.monthly}
                 planType="monthly"
@@ -111,8 +117,8 @@ const StripePaymentDemo: React.FC = () => {
                   Tudo do plano mensal
                 </li>
                 <li className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  4 telas simultâneas
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>4
+                  telas simultâneas
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
@@ -123,7 +129,7 @@ const StripePaymentDemo: React.FC = () => {
                   Acesso antecipado a lançamentos
                 </li>
               </ul>
-              
+
               <SubscribeButton
                 priceId={PRICE_IDS.yearly}
                 planType="yearly"
@@ -143,7 +149,7 @@ const StripePaymentDemo: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-6 text-center">
           Compra Individual de Conteúdo
         </h2>
-        
+
         <div className="grid md:grid-cols-3 gap-4">
           {/* Exemplo: Episódio Individual */}
           <Card className="bg-xnema-surface border-xnema-border">
@@ -158,7 +164,7 @@ const StripePaymentDemo: React.FC = () => {
               <div className="text-2xl font-bold text-blue-400 mb-4">
                 R$ 5,90
               </div>
-              
+
               <SubscribeButton
                 priceId={PRICE_IDS.individual}
                 creatorId="creator_123"
@@ -187,7 +193,7 @@ const StripePaymentDemo: React.FC = () => {
               <div className="text-2xl font-bold text-purple-400 mb-4">
                 R$ 29,90
               </div>
-              
+
               <SubscribeButton
                 priceId="price_serie_2990"
                 creatorId="creator_123"
@@ -216,7 +222,7 @@ const StripePaymentDemo: React.FC = () => {
               <div className="text-2xl font-bold text-yellow-400 mb-4">
                 R$ 10,00
               </div>
-              
+
               <SubscribeButton
                 priceId="price_support_1000"
                 creatorId="creator_123"
@@ -238,16 +244,17 @@ const StripePaymentDemo: React.FC = () => {
         <h3 className="text-lg font-semibold mb-4 text-center">
           🔧 Como Funciona o Sistema de Comissões
         </h3>
-        
+
         <div className="grid md:grid-cols-3 gap-4 text-sm">
           <div className="text-center">
             <div className="text-2xl mb-2">💳</div>
             <h4 className="font-medium mb-2">1. Pagamento</h4>
             <p className="text-gray-600">
-              Cliente realiza pagamento via Stripe com cartão, PIX ou outros métodos
+              Cliente realiza pagamento via Stripe com cartão, PIX ou outros
+              métodos
             </p>
           </div>
-          
+
           <div className="text-center">
             <div className="text-2xl mb-2">📊</div>
             <h4 className="font-medium mb-2">2. Divisão Automática</h4>
@@ -255,7 +262,7 @@ const StripePaymentDemo: React.FC = () => {
               Sistema calcula automaticamente: 70% criador + 30% plataforma
             </p>
           </div>
-          
+
           <div className="text-center">
             <div className="text-2xl mb-2">💰</div>
             <h4 className="font-medium mb-2">3. Saldo Disponível</h4>
