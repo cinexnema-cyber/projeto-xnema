@@ -108,25 +108,25 @@ export default function PasswordRecovery() {
     }
 
     try {
-      const { error: updateError } = await supabase.auth.updateUser({
-        password: newPassword,
-      });
+      const { error: updateError } = await AuthService.updatePassword(newPassword);
 
       if (updateError) {
-        throw updateError;
+        setError(updateError);
+        return;
       }
 
       setMessage(
         "Senha redefinida com sucesso! Redirecionando para o login...",
       );
 
-      // Redireciona para o login após 2 segundos
-      setTimeout(() => {
-        navigate("/login?message=Senha redefinida com sucesso");
+      // Logout do usuário e redireciona para o login após 2 segundos
+      setTimeout(async () => {
+        await AuthService.logout();
+        navigate("/login?message=Senha redefinida com sucesso. Faça login com sua nova senha.");
       }, 2000);
     } catch (error: any) {
       console.error("Erro ao redefinir senha:", error);
-      setError(error.message || "Erro ao redefinir senha. Tente novamente.");
+      setError("Erro ao redefinir senha. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
