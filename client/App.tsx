@@ -52,6 +52,7 @@ import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCancelled from "./pages/PaymentCancelled";
 import PaymentOptions from "./pages/PaymentOptions";
 import ContentInfo from "./pages/ContentInfo";
+import PasswordRecovery from "./pages/PasswordRecovery";
 
 const queryClient = new QueryClient();
 
