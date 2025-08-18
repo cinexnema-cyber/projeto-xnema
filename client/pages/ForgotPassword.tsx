@@ -146,7 +146,7 @@ export default function ForgotPassword() {
           <Link to="/" className="inline-block">
             <XnemaLogo size="lg" />
           </Link>
-          <p className="text-gray-400 mt-2 text-sm">Streaming Premium Brasileiro</p>
+          <p className="text-gray-400 mt-2 text-sm">Streaming Premium</p>
         </div>
 
         {/* Header */}
