@@ -30,6 +30,17 @@ export default function Login() {
     password: "",
   });
 
+  // Check for success message in URL params
+  useEffect(() => {
+    const message = searchParams.get("message");
+    if (message) {
+      setSuccessMessage(message);
+      // Clear the URL parameter after showing the message
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, "", newUrl);
+    }
+  }, [searchParams]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
