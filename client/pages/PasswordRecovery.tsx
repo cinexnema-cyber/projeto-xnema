@@ -65,7 +65,8 @@ export default function PasswordRecovery() {
     }
 
     try {
-      const { error: resetError } = await AuthService.requestPasswordReset(email);
+      const { error: resetError } =
+        await AuthService.requestPasswordReset(email);
 
       if (resetError) {
         setError(resetError);
@@ -108,7 +109,8 @@ export default function PasswordRecovery() {
     }
 
     try {
-      const { error: updateError } = await AuthService.updatePassword(newPassword);
+      const { error: updateError } =
+        await AuthService.updatePassword(newPassword);
 
       if (updateError) {
         setError(updateError);
@@ -122,7 +124,9 @@ export default function PasswordRecovery() {
       // Logout do usuário e redireciona para o login após 2 segundos
       setTimeout(async () => {
         await AuthService.logout();
-        navigate("/login?message=Senha redefinida com sucesso. Faça login com sua nova senha.");
+        navigate(
+          "/login?message=Senha redefinida com sucesso. Faça login com sua nova senha.",
+        );
       }, 2000);
     } catch (error: any) {
       console.error("Erro ao redefinir senha:", error);

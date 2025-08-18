@@ -74,7 +74,10 @@ export default function Login() {
           if (currentUser.role === "admin") {
             console.log("✅ Redirecting admin to admin dashboard");
             navigate("/admin-dashboard");
-          } else if (currentUser.role === "subscriber" && currentUser.assinante) {
+          } else if (
+            currentUser.role === "subscriber" &&
+            currentUser.assinante
+          ) {
             console.log("✅ Redirecting subscriber to subscriber dashboard");
             navigate("/subscriber-dashboard");
           } else if (currentUser.role === "creator") {

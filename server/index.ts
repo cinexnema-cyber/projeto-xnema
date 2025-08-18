@@ -54,8 +54,6 @@ export function createServer() {
     res.json({ message: ping });
   });
 
-
-
   // Demo route
   app.get("/api/demo", handleDemo);
 
@@ -98,20 +96,19 @@ export function createServer() {
           name: savedUser.name,
           role: savedUser.role,
           assinante: savedUser.assinante,
-          subscription: savedUser.subscription
+          subscription: savedUser.subscription,
         },
         loginInfo: {
           email: "cinexnema@gmail.com",
           password: "I30C77T$Ii",
-          access: "Acesso completo sem pagamento"
-        }
+          access: "Acesso completo sem pagamento",
+        },
       });
-
     } catch (error) {
       console.error("❌ Erro ao criar usuário de teste:", error);
       res.status(500).json({
         success: false,
-        error: error.message
+        error: error.message,
       });
     }
   });
@@ -129,7 +126,7 @@ export function createServer() {
       if (!nome || !email || !senha) {
         return res.status(400).json({
           success: false,
-          message: "Nome, email e senha são obrigatórios"
+          message: "Nome, email e senha são obrigatórios",
         });
       }
 
@@ -140,7 +137,7 @@ export function createServer() {
       if (existingUser) {
         return res.status(409).json({
           success: false,
-          message: "Email já está em uso"
+          message: "Email já está em uso",
         });
       }
 
@@ -155,9 +152,9 @@ export function createServer() {
           plan: "premium",
           status: "pending",
           startDate: new Date(),
-          paymentMethod: "pending"
+          paymentMethod: "pending",
         },
-        watchHistory: []
+        watchHistory: [],
       };
 
       const user = new User(userData);
@@ -167,15 +164,15 @@ export function createServer() {
 
       res.json({
         success: true,
-        message: "Usuário cadastrado com sucesso! Complete o pagamento para ter acesso.",
-        userId: savedUser._id.toString()
+        message:
+          "Usuário cadastrado com sucesso! Complete o pagamento para ter acesso.",
+        userId: savedUser._id.toString(),
       });
-
     } catch (error) {
       console.error("❌ Erro no cadastro:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -187,7 +184,7 @@ export function createServer() {
       if (!email || !senha) {
         return res.status(400).json({
           success: false,
-          message: "Email e senha são obrigatórios"
+          message: "Email e senha são obrigatórios",
         });
       }
 
@@ -198,7 +195,7 @@ export function createServer() {
       if (!user) {
         return res.status(401).json({
           success: false,
-          message: "Email ou senha incorretos"
+          message: "Email ou senha incorretos",
         });
       }
 
@@ -207,7 +204,7 @@ export function createServer() {
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
-          message: "Email ou senha incorretos"
+          message: "Email ou senha incorretos",
         });
       }
 
@@ -223,14 +220,13 @@ export function createServer() {
         token: token,
         isAssinante: user.assinante || false,
         userId: user._id.toString(),
-        userName: user.name
+        userName: user.name,
       });
-
     } catch (error) {
       console.error("❌ Erro no login:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -242,7 +238,7 @@ export function createServer() {
       if (!userId) {
         return res.status(400).json({
           success: false,
-          message: "userId é obrigatório"
+          message: "userId é obrigatório",
         });
       }
 
@@ -256,18 +252,20 @@ export function createServer() {
             assinante: true,
             "subscription.status": "active",
             "subscription.startDate": new Date(),
-            "subscription.nextBilling": new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 dias
+            "subscription.nextBilling": new Date(
+              Date.now() + 30 * 24 * 60 * 60 * 1000,
+            ), // 30 dias
             "subscription.paymentMethod": "mercado_pago",
-            "subscription.mercadoPagoId": `mp_${Date.now()}`
-          }
+            "subscription.mercadoPagoId": `mp_${Date.now()}`,
+          },
         },
-        { new: true }
+        { new: true },
       );
 
       if (!user) {
         return res.status(404).json({
           success: false,
-          message: "Usuário não encontrado"
+          message: "Usuário não encontrado",
         });
       }
 
@@ -277,14 +275,13 @@ export function createServer() {
         success: true,
         message: "Pagamento confirmado! Acesso liberado.",
         isAssinante: true,
-        subscription: user.subscription
+        subscription: user.subscription,
       });
-
     } catch (error) {
       console.error("❌ Erro na confirmação de pagamento:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -297,7 +294,7 @@ export function createServer() {
       if (!email) {
         return res.status(400).json({
           success: false,
-          message: "Email é obrigatório"
+          message: "Email é obrigatório",
         });
       }
 
@@ -309,18 +306,20 @@ export function createServer() {
       // Por segurança, sempre retornamos sucesso mesmo se o email não existir
       // Em produção, enviaria email real aqui
       console.log(`📧 Solicitação de recuperação de senha para: ${email}`);
-      console.log(`✅ ${user ? 'Usuário encontrado' : 'Usuário não encontrado'} - Email de recuperação "enviado"`);
+      console.log(
+        `✅ ${user ? "Usuário encontrado" : "Usuário não encontrado"} - Email de recuperação "enviado"`,
+      );
 
       res.json({
         success: true,
-        message: "Se o email existir, você receberá instruções para redefinir sua senha."
+        message:
+          "Se o email existir, você receberá instruções para redefinir sua senha.",
       });
-
     } catch (error) {
       console.error("❌ Erro na recuperação de senha:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -350,7 +349,7 @@ export function createServer() {
       if (!email || !password) {
         return res.status(400).json({
           success: false,
-          message: "Email e senha são obrigatórios"
+          message: "Email e senha são obrigatórios",
         });
       }
 
@@ -362,7 +361,7 @@ export function createServer() {
       if (user) {
         return res.status(409).json({
           success: false,
-          message: "Email já está em uso"
+          message: "Email já está em uso",
         });
       }
 
@@ -370,16 +369,16 @@ export function createServer() {
       const userData = {
         email: email.toLowerCase(),
         password: password,
-        name: name || email.split('@')[0] || 'Usuário XNEMA',
+        name: name || email.split("@")[0] || "Usuário XNEMA",
         role: "subscriber",
         assinante: false, // No access until payment
         subscription: {
           plan: "premium",
           status: "pending",
           startDate: new Date(),
-          paymentMethod: "pending"
+          paymentMethod: "pending",
         },
-        watchHistory: []
+        watchHistory: [],
       };
 
       user = new User(userData);
@@ -389,16 +388,16 @@ export function createServer() {
 
       res.json({
         success: true,
-        message: "Usuário registrado! Complete o pagamento para ter acesso total.",
+        message:
+          "Usuário registrado! Complete o pagamento para ter acesso total.",
         user: user.toJSON(),
-        requiresPayment: true
+        requiresPayment: true,
       });
-
     } catch (error) {
       console.error("❌ Erro no pré-registro:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -411,7 +410,7 @@ export function createServer() {
       if (!email || !paymentId) {
         return res.status(400).json({
           success: false,
-          message: "Email e ID de pagamento são obrigatórios"
+          message: "Email e ID de pagamento são obrigatórios",
         });
       }
 
@@ -430,7 +429,7 @@ export function createServer() {
           startDate: new Date(),
           nextBilling: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
           paymentMethod: "mercado_pago",
-          mercadoPagoId: paymentId
+          mercadoPagoId: paymentId,
         };
         user.watchHistory = user.watchHistory || [];
 
@@ -442,7 +441,7 @@ export function createServer() {
         const userData = {
           email: email.toLowerCase(),
           password: `temp_${Date.now()}_${Math.random().toString(36)}`, // Temporary password
-          name: email.split('@')[0] || 'Usuário XNEMA',
+          name: email.split("@")[0] || "Usuário XNEMA",
           role: "subscriber",
           assinante: true,
           subscription: {
@@ -451,9 +450,9 @@ export function createServer() {
             startDate: new Date(),
             nextBilling: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
             paymentMethod: "mercado_pago",
-            mercadoPagoId: paymentId
+            mercadoPagoId: paymentId,
           },
-          watchHistory: []
+          watchHistory: [],
         };
 
         user = new User(userData);
@@ -465,14 +464,13 @@ export function createServer() {
       res.json({
         success: true,
         message: "Usuário registrado/atualizado com sucesso",
-        user: user.toJSON()
+        user: user.toJSON(),
       });
-
     } catch (error) {
       console.error("❌ Erro no registro automático:", error);
       res.status(500).json({
         success: false,
-        message: "Erro interno do servidor"
+        message: "Erro interno do servidor",
       });
     }
   });
@@ -497,17 +495,27 @@ export function createServer() {
       }
 
       const User = require("./models/User").default;
-      const users = await User.find({}).select("-password").sort({ createdAt: -1 });
+      const users = await User.find({})
+        .select("-password")
+        .sort({ createdAt: -1 });
 
       // Statistics
       const stats = {
         total: users.length,
-        subscribers: users.filter(u => u.role === "subscriber").length,
-        creators: users.filter(u => u.role === "creator").length,
-        admins: users.filter(u => u.role === "admin").length,
-        activeSubscribers: users.filter(u => u.role === "subscriber" && (u.subscription?.status === "active" || u.assinante === true)).length,
-        pendingCreators: users.filter(u => u.role === "creator" && u.profile?.status === "pending").length,
-        approvedCreators: users.filter(u => u.role === "creator" && u.profile?.status === "approved").length,
+        subscribers: users.filter((u) => u.role === "subscriber").length,
+        creators: users.filter((u) => u.role === "creator").length,
+        admins: users.filter((u) => u.role === "admin").length,
+        activeSubscribers: users.filter(
+          (u) =>
+            u.role === "subscriber" &&
+            (u.subscription?.status === "active" || u.assinante === true),
+        ).length,
+        pendingCreators: users.filter(
+          (u) => u.role === "creator" && u.profile?.status === "pending",
+        ).length,
+        approvedCreators: users.filter(
+          (u) => u.role === "creator" && u.profile?.status === "approved",
+        ).length,
       };
 
       console.log("📊 Usuários cadastrados:", stats);
@@ -516,7 +524,7 @@ export function createServer() {
         success: true,
         users,
         stats,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       console.error("❌ Erro ao buscar usuários:", error);
@@ -538,12 +546,12 @@ export function createServer() {
         success: true,
         database: {
           connected: true,
-          host: require('mongoose').connection.host,
-          name: require('mongoose').connection.name,
+          host: require("mongoose").connection.host,
+          name: require("mongoose").connection.name,
           totalUsers: userCount,
-          recentUsers
+          recentUsers,
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     } catch (error) {
       console.error("❌ Erro no debug:", error);
@@ -553,9 +561,9 @@ export function createServer() {
         database: {
           connected: false,
           error: error.message,
-          connectionInfo: getMongoDBConnectionInfo()
+          connectionInfo: getMongoDBConnectionInfo(),
         },
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   });
