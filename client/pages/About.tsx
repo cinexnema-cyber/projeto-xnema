@@ -178,9 +178,9 @@ export default function About() {
                   Nossa <span className="text-xnema-orange">Missão</span>
                 </h2>
                 <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                  Acreditamos que o Brasil tem histórias únicas e poderosas para contar. Nossa missão 
-                  é criar uma plataforma onde produtores, diretores e artistas brasileiros possam 
-                  compartilhar suas visões com o mundo, oferecendo conteúdo original de qualidade 
+                  Acreditamos que há histórias únicas e poderosas para contar. Nossa missão
+                  é criar uma plataforma onde produtores, diretores e artistas possam
+                  compartilhar suas visões com o mundo, oferecendo conteúdo original de qualidade
                   cinematográfica.
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed mb-8">
