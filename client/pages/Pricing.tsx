@@ -21,13 +21,17 @@ import {
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { StripeService } from "@/lib/stripe";
 
 interface SubscriptionPlan {
   id: string;
   name: string;
   price: number;
-  checkoutUrl: string;
+  originalPrice?: number;
+  period: string;
   features: string[];
+  popular?: boolean;
+  savings?: string;
 }
 
 export default function Pricing() {
