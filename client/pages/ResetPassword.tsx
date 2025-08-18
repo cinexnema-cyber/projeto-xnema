@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { AuthService } from "@/lib/auth";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -32,6 +33,7 @@ import {
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { login } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -39,6 +41,8 @@ export default function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [tokenValid, setTokenValid] = useState<boolean | null>(null);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour in seconds
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userInfo, setUserInfo] = useState<any>(null);
 
   const [passwordValidation, setPasswordValidation] = useState({
     length: false,
@@ -79,7 +83,7 @@ export default function ResetPassword() {
     // Set the session with the tokens from the URL
     const setSession = async () => {
       try {
-        const { error } = await supabase.auth.setSession({
+        const { data, error } = await supabase.auth.setSession({
           access_token: accessToken,
           refresh_token: refreshToken,
         });
@@ -91,6 +95,22 @@ export default function ResetPassword() {
           setTokenValid(false);
         } else {
           setTokenValid(true);
+
+          // Obter informações do usuário
+          if (data.user) {
+            setUserEmail(data.user.email);
+
+            // Buscar perfil completo do usuário
+            const { data: userProfile, error: profileError } = await supabase
+              .from("CineXnema")
+              .select("*")
+              .eq("user_id", data.user.id)
+              .single();
+
+            if (!profileError && userProfile) {
+              setUserInfo(userProfile);
+            }
+          }
         }
       } catch (err) {
         setError("Erro ao validar o link. Tente novamente.");
@@ -187,11 +207,44 @@ export default function ResetPassword() {
       }
 
       setSuccess(
-        "Senha redefinida com sucesso! Redirecionando para o login...",
+        "Senha redefinida com sucesso! Fazendo login automaticamente...",
       );
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+
+      // Aguardar um momento para a atualização da senha
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Fazer login automático se temos o email
+      if (userEmail) {
+        try {
+          const loginSuccess = await login(userEmail, formData.password);
+          if (loginSuccess) {
+            setSuccess("Login realizado com sucesso! Redirecionando...");
+            setTimeout(() => {
+              // Redirecionar baseado no status da assinatura
+              if (userInfo?.subscriptionStatus === 'ativo') {
+                navigate("/dashboard");
+              } else {
+                navigate("/pricing"); // Direcionar para assinatura se não for assinante
+              }
+            }, 2000);
+          } else {
+            setSuccess("Senha redefinida! Redirecionando para o login...");
+            setTimeout(() => {
+              navigate("/login");
+            }, 2000);
+          }
+        } catch (loginError) {
+          console.error("Erro no login automático:", loginError);
+          setSuccess("Senha redefinida! Redirecionando para o login...");
+          setTimeout(() => {
+            navigate("/login");
+          }, 2000);
+        }
+      } else {
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
+      }
     } catch (error) {
       setError("Erro inesperado. Tente novamente.");
     } finally {
@@ -328,6 +381,19 @@ export default function ResetPassword() {
               )}
             </CardTitle>
             <CardDescription className="text-gray-300">
+              {userEmail && (
+                <div className="mb-2 p-2 bg-xnema-orange/10 border border-xnema-orange/20 rounded text-xs">
+                  <span className="text-xnema-orange font-medium">Usuário identificado:</span> {userEmail}
+                  {userInfo && (
+                    <div className="mt-1">
+                      <span className="text-gray-300">Status: </span>
+                      <span className={userInfo.subscriptionStatus === 'ativo' ? 'text-green-400' : 'text-yellow-400'}>
+                        {userInfo.subscriptionStatus === 'ativo' ? 'Assinante Ativo' : 'Sem Assinatura'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
               Sua senha deve atender aos critérios de segurança abaixo
             </CardDescription>
           </CardHeader>
