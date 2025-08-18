@@ -27,6 +27,7 @@ interface AuthContextType {
   logout: () => void;
   register: (userData: any) => Promise<any>;
   hasActiveSubscription: () => Promise<boolean>;
+  updateUserRole: (role: 'user' | 'admin' | 'creator' | 'subscriber') => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
