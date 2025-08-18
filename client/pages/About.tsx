@@ -3,19 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { 
-  Play, 
-  Users, 
-  Award, 
-  Globe, 
-  Heart, 
-  Star, 
-  Camera, 
-  Film, 
+import {
+  Play,
+  Users,
+  Award,
+  Globe,
+  Heart,
+  Star,
+  Camera,
+  Film,
   Trophy,
   Target,
   Lightbulb,
-  Crown
+  Crown,
 } from "lucide-react";
 
 export default function About() {
@@ -23,80 +23,96 @@ export default function About() {
     { label: "Conteúdo Original", value: "15+", icon: Film },
     { label: "Usuários Ativos", value: "100K+", icon: Users },
     { label: "Horas de Conteúdo", value: "500+", icon: Play },
-    { label: "Prêmios Recebidos", value: "12", icon: Trophy }
+    { label: "Prêmios Recebidos", value: "12", icon: Trophy },
   ];
 
   const values = [
     {
       icon: Heart,
       title: "Paixão pelo Cinema",
-      description: "Acreditamos no poder transformador das histórias e no impacto emocional do audiovisual de qualidade."
+      description:
+        "Acreditamos no poder transformador das histórias e no impacto emocional do audiovisual de qualidade.",
     },
     {
       icon: Star,
       title: "Excelência Criativa",
-      description: "Buscamos sempre a mais alta qualidade em produção, roteiro, direção e performance artística."
+      description:
+        "Buscamos sempre a mais alta qualidade em produção, roteiro, direção e performance artística.",
     },
     {
       icon: Globe,
       title: "Cultura Brasileira",
-      description: "Valorizamos e promovemos a riqueza cultural do Brasil através de narrativas autênticas e diversas."
+      description:
+        "Valorizamos e promovemos a riqueza cultural do Brasil através de narrativas autênticas e diversas.",
     },
     {
       icon: Target,
       title: "Inovação Tecnológica",
-      description: "Utilizamos as mais modernas tecnologias para oferecer a melhor experiência de streaming."
-    }
+      description:
+        "Utilizamos as mais modernas tecnologias para oferecer a melhor experiência de streaming.",
+    },
   ];
 
   const team = [
     {
       name: "Carlos Mendes",
       role: "CEO & Fundador",
-      description: "Visionário com mais de 15 anos na indústria audiovisual brasileira.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop"
+      description:
+        "Visionário com mais de 15 anos na indústria audiovisual brasileira.",
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop",
     },
     {
       name: "Marina Silva",
       role: "Diretora de Conteúdo",
-      description: "Especialista em produção executiva e desenvolvimento de séries originais.",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b1d0?w=300&h=300&fit=crop"
+      description:
+        "Especialista em produção executiva e desenvolvimento de séries originais.",
+      image:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b1d0?w=300&h=300&fit=crop",
     },
     {
       name: "Roberto Santos",
       role: "Diretor de Tecnologia",
-      description: "Expert em plataformas de streaming e experiência do usuário.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop"
+      description:
+        "Expert em plataformas de streaming e experiência do usuário.",
+      image:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
     },
     {
       name: "Ana Costa",
       role: "Diretora de Marketing",
-      description: "Estrategista digital focada em crescimento e engajamento de audiência.",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop"
-    }
+      description:
+        "Estrategista digital focada em crescimento e engajamento de audiência.",
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop",
+    },
   ];
 
   const milestones = [
     {
       year: "2022",
       title: "Fundação da XNEMA",
-      description: "Início da jornada com o sonho de revolucionar o streaming brasileiro."
+      description:
+        "Início da jornada com o sonho de revolucionar o streaming brasileiro.",
     },
     {
       year: "2023",
       title: "Primeira Produção Original",
-      description: "Lançamento de 'Between Heaven and Hell', nossa série de estreia."
+      description:
+        "Lançamento de 'Between Heaven and Hell', nossa série de estreia.",
     },
     {
       year: "2024",
       title: "Expansão do Catálogo",
-      description: "Adicição de 10+ novas produções originais ao nosso portfólio."
+      description:
+        "Adicição de 10+ novas produções originais ao nosso portfólio.",
     },
     {
       year: "2025",
       title: "Reconhecimento Internacional",
-      description: "Primeiros prêmios internacionais e expansão para novos mercados."
-    }
+      description:
+        "Primeiros prêmios internacionais e expansão para novos mercados.",
+    },
   ];
 
   return (
@@ -107,31 +123,37 @@ export default function About() {
           <div
             className="absolute inset-0 bg-cover bg-center opacity-20"
             style={{
-              backgroundImage: `url('https://images.unsplash.com/photo-1489599433202-4b02d48ad6bd?w=1920&h=1080&fit=crop')`
+              backgroundImage: `url('https://images.unsplash.com/photo-1489599433202-4b02d48ad6bd?w=1920&h=1080&fit=crop')`,
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-xnema-dark via-xnema-dark/90 to-xnema-dark" />
-          
+
           <div className="relative max-w-4xl mx-auto px-8 text-center">
             <Badge className="bg-xnema-orange text-black text-lg px-4 py-2 mb-6">
               Sobre a XNEMA
             </Badge>
-            
+
             <h1 className="text-5xl lg:text-6xl font-bold mb-6">
               Redefinindo o
               <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
-                {" "}Streaming
+                {" "}
+                Streaming
               </span>
             </h1>
-            
+
             <p className="text-xl text-gray-300 leading-relaxed mb-8 max-w-3xl mx-auto">
-              Somos uma plataforma de streaming dedicada a criar e distribuir conteúdo audiovisual
-              de alta qualidade. Nossa missão é contar histórias que conectam, inspiram
-              e celebram a diversidade cultural.
+              Somos uma plataforma de streaming dedicada a criar e distribuir
+              conteúdo audiovisual de alta qualidade. Nossa missão é contar
+              histórias que conectam, inspiram e celebram a diversidade
+              cultural.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+              <Button
+                size="lg"
+                className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                asChild
+              >
                 <Link to="/catalog">
                   <div className="flex items-center">
                     <Play className="w-5 h-5 mr-2" />
@@ -139,7 +161,7 @@ export default function About() {
                   </div>
                 </Link>
               </Button>
-              
+
               <Button size="lg" variant="outline" asChild>
                 <Link to="/register">
                   <div className="flex items-center">
@@ -161,7 +183,9 @@ export default function About() {
                   <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center">
                     <stat.icon className="w-8 h-8 text-white" />
                   </div>
-                  <div className="text-3xl font-bold text-xnema-orange mb-2">{stat.value}</div>
+                  <div className="text-3xl font-bold text-xnema-orange mb-2">
+                    {stat.value}
+                  </div>
                   <div className="text-gray-300">{stat.label}</div>
                 </div>
               ))}
@@ -178,27 +202,30 @@ export default function About() {
                   Nossa <span className="text-xnema-orange">Missão</span>
                 </h2>
                 <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                  Acreditamos que há histórias únicas e poderosas para contar. Nossa missão
-                  é criar uma plataforma onde produtores, diretores e artistas possam
-                  compartilhar suas visões com o mundo, oferecendo conteúdo original de qualidade
-                  cinematográfica.
+                  Acreditamos que há histórias únicas e poderosas para contar.
+                  Nossa missão é criar uma plataforma onde produtores, diretores
+                  e artistas possam compartilhar suas visões com o mundo,
+                  oferecendo conteúdo original de qualidade cinematográfica.
                 </p>
                 <p className="text-lg text-gray-300 leading-relaxed mb-8">
-                  Queremos ser o lar digital da criatividade, proporcionando uma experiência
-                  de streaming premium que valoriza a cultura e talentos artísticos.
+                  Queremos ser o lar digital da criatividade, proporcionando uma
+                  experiência de streaming premium que valoriza a cultura e
+                  talentos artísticos.
                 </p>
-                
+
                 <div className="flex items-center gap-4">
                   <Lightbulb className="w-6 h-6 text-xnema-orange" />
-                  <span className="text-lg font-semibold">Inovação em cada projeto</span>
+                  <span className="text-lg font-semibold">
+                    Inovação em cada projeto
+                  </span>
                 </div>
               </div>
-              
+
               <div className="relative">
                 <div
                   className="h-96 bg-cover bg-center rounded-2xl"
                   style={{
-                    backgroundImage: `url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=600&h=400&fit=crop')`
+                    backgroundImage: `url('https://images.unsplash.com/photo-1574267432553-4b4628081c31?w=600&h=400&fit=crop')`,
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-2xl" />
@@ -213,10 +240,13 @@ export default function About() {
             <h2 className="text-4xl font-bold text-center mb-16">
               Nossos <span className="text-xnema-orange">Valores</span>
             </h2>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {values.map((value, index) => (
-                <Card key={index} className="bg-xnema-dark border-gray-700 text-center">
+                <Card
+                  key={index}
+                  className="bg-xnema-dark border-gray-700 text-center"
+                >
                   <CardHeader>
                     <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center">
                       <value.icon className="w-8 h-8 text-white" />
@@ -238,18 +268,27 @@ export default function About() {
             <h2 className="text-4xl font-bold text-center mb-16">
               Nossa <span className="text-xnema-orange">Equipe</span>
             </h2>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {team.map((member, index) => (
-                <Card key={index} className="bg-xnema-surface border-gray-700 text-center">
+                <Card
+                  key={index}
+                  className="bg-xnema-surface border-gray-700 text-center"
+                >
                   <CardContent className="p-6">
                     <div
                       className="w-24 h-24 mx-auto mb-4 bg-cover bg-center rounded-full"
                       style={{ backgroundImage: `url(${member.image})` }}
                     />
-                    <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
-                    <p className="text-xnema-orange font-medium mb-3">{member.role}</p>
-                    <p className="text-sm text-gray-300">{member.description}</p>
+                    <h3 className="text-xl font-semibold mb-2">
+                      {member.name}
+                    </h3>
+                    <p className="text-xnema-orange font-medium mb-3">
+                      {member.role}
+                    </p>
+                    <p className="text-sm text-gray-300">
+                      {member.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -263,7 +302,7 @@ export default function About() {
             <h2 className="text-4xl font-bold text-center mb-16">
               Nossa <span className="text-xnema-orange">Jornada</span>
             </h2>
-            
+
             <div className="space-y-8">
               {milestones.map((milestone, index) => (
                 <div key={index} className="flex gap-6 items-start">
@@ -274,7 +313,9 @@ export default function About() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-4 mb-2">
-                      <h3 className="text-xl font-semibold">{milestone.title}</h3>
+                      <h3 className="text-xl font-semibold">
+                        {milestone.title}
+                      </h3>
                       <Badge variant="secondary">{milestone.year}</Badge>
                     </div>
                     <p className="text-gray-300">{milestone.description}</p>
@@ -289,15 +330,20 @@ export default function About() {
         <section className="py-20">
           <div className="max-w-4xl mx-auto px-8 text-center">
             <h2 className="text-4xl font-bold mb-6">
-              Junte-se à Nossa <span className="text-xnema-orange">Comunidade</span>
+              Junte-se à Nossa{" "}
+              <span className="text-xnema-orange">Comunidade</span>
             </h2>
             <p className="text-xl text-gray-300 mb-8 leading-relaxed">
               Faça parte da revolução do streaming. Assine hoje e tenha acesso a
               todo nosso catálogo de conteúdo original e exclusivo.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+              <Button
+                size="lg"
+                className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                asChild
+              >
                 <Link to="/pricing">
                   <div className="flex items-center">
                     <Crown className="w-5 h-5 mr-2" />
@@ -305,7 +351,7 @@ export default function About() {
                   </div>
                 </Link>
               </Button>
-              
+
               <Button size="lg" variant="outline" asChild>
                 <Link to="/catalog">
                   <div className="flex items-center">

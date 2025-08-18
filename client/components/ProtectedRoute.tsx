@@ -20,7 +20,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles = [],
   requireSubscription = false,
   requireApproval = false,
-  fallbackPath = "/login"
+  fallbackPath = "/login",
 }) => {
   // ALL HOOKS MUST BE CALLED AT THE TOP - BEFORE ANY CONDITIONAL RETURNS
   const { user, isLoading, isAuthenticated } = useAuth();
@@ -67,9 +67,12 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             </h2>
             <p className="text-muted-foreground mb-6">
               You don't have permission to access this page.
-              {allowedRoles.includes("admin") && " This area is restricted to administrators."}
-              {allowedRoles.includes("creator") && " This area is restricted to approved creators."}
-              {allowedRoles.includes("subscriber") && " This area is restricted to subscribers."}
+              {allowedRoles.includes("admin") &&
+                " This area is restricted to administrators."}
+              {allowedRoles.includes("creator") &&
+                " This area is restricted to approved creators."}
+              {allowedRoles.includes("subscriber") &&
+                " This area is restricted to subscribers."}
             </p>
             <div className="space-y-3">
               <Button
@@ -80,7 +83,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 Back to Home
               </Button>
               <p className="text-sm text-muted-foreground">
-                Your current profile: <span className="font-medium capitalize">{user.role}</span>
+                Your current profile:{" "}
+                <span className="font-medium capitalize">{user.role}</span>
               </p>
             </div>
           </CardContent>
@@ -96,7 +100,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         {children}
         {showSubscriptionPrompt && (
           <SubscriptionPrompt
-            contentTitle={location.pathname.includes('between-heaven-hell') ? 'Between Heaven and Hell' : 'Conteúdo Premium'}
+            contentTitle={
+              location.pathname.includes("between-heaven-hell")
+                ? "Between Heaven and Hell"
+                : "Conteúdo Premium"
+            }
             contentType="series"
             onClose={() => setShowSubscriptionPrompt(false)}
           />
@@ -114,7 +122,8 @@ export const usePermissions = () => {
   const { user } = useAuth();
 
   const hasRole = (role: string) => user?.role === role;
-  const hasAnyRole = (roles: string[]) => user ? roles.includes(user.role) : false;
+  const hasAnyRole = (roles: string[]) =>
+    user ? roles.includes(user.role) : false;
 
   const isAdmin = () => hasRole("admin");
   const isCreator = () => hasRole("creator");
@@ -123,7 +132,7 @@ export const usePermissions = () => {
   const hasActiveSubscription = () => {
     // Admins always have access
     if (isAdmin()) return true;
-    return user?.assinante === true || user?.subscriptionStatus === 'ativo';
+    return user?.assinante === true || user?.subscriptionStatus === "ativo";
   };
 
   return {
@@ -133,7 +142,7 @@ export const usePermissions = () => {
     isAdmin,
     isCreator,
     isSubscriber,
-    hasActiveSubscription
+    hasActiveSubscription,
   };
 };
 

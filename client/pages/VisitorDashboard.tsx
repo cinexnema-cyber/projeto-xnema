@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { 
-  Play, 
-  Star, 
-  Crown, 
-  Search, 
+import {
+  Play,
+  Star,
+  Crown,
+  Search,
   Filter,
   Eye,
   Calendar,
@@ -20,7 +26,7 @@ import {
   Users,
   TrendingUp,
   Heart,
-  Share2
+  Share2,
 } from "lucide-react";
 
 export default function VisitorDashboard() {
@@ -37,25 +43,27 @@ export default function VisitorDashboard() {
       year: 2024,
       rating: 9.2,
       duration: "7 temporadas",
-      thumbnail: "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=400",
+      thumbnail:
+        "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=400",
       isExclusive: true,
       isPremium: true,
       views: "2.1M",
-      likes: "89K"
+      likes: "89K",
     },
     {
-      id: "2", 
+      id: "2",
       title: "Mistérios da Cidade",
       description: "Thriller psicológico ambientado no Brasil urbano",
       category: "filme",
       year: 2023,
       rating: 8.7,
       duration: "2h 15min",
-      thumbnail: "https://images.unsplash.com/photo-1489599639166-9d01aee85cef?w=400&h=600&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1489599639166-9d01aee85cef?w=400&h=600&fit=crop",
       isExclusive: false,
       isPremium: true,
       views: "856K",
-      likes: "34K"
+      likes: "34K",
     },
     {
       id: "3",
@@ -65,11 +73,12 @@ export default function VisitorDashboard() {
       year: 2023,
       rating: 8.9,
       duration: "1h 58min",
-      thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400&h=600&fit=crop",
       isExclusive: true,
       isPremium: true,
       views: "1.2M",
-      likes: "67K"
+      likes: "67K",
     },
     {
       id: "4",
@@ -79,36 +88,39 @@ export default function VisitorDashboard() {
       year: 2024,
       rating: 8.4,
       duration: "2 temporadas",
-      thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=600&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=600&fit=crop",
       isExclusive: false,
       isPremium: false,
       views: "643K",
-      likes: "28K"
-    }
+      likes: "28K",
+    },
   ];
 
   const categories = [
     { id: "all", name: "Todos", count: 24 },
     { id: "series", name: "Séries", count: 8 },
     { id: "filme", name: "Filmes", count: 12 },
-    { id: "documentario", name: "Documentários", count: 4 }
+    { id: "documentario", name: "Documentários", count: 4 },
   ];
 
   const stats = [
     { label: "Conteúdo Total", value: "50+", icon: Play },
     { label: "Séries Exclusivas", value: "12", icon: Crown },
     { label: "Horas de Conteúdo", value: "500+", icon: Clock },
-    { label: "Usuários Ativos", value: "100K+", icon: Users }
+    { label: "Usuários Ativos", value: "100K+", icon: Users },
   ];
 
-  const filteredContent = selectedCategory === "all" 
-    ? featuredContent 
-    : featuredContent.filter(item => item.category === selectedCategory);
+  const filteredContent =
+    selectedCategory === "all"
+      ? featuredContent
+      : featuredContent.filter((item) => item.category === selectedCategory);
 
   const searchFilteredContent = searchTerm
-    ? filteredContent.filter(item => 
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        item.description.toLowerCase().includes(searchTerm.toLowerCase())
+    ? filteredContent.filter(
+        (item) =>
+          item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : filteredContent;
 
@@ -125,15 +137,20 @@ export default function VisitorDashboard() {
               <h1 className="text-4xl md:text-5xl font-bold mb-6">
                 Descubra o Melhor do
                 <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
-                  {" "}Cinema Brasileiro
+                  {" "}
+                  Cinema Brasileiro
                 </span>
               </h1>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Navegue por nossa biblioteca completa de séries e filmes exclusivos. 
-                Veja trailers, informações detalhadas e avaliações.
+                Navegue por nossa biblioteca completa de séries e filmes
+                exclusivos. Veja trailers, informações detalhadas e avaliações.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                <Button
+                  size="lg"
+                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                  asChild
+                >
                   <Link to="/register">
                     <div className="flex items-center">
                       <Crown className="w-5 h-5 mr-2" />
@@ -141,7 +158,12 @@ export default function VisitorDashboard() {
                     </div>
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-white" asChild>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-xnema-purple text-xnema-purple hover:bg-xnema-purple hover:text-white"
+                  asChild
+                >
                   <Link to="/pricing">
                     <div className="flex items-center">
                       <Zap className="w-5 h-5 mr-2" />
@@ -159,12 +181,17 @@ export default function VisitorDashboard() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat, index) => (
-                <Card key={index} className="bg-xnema-dark border-gray-700 text-center">
+                <Card
+                  key={index}
+                  className="bg-xnema-dark border-gray-700 text-center"
+                >
                   <CardContent className="p-6">
                     <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-br from-xnema-orange to-xnema-purple rounded-full flex items-center justify-center">
                       <stat.icon className="w-6 h-6 text-white" />
                     </div>
-                    <div className="text-2xl font-bold text-xnema-orange mb-1">{stat.value}</div>
+                    <div className="text-2xl font-bold text-xnema-orange mb-1">
+                      {stat.value}
+                    </div>
                     <div className="text-gray-300 text-sm">{stat.label}</div>
                   </CardContent>
                 </Card>
@@ -191,10 +218,16 @@ export default function VisitorDashboard() {
                   {categories.map((category) => (
                     <Button
                       key={category.id}
-                      variant={selectedCategory === category.id ? "default" : "outline"}
+                      variant={
+                        selectedCategory === category.id ? "default" : "outline"
+                      }
                       size="sm"
                       onClick={() => setSelectedCategory(category.id)}
-                      className={selectedCategory === category.id ? "bg-xnema-orange text-black" : "border-gray-600 text-gray-300"}
+                      className={
+                        selectedCategory === category.id
+                          ? "bg-xnema-orange text-black"
+                          : "border-gray-600 text-gray-300"
+                      }
                     >
                       {category.name} ({category.count})
                     </Button>
@@ -210,8 +243,9 @@ export default function VisitorDashboard() {
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold">
-                {selectedCategory === "all" ? "Todo o Conteúdo" : 
-                 categories.find(c => c.id === selectedCategory)?.name}
+                {selectedCategory === "all"
+                  ? "Todo o Conteúdo"
+                  : categories.find((c) => c.id === selectedCategory)?.name}
               </h2>
               <div className="text-gray-400">
                 {searchFilteredContent.length} itens encontrados
@@ -220,16 +254,19 @@ export default function VisitorDashboard() {
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {searchFilteredContent.map((item) => (
-                <Card key={item.id} className="bg-xnema-surface border-gray-700 overflow-hidden group hover:scale-105 transition-transform duration-300">
+                <Card
+                  key={item.id}
+                  className="bg-xnema-surface border-gray-700 overflow-hidden group hover:scale-105 transition-transform duration-300"
+                >
                   <div className="relative">
                     <div
                       className="h-64 bg-cover bg-center"
                       style={{ backgroundImage: `url(${item.thumbnail})` }}
                     />
-                    
+
                     {/* Content Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                    
+
                     {/* Badges */}
                     <div className="absolute top-3 left-3 flex gap-2">
                       {item.isExclusive && (
@@ -247,7 +284,9 @@ export default function VisitorDashboard() {
                     {/* Rating */}
                     <div className="absolute top-3 right-3 flex items-center gap-1 bg-black/70 rounded-full px-2 py-1">
                       <Star className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                      <span className="text-white text-xs font-semibold">{item.rating}</span>
+                      <span className="text-white text-xs font-semibold">
+                        {item.rating}
+                      </span>
                     </div>
 
                     {/* Preview Lock Overlay */}
@@ -256,7 +295,9 @@ export default function VisitorDashboard() {
                         <div className="w-16 h-16 bg-xnema-orange/20 rounded-full flex items-center justify-center mx-auto mb-3">
                           <Lock className="w-8 h-8 text-xnema-orange" />
                         </div>
-                        <p className="text-white font-semibold mb-2">Preview Disponível</p>
+                        <p className="text-white font-semibold mb-2">
+                          Preview Disponível
+                        </p>
                         <div className="flex gap-2">
                           <Button size="sm" variant="secondary" asChild>
                             <Link to={`/series/${item.id}`}>
@@ -266,7 +307,11 @@ export default function VisitorDashboard() {
                               </div>
                             </Link>
                           </Button>
-                          <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                          <Button
+                            size="sm"
+                            className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                            asChild
+                          >
                             <Link to="/register">
                               <div className="flex items-center">
                                 <Crown className="w-4 h-4 mr-1" />
@@ -300,7 +345,7 @@ export default function VisitorDashboard() {
                     <p className="text-sm text-gray-400 mb-3 line-clamp-2">
                       {item.description}
                     </p>
-                    
+
                     <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-3 h-3" />
@@ -321,7 +366,7 @@ export default function VisitorDashboard() {
                           </div>
                         </Link>
                       </Button>
-                      
+
                       <div className="flex items-center gap-1">
                         <Button size="sm" variant="ghost" className="p-1">
                           <Heart className="w-4 h-4" />
@@ -348,7 +393,13 @@ export default function VisitorDashboard() {
                 <p className="text-gray-400 mb-4">
                   Tente ajustar seus filtros ou termo de busca
                 </p>
-                <Button variant="outline" onClick={() => {setSearchTerm(""); setSelectedCategory("all");}}>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setSelectedCategory("all");
+                  }}
+                >
                   Limpar Filtros
                 </Button>
               </div>
@@ -361,18 +412,21 @@ export default function VisitorDashboard() {
           <div className="container mx-auto px-4 text-center">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-4xl font-bold mb-6">
-                Pronto para Assistir 
+                Pronto para Assistir
                 <span className="text-xnema-orange"> Sem Limites?</span>
               </h2>
               <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-                Crie sua conta gratuita e comece a explorar. Faça upgrade para Premium 
-                e tenha acesso completo a todo nosso catálogo de conteúdo exclusivo.
+                Crie sua conta gratuita e comece a explorar. Faça upgrade para
+                Premium e tenha acesso completo a todo nosso catálogo de
+                conteúdo exclusivo.
               </p>
-              
+
               <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
                 <Card className="bg-xnema-surface border-gray-700">
                   <CardHeader>
-                    <CardTitle className="text-xnema-orange">Conta Gratuita</CardTitle>
+                    <CardTitle className="text-xnema-orange">
+                      Conta Gratuita
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="text-left text-gray-300 space-y-2 mb-4">
@@ -389,7 +443,10 @@ export default function VisitorDashboard() {
                         Criar listas de favoritos
                       </li>
                     </ul>
-                    <Button className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                    <Button
+                      className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                      asChild
+                    >
                       <Link to="/register">Criar Conta Grátis</Link>
                     </Button>
                   </CardContent>
@@ -417,7 +474,10 @@ export default function VisitorDashboard() {
                         Até 4 perfis familiares
                       </li>
                     </ul>
-                    <Button className="w-full bg-xnema-purple hover:bg-xnema-purple/90 text-white" asChild>
+                    <Button
+                      className="w-full bg-xnema-purple hover:bg-xnema-purple/90 text-white"
+                      asChild
+                    >
                       <Link to="/pricing">Ver Planos Premium</Link>
                     </Button>
                   </CardContent>
@@ -425,7 +485,8 @@ export default function VisitorDashboard() {
               </div>
 
               <p className="text-sm text-gray-400">
-                Comece com a conta gratuita • Cancele a qualquer momento • Sem taxas ocultas
+                Comece com a conta gratuita • Cancele a qualquer momento • Sem
+                taxas ocultas
               </p>
             </div>
           </div>

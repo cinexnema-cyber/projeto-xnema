@@ -2,9 +2,23 @@ import { useEffect, useState } from "react";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Crown, Play, Star, Calendar, Gift, Sparkles } from "lucide-react";
+import {
+  CheckCircle,
+  Crown,
+  Play,
+  Star,
+  Calendar,
+  Gift,
+  Sparkles,
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthService } from "@/lib/auth";
 
@@ -15,8 +29,8 @@ export default function PaymentSuccess() {
   const [isProcessing, setIsProcessing] = useState(true);
   const [subscriptionActivated, setSubscriptionActivated] = useState(false);
 
-  const sessionId = searchParams.get('session_id');
-  const planType = searchParams.get('plan');
+  const sessionId = searchParams.get("session_id");
+  const planType = searchParams.get("plan");
 
   useEffect(() => {
     // Simulate subscription activation
@@ -29,20 +43,20 @@ export default function PaymentSuccess() {
       try {
         // In a real implementation, you would verify the payment with Stripe
         // and then update the user's subscription status in your database
-        
+
         // For now, we'll simulate this by updating the local user state
         const updatedUser = {
           ...user,
-          subscriptionStatus: 'ativo' as const,
-          subscriptionPlan: planType as 'monthly' | 'yearly',
+          subscriptionStatus: "ativo" as const,
+          subscriptionPlan: planType as "monthly" | "yearly",
           subscriptionStart: new Date(),
           assinante: true,
-          role: 'subscriber' as const
+          role: "subscriber" as const,
         };
 
         // Update local state
         setUser(updatedUser);
-        localStorage.setItem('xnema_user', JSON.stringify(updatedUser));
+        localStorage.setItem("xnema_user", JSON.stringify(updatedUser));
 
         // In production, you would also call your backend to update the database
         // await AuthService.updateSubscription(user.id, planType);
@@ -52,11 +66,10 @@ export default function PaymentSuccess() {
 
         // Redirect to subscriber dashboard after 5 seconds
         setTimeout(() => {
-          navigate('/subscriber-dashboard');
+          navigate("/subscriber-dashboard");
         }, 5000);
-
       } catch (error) {
-        console.error('Error activating subscription:', error);
+        console.error("Error activating subscription:", error);
         setIsProcessing(false);
       }
     };
@@ -65,7 +78,7 @@ export default function PaymentSuccess() {
   }, [user, planType, setUser, navigate]);
 
   const getPlanDetails = () => {
-    if (planType === 'yearly') {
+    if (planType === "yearly") {
       return {
         name: "Plano Anual",
         price: "R$ 199,00",
@@ -76,23 +89,23 @@ export default function PaymentSuccess() {
           "4 telas simultâneas",
           "Download para assistir offline",
           "Suporte prioritário",
-          "Acesso antecipado a lançamentos"
+          "Acesso antecipado a lançamentos",
         ],
-        savings: "Economize R$ 39,80 (16%)"
+        savings: "Economize R$ 39,80 (16%)",
       };
     } else {
       return {
-        name: "Plano Mensal", 
+        name: "Plano Mensal",
         price: "R$ 19,90",
         period: "por mês",
         features: [
           "Catálogo completo sem limites",
-          "Qualidade 4K e HDR", 
+          "Qualidade 4K e HDR",
           "2 telas simultâneas",
           "Sem anúncios",
-          "Suporte via chat"
+          "Suporte via chat",
         ],
-        savings: null
+        savings: null,
       };
     }
   };
@@ -131,17 +144,21 @@ export default function PaymentSuccess() {
               <div className="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-12 h-12 text-white" />
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
                 Pagamento Aprovado!
               </h1>
-              
+
               <p className="text-xl text-gray-300 mb-8">
                 Sua assinatura {planDetails.name} foi ativada com sucesso
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                <Button
+                  size="lg"
+                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                  asChild
+                >
                   <Link to="/subscriber-dashboard">
                     <div className="flex items-center">
                       <Crown className="w-5 h-5 mr-2" />
@@ -149,8 +166,13 @@ export default function PaymentSuccess() {
                     </div>
                   </Link>
                 </Button>
-                
-                <Button size="lg" variant="outline" className="border-green-500 text-green-400 hover:bg-green-500 hover:text-white" asChild>
+
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-green-500 text-green-400 hover:bg-green-500 hover:text-white"
+                  asChild
+                >
                   <Link to="/between-heaven-hell">
                     <div className="flex items-center">
                       <Play className="w-5 h-5 mr-2" />
@@ -194,7 +216,7 @@ export default function PaymentSuccess() {
                     </div>
                   )}
                 </CardHeader>
-                
+
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-8">
                     {/* Features */}
@@ -251,7 +273,11 @@ export default function PaymentSuccess() {
                           <p className="text-sm text-gray-400 mb-3">
                             Assista nossa série exclusiva de estreia
                           </p>
-                          <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                          <Button
+                            size="sm"
+                            className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                            asChild
+                          >
                             <Link to="/between-heaven-hell">
                               <Star className="w-4 h-4 mr-2" />
                               Between Heaven and Hell
@@ -273,13 +299,17 @@ export default function PaymentSuccess() {
             <div className="max-w-2xl mx-auto">
               <Card className="bg-xnema-dark border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-lg">Detalhes do Pagamento</CardTitle>
+                  <CardTitle className="text-lg">
+                    Detalhes do Pagamento
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">ID da Sessão:</span>
-                      <span className="font-mono text-xs">{sessionId || 'N/A'}</span>
+                      <span className="font-mono text-xs">
+                        {sessionId || "N/A"}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Plano:</span>
@@ -287,18 +317,22 @@ export default function PaymentSuccess() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Valor:</span>
-                      <span className="font-semibold text-green-400">{planDetails.price}</span>
+                      <span className="font-semibold text-green-400">
+                        {planDetails.price}
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Status:</span>
-                      <Badge className="bg-green-500 text-white">Aprovado</Badge>
+                      <Badge className="bg-green-500 text-white">
+                        Aprovado
+                      </Badge>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-gray-400">Data:</span>
-                      <span>{new Date().toLocaleDateString('pt-BR')}</span>
+                      <span>{new Date().toLocaleDateString("pt-BR")}</span>
                     </div>
                   </div>
-                  
+
                   <div className="mt-6 pt-4 border-t border-gray-700 text-center">
                     <p className="text-xs text-gray-400 mb-2">
                       Um recibo foi enviado para o seu email

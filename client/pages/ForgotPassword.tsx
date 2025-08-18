@@ -1,6 +1,12 @@
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
@@ -82,10 +88,11 @@ export default function ForgotPassword() {
             <CardContent className="space-y-6">
               <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
                 <p className="text-green-400 text-center text-sm">
-                  Se existe uma conta com o email <strong>{email}</strong>, enviamos um link para redefinir sua senha.
+                  Se existe uma conta com o email <strong>{email}</strong>,
+                  enviamos um link para redefinir sua senha.
                 </p>
               </div>
-              
+
               <div className="space-y-4">
                 <h4 className="text-sm font-semibold text-white flex items-center gap-2">
                   <Clock className="w-4 h-4 text-xnema-orange" />
@@ -112,7 +119,11 @@ export default function ForgotPassword() {
               </div>
 
               <div className="flex space-x-3">
-                <Button variant="outline" asChild className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700">
+                <Button
+                  variant="outline"
+                  asChild
+                  className="flex-1 border-gray-600 text-gray-300 hover:bg-gray-700"
+                >
                   <Link to="/login">
                     <div className="flex items-center justify-center space-x-2">
                       <ArrowLeft className="w-4 h-4" />
@@ -120,7 +131,7 @@ export default function ForgotPassword() {
                     </div>
                   </Link>
                 </Button>
-                <Button 
+                <Button
                   onClick={() => {
                     setEmailSent(false);
                     setEmail("");
@@ -152,10 +163,14 @@ export default function ForgotPassword() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-4">
-            Esqueceu sua <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">Senha?</span>
+            Esqueceu sua{" "}
+            <span className="text-transparent bg-gradient-to-r from-xnema-orange to-xnema-purple bg-clip-text">
+              Senha?
+            </span>
           </h1>
           <p className="text-gray-300">
-            Não se preocupe! Digite seu email e enviaremos um link seguro para redefinir sua senha.
+            Não se preocupe! Digite seu email e enviaremos um link seguro para
+            redefinir sua senha.
           </p>
         </div>
 
@@ -190,7 +205,8 @@ export default function ForgotPassword() {
                     onChange={handleEmailChange}
                     required
                     className={`pl-10 bg-xnema-dark border-gray-600 text-white placeholder-gray-400 focus:border-xnema-orange ${
-                      email && (isValidEmail ? 'border-green-500' : 'border-red-500')
+                      email &&
+                      (isValidEmail ? "border-green-500" : "border-red-500")
                     }`}
                   />
                   {email && (
@@ -204,7 +220,9 @@ export default function ForgotPassword() {
                   )}
                 </div>
                 {email && !isValidEmail && (
-                  <p className="text-xs text-red-400">Formato de email inválido</p>
+                  <p className="text-xs text-red-400">
+                    Formato de email inválido
+                  </p>
                 )}
               </div>
 
@@ -213,9 +231,11 @@ export default function ForgotPassword() {
                 <div className="flex items-start gap-3">
                   <Key className="w-5 h-5 text-xnema-orange flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
-                    <h4 className="font-semibold text-xnema-orange mb-1">Segurança Garantida</h4>
+                    <h4 className="font-semibold text-xnema-orange mb-1">
+                      Segurança Garantida
+                    </h4>
                     <p className="text-gray-300">
-                      Enviamos um link único e temporário que expira em 1 hora. 
+                      Enviamos um link único e temporário que expira em 1 hora.
                       Nenhuma informação sensível é compartilhada por email.
                     </p>
                   </div>
@@ -254,10 +274,16 @@ export default function ForgotPassword() {
               <div className="text-center space-y-2 pt-4 border-t border-gray-700">
                 <p className="text-xs text-gray-400">Precisa de ajuda?</p>
                 <div className="flex justify-center space-x-4 text-xs">
-                  <Link to="/contact" className="text-xnema-orange hover:underline">
+                  <Link
+                    to="/contact"
+                    className="text-xnema-orange hover:underline"
+                  >
                     Contato
                   </Link>
-                  <Link to="/about" className="text-xnema-orange hover:underline">
+                  <Link
+                    to="/about"
+                    className="text-xnema-orange hover:underline"
+                  >
                     Suporte
                   </Link>
                 </div>

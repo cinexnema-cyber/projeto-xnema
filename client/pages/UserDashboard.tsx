@@ -1,18 +1,24 @@
 import { useState } from "react";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { 
-  Crown, 
-  Play, 
-  Star, 
-  Eye, 
-  Heart, 
-  Clock, 
+import {
+  Crown,
+  Play,
+  Star,
+  Eye,
+  Heart,
+  Clock,
   TrendingUp,
   Lock,
   Gift,
@@ -23,7 +29,7 @@ import {
   Settings,
   CreditCard,
   Bell,
-  BookOpen
+  BookOpen,
 } from "lucide-react";
 
 export default function UserDashboard() {
@@ -36,32 +42,35 @@ export default function UserDashboard() {
       id: "1",
       title: "Between Heaven and Hell",
       description: "Drama sobrenatural épico",
-      thumbnail: "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=300",
+      thumbnail:
+        "https://cdn.builder.io/api/v1/image/assets%2Ff280dc7f1a3b442bb1f2a4e0b57c6521%2F53ce9d12d034482db26dcf63073a2cfe?format=webp&width=300",
       rating: 9.2,
       category: "Série",
       isPremium: true,
-      views: "2.1M"
+      views: "2.1M",
     },
     {
-      id: "2", 
+      id: "2",
       title: "Mistérios da Cidade",
       description: "Thriller psicológico brasileiro",
-      thumbnail: "https://images.unsplash.com/photo-1489599639166-9d01aee85cef?w=300&h=400&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1489599639166-9d01aee85cef?w=300&h=400&fit=crop",
       rating: 8.7,
       category: "Filme",
       isPremium: true,
-      views: "856K"
+      views: "856K",
     },
     {
       id: "3",
       title: "Horizonte Infinito",
       description: "Ficção científica nacional",
-      thumbnail: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=400&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&h=400&fit=crop",
       rating: 8.9,
       category: "Filme",
       isPremium: true,
-      views: "1.2M"
-    }
+      views: "1.2M",
+    },
   ];
 
   const freeFeatures = [
@@ -72,7 +81,7 @@ export default function UserDashboard() {
     { icon: Play, text: "Assistir conteúdo completo", available: false },
     { icon: TrendingUp, text: "Qualidade 4K/HDR", available: false },
     { icon: Users, text: "Múltiplos perfis", available: false },
-    { icon: Zap, text: "Sem anúncios", available: false }
+    { icon: Zap, text: "Sem anúncios", available: false },
   ];
 
   const plans = [
@@ -82,17 +91,28 @@ export default function UserDashboard() {
       period: "/mês",
       description: "Acesso completo por 30 dias",
       highlight: false,
-      features: ["Catálogo completo", "Qualidade 4K", "Sem anúncios", "2 telas simultâneas"]
+      features: [
+        "Catálogo completo",
+        "Qualidade 4K",
+        "Sem anúncios",
+        "2 telas simultâneas",
+      ],
     },
     {
-      name: "Anual", 
+      name: "Anual",
       price: "R$ 199,00",
       period: "/ano",
       originalPrice: "R$ 238,80",
       description: "Economize 2 meses pagando anual",
       highlight: true,
-      features: ["Catálogo completo", "Qualidade 4K", "Sem anúncios", "4 telas simultâneas", "Download offline"]
-    }
+      features: [
+        "Catálogo completo",
+        "Qualidade 4K",
+        "Sem anúncios",
+        "4 telas simultâneas",
+        "Download offline",
+      ],
+    },
   ];
 
   return (
@@ -132,15 +152,22 @@ export default function UserDashboard() {
                         Desbloqueie Todo o Conteúdo
                       </h3>
                       <p className="text-gray-300">
-                        Assista séries e filmes completos em qualidade 4K sem anúncios
+                        Assista séries e filmes completos em qualidade 4K sem
+                        anúncios
                       </p>
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-xnema-orange mb-1">7 dias</div>
+                    <div className="text-2xl font-bold text-xnema-orange mb-1">
+                      7 dias
+                    </div>
                     <div className="text-sm text-gray-400">grátis</div>
                   </div>
-                  <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold" asChild>
+                  <Button
+                    size="lg"
+                    className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-semibold"
+                    asChild
+                  >
                     <Link to="/pricing">
                       <div className="flex items-center">
                         <Gift className="w-5 h-5 mr-2" />
@@ -177,14 +204,18 @@ export default function UserDashboard() {
                         <div className="relative rounded-lg overflow-hidden">
                           <div
                             className="h-48 bg-cover bg-center"
-                            style={{ backgroundImage: `url(${item.thumbnail})` }}
+                            style={{
+                              backgroundImage: `url(${item.thumbnail})`,
+                            }}
                           />
-                          
+
                           {/* Lock Overlay */}
                           <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                             <div className="text-center">
                               <Lock className="w-8 h-8 text-xnema-orange mx-auto mb-2" />
-                              <p className="text-white font-semibold text-sm mb-3">Premium Necessário</p>
+                              <p className="text-white font-semibold text-sm mb-3">
+                                Premium Necessário
+                              </p>
                               <div className="flex gap-2">
                                 <Button size="sm" variant="secondary" asChild>
                                   <Link to={`/series/${item.id}`}>
@@ -192,7 +223,11 @@ export default function UserDashboard() {
                                     Detalhes
                                   </Link>
                                 </Button>
-                                <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                                <Button
+                                  size="sm"
+                                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                                  asChild
+                                >
                                   <Link to="/pricing">
                                     <Crown className="w-3 h-3 mr-1" />
                                     Assinar
@@ -215,7 +250,7 @@ export default function UserDashboard() {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="mt-2">
                           <h4 className="font-semibold text-white text-sm mb-1 line-clamp-1">
                             {item.title}
@@ -245,10 +280,19 @@ export default function UserDashboard() {
                 <CardContent>
                   <div className="space-y-4">
                     {freeFeatures.map((feature, index) => (
-                      <div key={index} className="flex items-center justify-between">
+                      <div
+                        key={index}
+                        className="flex items-center justify-between"
+                      >
                         <div className="flex items-center gap-3">
-                          <feature.icon className={`w-5 h-5 ${feature.available ? 'text-green-500' : 'text-gray-400'}`} />
-                          <span className={feature.available ? 'text-white' : 'text-gray-400'}>
+                          <feature.icon
+                            className={`w-5 h-5 ${feature.available ? "text-green-500" : "text-gray-400"}`}
+                          />
+                          <span
+                            className={
+                              feature.available ? "text-white" : "text-gray-400"
+                            }
+                          >
                             {feature.text}
                           </span>
                         </div>
@@ -286,10 +330,17 @@ export default function UserDashboard() {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-gray-400">Tempo na plataforma</span>
-                    <span className="font-semibold text-xnema-orange">2h 30m</span>
+                    <span className="font-semibold text-xnema-orange">
+                      2h 30m
+                    </span>
                   </div>
                   <div className="pt-4 border-t border-gray-700">
-                    <Button asChild variant="outline" size="sm" className="w-full">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="w-full"
+                    >
                       <Link to="/edit-profile">
                         <Settings className="w-4 h-4 mr-2" />
                         Configurações
@@ -302,12 +353,13 @@ export default function UserDashboard() {
               {/* Upgrade Plans */}
               <div className="space-y-4">
                 {plans.map((plan, index) => (
-                  <Card key={index} className={`border-gray-700 ${plan.highlight ? 'bg-gradient-to-br from-xnema-purple/20 to-xnema-orange/20 border-xnema-orange' : 'bg-xnema-surface'}`}>
+                  <Card
+                    key={index}
+                    className={`border-gray-700 ${plan.highlight ? "bg-gradient-to-br from-xnema-purple/20 to-xnema-orange/20 border-xnema-orange" : "bg-xnema-surface"}`}
+                  >
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg">
-                          {plan.name}
-                        </CardTitle>
+                        <CardTitle className="text-lg">{plan.name}</CardTitle>
                         {plan.highlight && (
                           <Badge className="bg-xnema-orange text-black text-xs">
                             Mais Popular
@@ -339,7 +391,7 @@ export default function UserDashboard() {
                           </div>
                         )}
                       </div>
-                      
+
                       <ul className="text-sm text-gray-300 space-y-1 mb-4">
                         {plan.features.map((feature, idx) => (
                           <li key={idx} className="flex items-center gap-2">
@@ -348,9 +400,9 @@ export default function UserDashboard() {
                           </li>
                         ))}
                       </ul>
-                      
-                      <Button 
-                        className={`w-full ${plan.highlight ? 'bg-xnema-orange hover:bg-xnema-orange/90 text-black' : 'bg-xnema-purple hover:bg-xnema-purple/90'}`}
+
+                      <Button
+                        className={`w-full ${plan.highlight ? "bg-xnema-orange hover:bg-xnema-orange/90 text-black" : "bg-xnema-purple hover:bg-xnema-purple/90"}`}
                         asChild
                       >
                         <Link to="/pricing">
@@ -369,25 +421,45 @@ export default function UserDashboard() {
                   <CardTitle className="text-lg">Ações Rápidas</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  <Button asChild variant="ghost" size="sm" className="w-full justify-start">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     <Link to="/series">
                       <Eye className="w-4 h-4 mr-2" />
                       Explorar Séries
                     </Link>
                   </Button>
-                  <Button asChild variant="ghost" size="sm" className="w-full justify-start">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     <Link to="/categories">
                       <BookOpen className="w-4 h-4 mr-2" />
                       Ver Categorias
                     </Link>
                   </Button>
-                  <Button asChild variant="ghost" size="sm" className="w-full justify-start">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     <Link to="/about">
                       <Info className="w-4 h-4 mr-2" />
                       Sobre a XNEMA
                     </Link>
                   </Button>
-                  <Button asChild variant="ghost" size="sm" className="w-full justify-start">
+                  <Button
+                    asChild
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                  >
                     <Link to="/contact">
                       <Bell className="w-4 h-4 mr-2" />
                       Contato

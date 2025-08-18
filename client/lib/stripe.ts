@@ -16,8 +16,9 @@ interface PaymentPlan {
 
 export class StripeService {
   // Using the restricted key provided by user (this should be in environment variables in production)
-  private static readonly STRIPE_RESTRICTED_KEY = 'rk_test_51RxFGuJS3YJIZPy4bhsGnK2D4z2Mce5pHKgmGj85mYvQ4RGnfHHvbqW1DDexkKpCR3jpuJfe8D1EBOrA7G607Isu00Kinvydxv';
-  
+  private static readonly STRIPE_RESTRICTED_KEY =
+    "rk_test_51RxFGuJS3YJIZPy4bhsGnK2D4z2Mce5pHKgmGj85mYvQ4RGnfHHvbqW1DDexkKpCR3jpuJfe8D1EBOrA7G607Isu00Kinvydxv";
+
   // Payment plans configuration
   static readonly PLANS: { [key: string]: PaymentPlan } = {
     monthly: {
@@ -30,13 +31,13 @@ export class StripeService {
         "Qualidade 4K e HDR",
         "Sem anúncios",
         "2 telas simultâneas",
-        "Suporte via chat"
-      ]
+        "Suporte via chat",
+      ],
     },
     yearly: {
       name: "Plano Anual XNEMA",
       price: 19900, // R$ 199.00 in cents (save 2 months)
-      currency: "brl", 
+      currency: "brl",
       description: "Acesso completo ao catálogo XNEMA por 12 meses",
       features: [
         "Catálogo completo de séries e filmes",
@@ -46,9 +47,9 @@ export class StripeService {
         "Download para assistir offline",
         "Suporte prioritário",
         "Acesso antecipado a novos lançamentos",
-        "Economize 2 meses (16% de desconto)"
-      ]
-    }
+        "Economize 2 meses (16% de desconto)",
+      ],
+    },
   };
 
   /**
@@ -59,67 +60,87 @@ export class StripeService {
    * @returns Promise with checkout session URL
    */
   static async createCheckoutSession(
-    planType: 'monthly' | 'yearly',
+    planType: "monthly" | "yearly",
     userId: string,
-    userEmail: string
+    userEmail: string,
   ): Promise<StripeCheckoutSession> {
     try {
       const plan = this.PLANS[planType];
       if (!plan) {
-        throw new Error('Invalid plan type');
+        throw new Error("Invalid plan type");
       }
 
       // Prepare form data for Stripe API
       const formData = new URLSearchParams();
-      
+
       // Payment method and mode
-      formData.append('payment_method_types[]', 'card');
-      formData.append('mode', 'payment'); // One-time payment (you can change to 'subscription' for recurring)
-      
+      formData.append("payment_method_types[]", "card");
+      formData.append("mode", "payment"); // One-time payment (you can change to 'subscription' for recurring)
+
       // Line items (the product being purchased)
-      formData.append('line_items[][price_data][currency]', plan.currency);
-      formData.append('line_items[][price_data][product_data][name]', plan.name);
-      formData.append('line_items[][price_data][product_data][description]', plan.description);
-      formData.append('line_items[][price_data][unit_amount]', plan.price.toString());
-      formData.append('line_items[][quantity]', '1');
-      
+      formData.append("line_items[][price_data][currency]", plan.currency);
+      formData.append(
+        "line_items[][price_data][product_data][name]",
+        plan.name,
+      );
+      formData.append(
+        "line_items[][price_data][product_data][description]",
+        plan.description,
+      );
+      formData.append(
+        "line_items[][price_data][unit_amount]",
+        plan.price.toString(),
+      );
+      formData.append("line_items[][quantity]", "1");
+
       // Success and cancel URLs
       const baseUrl = window.location.origin;
-      formData.append('success_url', `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&plan=${planType}`);
-      formData.append('cancel_url', `${baseUrl}/payment-cancelled?plan=${planType}`);
-      
+      formData.append(
+        "success_url",
+        `${baseUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}&plan=${planType}`,
+      );
+      formData.append(
+        "cancel_url",
+        `${baseUrl}/payment-cancelled?plan=${planType}`,
+      );
+
       // Metadata for tracking
-      formData.append('metadata[user_id]', userId);
-      formData.append('metadata[plan_type]', planType);
-      formData.append('metadata[user_email]', userEmail);
-      
+      formData.append("metadata[user_id]", userId);
+      formData.append("metadata[plan_type]", planType);
+      formData.append("metadata[user_email]", userEmail);
+
       // Customer info
-      formData.append('customer_email', userEmail);
-      
+      formData.append("customer_email", userEmail);
+
       // Make request to Stripe API
-      const response = await fetch('https://api.stripe.com/v1/checkout/sessions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.STRIPE_RESTRICTED_KEY}`,
-          'Content-Type': 'application/x-www-form-urlencoded'
+      const response = await fetch(
+        "https://api.stripe.com/v1/checkout/sessions",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${this.STRIPE_RESTRICTED_KEY}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: formData,
         },
-        body: formData
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Stripe API Error:', errorData);
-        throw new Error(errorData.error?.message || 'Failed to create checkout session');
+        console.error("Stripe API Error:", errorData);
+        throw new Error(
+          errorData.error?.message || "Failed to create checkout session",
+        );
       }
 
       const session = await response.json();
-      
+
       return {
         url: session.url,
-        id: session.id
+        id: session.id,
       };
     } catch (error) {
-      console.error('Error creating Stripe checkout session:', error);
+      console.error("Error creating Stripe checkout session:", error);
       throw error;
     }
   }
@@ -131,17 +152,21 @@ export class StripeService {
    * @param userEmail - User email
    */
   static async redirectToCheckout(
-    planType: 'monthly' | 'yearly',
+    planType: "monthly" | "yearly",
     userId: string,
-    userEmail: string
+    userEmail: string,
   ): Promise<void> {
     try {
-      const session = await this.createCheckoutSession(planType, userId, userEmail);
-      
+      const session = await this.createCheckoutSession(
+        planType,
+        userId,
+        userEmail,
+      );
+
       // Redirect to Stripe Checkout
       window.location.href = session.url;
     } catch (error) {
-      console.error('Error redirecting to checkout:', error);
+      console.error("Error redirecting to checkout:", error);
       throw error;
     }
   }
@@ -151,7 +176,7 @@ export class StripeService {
    * @param planType - 'monthly' or 'yearly'
    * @returns PaymentPlan object
    */
-  static getPlan(planType: 'monthly' | 'yearly'): PaymentPlan | null {
+  static getPlan(planType: "monthly" | "yearly"): PaymentPlan | null {
     return this.PLANS[planType] || null;
   }
 
@@ -161,19 +186,19 @@ export class StripeService {
    * @param currency - Currency code
    * @returns Formatted price string
    */
-  static formatPrice(priceInCents: number, currency: string = 'brl'): string {
+  static formatPrice(priceInCents: number, currency: string = "brl"): string {
     const price = priceInCents / 100;
-    
-    if (currency.toLowerCase() === 'brl') {
-      return new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
+
+    if (currency.toLowerCase() === "brl") {
+      return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
       }).format(price);
     }
-    
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency', 
-      currency: currency.toUpperCase()
+
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: currency.toUpperCase(),
     }).format(price);
   }
 
@@ -186,10 +211,10 @@ export class StripeService {
     const yearlyPrice = this.PLANS.yearly.price;
     const savings = monthlyTotal - yearlyPrice;
     const percentage = Math.round((savings / monthlyTotal) * 100);
-    
+
     return {
       amount: this.formatPrice(savings),
-      percentage
+      percentage,
     };
   }
 }
@@ -197,11 +222,11 @@ export class StripeService {
 // Helper function to get environment-specific URLs
 export const getCallbackUrls = () => {
   const baseUrl = window.location.origin;
-  
+
   return {
     success: `${baseUrl}/payment-success`,
     cancel: `${baseUrl}/payment-cancelled`,
-    webhook: `${baseUrl}/api/stripe/webhook` // For future webhook implementation
+    webhook: `${baseUrl}/api/stripe/webhook`, // For future webhook implementation
   };
 };
 

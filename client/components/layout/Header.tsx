@@ -20,20 +20,35 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <Link to="/catalog" className="text-foreground hover:text-xnema-orange transition-colors">
-            {t('nav.home')}
+          <Link
+            to="/catalog"
+            className="text-foreground hover:text-xnema-orange transition-colors"
+          >
+            {t("nav.home")}
           </Link>
-          <Link to="/series" className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1">
+          <Link
+            to="/series"
+            className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1"
+          >
             <span>Séries</span>
             <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
           </Link>
-          <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors">
-            {t('nav.categories')}
+          <Link
+            to="/categories"
+            className="text-foreground hover:text-xnema-orange transition-colors"
+          >
+            {t("nav.categories")}
           </Link>
-          <Link to="/about" className="text-foreground hover:text-xnema-orange transition-colors">
+          <Link
+            to="/about"
+            className="text-foreground hover:text-xnema-orange transition-colors"
+          >
             Sobre
           </Link>
-          <Link to="/contact" className="text-foreground hover:text-xnema-orange transition-colors">
+          <Link
+            to="/contact"
+            className="text-foreground hover:text-xnema-orange transition-colors"
+          >
             Contato
           </Link>
         </nav>
@@ -61,14 +76,22 @@ export function Header() {
               <div className="flex items-center space-x-3">
                 <div className="hidden sm:block text-right">
                   <p className="text-sm text-foreground">
-                    Seja bem-vindo, <span className="font-semibold text-xnema-orange">{user.name}</span>
+                    Seja bem-vindo,{" "}
+                    <span className="font-semibold text-xnema-orange">
+                      {user.name}
+                    </span>
                   </p>
                   {user.assinante && (
-                    <p className="text-xs text-muted-foreground">Assinante Premium</p>
+                    <p className="text-xs text-muted-foreground">
+                      Assinante Premium
+                    </p>
                   )}
                 </div>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link to="/smart-dashboard" className="text-foreground hover:text-xnema-orange">
+                  <Link
+                    to="/smart-dashboard"
+                    className="text-foreground hover:text-xnema-orange"
+                  >
                     <div className="flex items-center space-x-1">
                       <User className="w-4 h-4" />
                       <span className="hidden sm:inline">Painel</span>
@@ -89,11 +112,18 @@ export function Header() {
               // Usuário não logado
               <>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link to="/login" className="text-foreground hover:text-xnema-orange">
-                    {t('nav.login')}
+                  <Link
+                    to="/login"
+                    className="text-foreground hover:text-xnema-orange"
+                  >
+                    {t("nav.login")}
                   </Link>
                 </Button>
-                <Button size="sm" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-medium" asChild>
+                <Button
+                  size="sm"
+                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black font-medium"
+                  asChild
+                >
                   <Link to="/pricing" className="flex items-center space-x-2">
                     <Crown className="w-4 h-4" />
                     <span>Assinar</span>
@@ -127,23 +157,41 @@ export function Header() {
                 className="pl-10 pr-4 py-2 w-full bg-muted border-none rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-xnema-orange"
               />
             </div>
-            <Link to="/catalog" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+            <Link
+              to="/catalog"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+            >
               Catálogo
             </Link>
-            <Link to="/series" className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2">
+            <Link
+              to="/series"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2 flex items-center space-x-2"
+            >
               <span>Séries</span>
               <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
             </Link>
-            <Link to="/categories" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+            <Link
+              to="/categories"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+            >
               Categorias
             </Link>
-            <Link to="/about" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+            <Link
+              to="/about"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+            >
               Sobre Nós
             </Link>
-            <Link to="/contact" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+            <Link
+              to="/contact"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+            >
               Contato
             </Link>
-            <Link to="/pricing" className="text-foreground hover:text-xnema-orange transition-colors py-2">
+            <Link
+              to="/pricing"
+              className="text-foreground hover:text-xnema-orange transition-colors py-2"
+            >
               Planos
             </Link>
           </nav>

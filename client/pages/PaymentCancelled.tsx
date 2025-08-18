@@ -1,28 +1,42 @@
 import { useSearchParams, Link } from "react-router-dom";
 import { Layout } from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { XCircle, ArrowLeft, CreditCard, HelpCircle, Crown, Play, Gift } from "lucide-react";
+import {
+  XCircle,
+  ArrowLeft,
+  CreditCard,
+  HelpCircle,
+  Crown,
+  Play,
+  Gift,
+} from "lucide-react";
 
 export default function PaymentCancelled() {
   const [searchParams] = useSearchParams();
-  const planType = searchParams.get('plan');
+  const planType = searchParams.get("plan");
 
   const getPlanDetails = () => {
-    if (planType === 'yearly') {
+    if (planType === "yearly") {
       return {
         name: "Plano Anual",
         price: "R$ 199,00",
         period: "por ano",
-        savings: "Economize R$ 39,80 (16%)"
+        savings: "Economize R$ 39,80 (16%)",
       };
     } else {
       return {
-        name: "Plano Mensal", 
+        name: "Plano Mensal",
         price: "R$ 19,90",
         period: "por mês",
-        savings: null
+        savings: null,
       };
     }
   };
@@ -35,22 +49,22 @@ export default function PaymentCancelled() {
       description: "Quer escolher um plano diferente?",
       action: "Ver todos os planos",
       link: "/pricing",
-      icon: CreditCard
+      icon: CreditCard,
     },
     {
       title: "Dúvidas sobre o serviço",
       description: "Precisa de mais informações?",
       action: "Saiba mais sobre XNEMA",
       link: "/about",
-      icon: HelpCircle
+      icon: HelpCircle,
     },
     {
       title: "Problemas técnicos",
       description: "Teve dificuldades no pagamento?",
       action: "Falar com suporte",
       link: "/contact",
-      icon: HelpCircle
-    }
+      icon: HelpCircle,
+    },
   ];
 
   return (
@@ -63,17 +77,21 @@ export default function PaymentCancelled() {
               <div className="w-24 h-24 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
                 <XCircle className="w-12 h-12 text-white" />
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
                 Pagamento Cancelado
               </h1>
-              
+
               <p className="text-xl text-gray-300 mb-8">
                 Não se preocupe! Você pode tentar novamente quando quiser
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                <Button
+                  size="lg"
+                  className="bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                  asChild
+                >
                   <Link to="/pricing">
                     <div className="flex items-center">
                       <CreditCard className="w-5 h-5 mr-2" />
@@ -81,8 +99,13 @@ export default function PaymentCancelled() {
                     </div>
                   </Link>
                 </Button>
-                
-                <Button size="lg" variant="outline" className="border-gray-600 text-gray-300 hover:bg-gray-700" asChild>
+
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                  asChild
+                >
                   <Link to="/dashboard">
                     <div className="flex items-center">
                       <ArrowLeft className="w-5 h-5 mr-2" />
@@ -126,18 +149,21 @@ export default function PaymentCancelled() {
                     </div>
                   )}
                 </CardHeader>
-                
+
                 <CardContent>
                   <div className="text-center mb-8">
                     <p className="text-gray-400">
-                      O pagamento para este plano foi cancelado. Seus dados estão seguros e 
-                      nenhuma cobrança foi realizada.
+                      O pagamento para este plano foi cancelado. Seus dados
+                      estão seguros e nenhuma cobrança foi realizada.
                     </p>
                   </div>
 
                   <div className="grid md:grid-cols-3 gap-6">
                     {reasons.map((reason, index) => (
-                      <Card key={index} className="bg-xnema-dark border-gray-700">
+                      <Card
+                        key={index}
+                        className="bg-xnema-dark border-gray-700"
+                      >
                         <CardContent className="p-6 text-center">
                           <div className="w-12 h-12 bg-xnema-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
                             <reason.icon className="w-6 h-6 text-xnema-orange" />
@@ -148,10 +174,13 @@ export default function PaymentCancelled() {
                           <p className="text-sm text-gray-400 mb-4">
                             {reason.description}
                           </p>
-                          <Button size="sm" variant="outline" asChild className="w-full">
-                            <Link to={reason.link}>
-                              {reason.action}
-                            </Link>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            asChild
+                            className="w-full"
+                          >
+                            <Link to={reason.link}>{reason.action}</Link>
                           </Button>
                         </CardContent>
                       </Card>
@@ -168,17 +197,20 @@ export default function PaymentCancelled() {
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-3xl font-bold mb-6">
-                Ainda Interessado em <span className="text-xnema-orange">Assinar?</span>
+                Ainda Interessado em{" "}
+                <span className="text-xnema-orange">Assinar?</span>
               </h2>
               <p className="text-xl text-gray-300 mb-8">
-                Que tal começar com nossa conta gratuita? Você pode explorar o catálogo 
-                e fazer upgrade quando quiser.
+                Que tal começar com nossa conta gratuita? Você pode explorar o
+                catálogo e fazer upgrade quando quiser.
               </p>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <Card className="bg-xnema-dark border-gray-700">
                   <CardHeader>
-                    <CardTitle className="text-center">Conta Gratuita</CardTitle>
+                    <CardTitle className="text-center">
+                      Conta Gratuita
+                    </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <ul className="text-left text-gray-300 space-y-2 mb-6">
@@ -195,10 +227,11 @@ export default function PaymentCancelled() {
                         Criar listas de favoritos
                       </li>
                     </ul>
-                    <Button className="w-full bg-gray-600 hover:bg-gray-700 text-white" asChild>
-                      <Link to="/register">
-                        Criar Conta Grátis
-                      </Link>
+                    <Button
+                      className="w-full bg-gray-600 hover:bg-gray-700 text-white"
+                      asChild
+                    >
+                      <Link to="/register">Criar Conta Grátis</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -225,10 +258,12 @@ export default function PaymentCancelled() {
                         Download para offline
                       </li>
                     </ul>
-                    <Button className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black" asChild>
+                    <Button
+                      className="w-full bg-xnema-orange hover:bg-xnema-orange/90 text-black"
+                      asChild
+                    >
                       <Link to="/pricing">
-                        <Gift className="w-4 h-4 mr-2" />
-                        7 Dias Grátis
+                        <Gift className="w-4 h-4 mr-2" />7 Dias Grátis
                       </Link>
                     </Button>
                   </CardContent>
@@ -244,28 +279,38 @@ export default function PaymentCancelled() {
             <div className="max-w-2xl mx-auto">
               <Card className="bg-xnema-dark border-gray-700">
                 <CardHeader>
-                  <CardTitle className="text-center">Precisa de Ajuda?</CardTitle>
+                  <CardTitle className="text-center">
+                    Precisa de Ajuda?
+                  </CardTitle>
                   <CardDescription className="text-center">
                     Nossa equipe está pronta para esclarecer suas dúvidas
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 gap-4">
-                    <Button variant="outline" asChild className="border-xnema-orange text-xnema-orange hover:bg-xnema-orange hover:text-black">
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="border-xnema-orange text-xnema-orange hover:bg-xnema-orange hover:text-black"
+                    >
                       <Link to="/contact">
                         <HelpCircle className="w-4 h-4 mr-2" />
                         Falar com Suporte
                       </Link>
                     </Button>
-                    
-                    <Button variant="outline" asChild className="border-gray-600 text-gray-300 hover:bg-gray-700">
+
+                    <Button
+                      variant="outline"
+                      asChild
+                      className="border-gray-600 text-gray-300 hover:bg-gray-700"
+                    >
                       <Link to="/about">
                         <Play className="w-4 h-4 mr-2" />
                         Sobre a XNEMA
                       </Link>
                     </Button>
                   </div>
-                  
+
                   <div className="mt-6 pt-4 border-t border-gray-700 text-center">
                     <p className="text-xs text-gray-400 mb-4">
                       Nenhuma cobrança foi realizada • Seus dados estão seguros

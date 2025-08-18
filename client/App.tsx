@@ -61,190 +61,221 @@ const App = () => (
     <TooltipProvider>
       <LanguageProvider>
         <AuthProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            {/* Rotas públicas */}
-            <Route path="/visitor" element={<VisitorLanding />} />
-            <Route path="/public-catalog" element={<PublicCatalog />} />
-            <Route path="/catalog" element={<Catalog />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/premium" element={<Premium />} />
-            <Route path="/creators" element={<Creators />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/reset-password" element={<ResetPassword />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/welcome" element={<Welcome />} />
-            <Route path="/subscribe" element={<Subscribe />} />
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              {/* Rotas públicas */}
+              <Route path="/visitor" element={<VisitorLanding />} />
+              <Route path="/public-catalog" element={<PublicCatalog />} />
+              <Route path="/catalog" element={<Catalog />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/pricing" element={<Pricing />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/creators" element={<Creators />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/welcome" element={<Welcome />} />
+              <Route path="/subscribe" element={<Subscribe />} />
 
-            {/* Rotas protegidas - Usuários Básicos */}
-            <Route
-              path="/user-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["user"]}>
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/edit-profile"
-              element={
-                <ProtectedRoute allowedRoles={["user", "subscriber", "creator", "admin"]}>
-                  <EditProfile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/payment-history"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber", "admin"]}>
-                  <PaymentHistory />
-                </ProtectedRoute>
-              }
-            />
+              {/* Rotas protegidas - Usuários Básicos */}
+              <Route
+                path="/user-dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["user"]}>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/edit-profile"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["user", "subscriber", "creator", "admin"]}
+                  >
+                    <EditProfile />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/payment-history"
+                element={
+                  <ProtectedRoute allowedRoles={["subscriber", "admin"]}>
+                    <PaymentHistory />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Rotas protegidas - Assinantes */}
-            <Route
-              path="/subscriber-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <SubscriberDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/between-heaven-hell"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <BetweenHeavenHell />
-                </ProtectedRoute>
-              }
-            />
-            {/* Smart Dashboard Router */}
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber", "creator", "admin", "user"]}>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
+              {/* Rotas protegidas - Assinantes */}
+              <Route
+                path="/subscriber-dashboard"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["subscriber"]}
+                    requireSubscription={true}
+                  >
+                    <SubscriberDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/between-heaven-hell"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["subscriber"]}
+                    requireSubscription={true}
+                  >
+                    <BetweenHeavenHell />
+                  </ProtectedRoute>
+                }
+              />
+              {/* Smart Dashboard Router */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["subscriber", "creator", "admin", "user"]}
+                  >
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Visitor Dashboard (Public) */}
-            <Route path="/visitor-dashboard" element={<VisitorDashboard />} />
+              {/* Visitor Dashboard (Public) */}
+              <Route path="/visitor-dashboard" element={<VisitorDashboard />} />
 
-            {/* Role-specific Dashboards */}
-            <Route
-              path="/user-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["user"]}>
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/subscriber-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <SubscriberDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/creator-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
-                  <CreatorDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["admin"]}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/series" element={<Series />} />
-            <Route path="/category/:categoryId" element={<Category />} />
-            <Route
-              path="/watch/:contentId"
-              element={
-                <ProtectedRoute allowedRoles={["subscriber"]} requireSubscription={true}>
-                  <Watch />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/series/:seriesId" element={<SeriesDetail />} />
+              {/* Role-specific Dashboards */}
+              <Route
+                path="/user-dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["user"]}>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/subscriber-dashboard"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["subscriber"]}
+                    requireSubscription={true}
+                  >
+                    <SubscriberDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/creator-dashboard"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["creator"]}
+                    requireApproval={true}
+                  >
+                    <CreatorDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin-dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/series" element={<Series />} />
+              <Route path="/category/:categoryId" element={<Category />} />
+              <Route
+                path="/watch/:contentId"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["subscriber"]}
+                    requireSubscription={true}
+                  >
+                    <Watch />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/series/:seriesId" element={<SeriesDetail />} />
 
-            {/* Rotas protegidas - Criadores */}
-            <Route
-              path="/creator-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
-                  <CreatorDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/creator-portal"
-              element={
-                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
-                  <CreatorPortal />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/creator-login" element={<CreatorLogin />} />
-            <Route
-              path="/creator-payments"
-              element={
-                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
-                  <CreatorPayments />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/content-creator"
-              element={
-                <ProtectedRoute allowedRoles={["creator"]} requireApproval={true}>
-                  <ContentCreator />
-                </ProtectedRoute>
-              }
-            />
+              {/* Rotas protegidas - Criadores */}
+              <Route
+                path="/creator-dashboard"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["creator"]}
+                    requireApproval={true}
+                  >
+                    <CreatorDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/creator-portal"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["creator"]}
+                    requireApproval={true}
+                  >
+                    <CreatorPortal />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/creator-login" element={<CreatorLogin />} />
+              <Route
+                path="/creator-payments"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["creator"]}
+                    requireApproval={true}
+                  >
+                    <CreatorPayments />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/content-creator"
+                element={
+                  <ProtectedRoute
+                    allowedRoles={["creator"]}
+                    requireApproval={true}
+                  >
+                    <ContentCreator />
+                  </ProtectedRoute>
+                }
+              />
 
-            {/* Rotas protegidas - Admin */}
-            <Route
-              path="/smart-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["admin"]}>
-                  <SmartDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin-dashboard"
-              element={
-                <ProtectedRoute allowedRoles={["admin"]}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/creator-terms" element={<CreatorTerms />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-cancelled" element={<PaymentCancelled />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+              {/* Rotas protegidas - Admin */}
+              <Route
+                path="/smart-dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <SmartDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin-dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/creator-terms" element={<CreatorTerms />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+              <Route path="/payment-cancelled" element={<PaymentCancelled />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
         </AuthProvider>
       </LanguageProvider>
     </TooltipProvider>

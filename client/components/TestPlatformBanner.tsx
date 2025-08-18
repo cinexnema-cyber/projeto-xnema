@@ -21,7 +21,7 @@ export default function TestPlatformBanner() {
             </span>
           </div>
         </div>
-        
+
         <Button
           variant="ghost"
           size="sm"
