@@ -118,6 +118,14 @@ export default function Login() {
               </Alert>
             )}
 
+            {successMessage && (
+              <Alert className="border-green-600 bg-green-900/20">
+                <AlertDescription className="text-green-300">
+                  {successMessage}
+                </AlertDescription>
+              </Alert>
+            )}
+
             {resetEmailSent && (
               <Alert>
                 <AlertDescription className="text-green-600">
