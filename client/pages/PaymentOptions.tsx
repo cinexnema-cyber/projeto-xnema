@@ -6,15 +6,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/contexts/AuthContext";
 import { StripeService } from "@/lib/stripe";
-import { 
-  CreditCard, 
-  Smartphone, 
-  QrCode, 
-  FileText, 
+import {
+  CreditCard,
+  Smartphone,
+  QrCode,
+  FileText,
   Link as LinkIcon,
   Shield,
   Check,
@@ -22,7 +28,7 @@ import {
   ArrowLeft,
   Loader2,
   AlertCircle,
-  DollarSign
+  DollarSign,
 } from "lucide-react";
 
 interface PaymentMethod {
@@ -47,7 +53,7 @@ export default function PaymentOptions() {
     cardCvc: "",
     cardName: "",
     pixKey: "",
-    linkAmount: ""
+    linkAmount: "",
   });
 
   // Get plan from URL params
@@ -65,7 +71,7 @@ export default function PaymentOptions() {
       icon: CreditCard,
       description: "Visa, Mastercard, Elo, American Express",
       processingTime: "Imediato",
-      available: true
+      available: true,
     },
     {
       id: "pix",
@@ -73,7 +79,7 @@ export default function PaymentOptions() {
       icon: QrCode,
       description: "Pagamento instantâneo via PIX",
       processingTime: "Imediato",
-      available: true
+      available: true,
     },
     {
       id: "boleto",
@@ -81,7 +87,7 @@ export default function PaymentOptions() {
       icon: FileText,
       description: "Vencimento em 3 dias úteis",
       processingTime: "1-2 dias úteis",
-      available: true
+      available: true,
     },
     {
       id: "mercadopago",
@@ -89,7 +95,7 @@ export default function PaymentOptions() {
       icon: Smartphone,
       description: "Pague com sua conta Mercado Pago",
       processingTime: "Imediato",
-      available: true
+      available: true,
     },
     {
       id: "link",
@@ -97,23 +103,28 @@ export default function PaymentOptions() {
       icon: LinkIcon,
       description: "Receba um link para finalizar depois",
       processingTime: "Conforme pagamento",
-      available: true
-    }
+      available: true,
+    },
   ];
 
   const plan = StripeService.getPlan(planType);
   const savings = StripeService.calculateYearlySavings();
 
   const handleInputChange = (field: string, value: string) => {
-    setPaymentData(prev => ({
+    setPaymentData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const validatePaymentData = (): boolean => {
     if (selectedMethod === "card") {
-      return !!(paymentData.cardNumber && paymentData.cardExpiry && paymentData.cardCvc && paymentData.cardName);
+      return !!(
+        paymentData.cardNumber &&
+        paymentData.cardExpiry &&
+        paymentData.cardCvc &&
+        paymentData.cardName
+      );
     }
     return true;
   };
@@ -134,27 +145,32 @@ export default function PaymentOptions() {
 
   const processPIXPayment = async () => {
     setIsLoading(true);
-    
+
     // Simular geração de QR Code PIX
     setTimeout(() => {
       setIsLoading(false);
-      alert(`QR Code PIX gerado! Valor: ${plan?.price ? StripeService.formatPrice(plan.price) : 'R$ 19,90'}`);
-      
+      alert(
+        `QR Code PIX gerado! Valor: ${plan?.price ? StripeService.formatPrice(plan.price) : "R$ 19,90"}`,
+      );
+
       // Simular detecção de pagamento após 3 segundos
       setTimeout(() => {
         if (user) {
           // Atualizar status do usuário para subscriber
-          const updatedUser = { 
-            ...user, 
-            subscriptionStatus: 'ativo' as const, 
-            role: 'subscriber' as const,
+          const updatedUser = {
+            ...user,
+            subscriptionStatus: "ativo" as const,
+            role: "subscriber" as const,
             subscriptionPlan: planType,
-            subscriptionEndDate: new Date(Date.now() + (planType === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toISOString()
+            subscriptionEndDate: new Date(
+              Date.now() +
+                (planType === "yearly" ? 365 : 30) * 24 * 60 * 60 * 1000,
+            ).toISOString(),
           };
-          
+
           // Atualizar no contexto (em produção isso seria feito via API)
-          localStorage.setItem('user', JSON.stringify(updatedUser));
-          
+          localStorage.setItem("user", JSON.stringify(updatedUser));
+
           navigate("/payment-success?method=pix");
         }
       }, 3000);
@@ -163,24 +179,29 @@ export default function PaymentOptions() {
 
   const processBoletoPayment = async () => {
     setIsLoading(true);
-    
+
     // Simular geração de boleto
     setTimeout(() => {
       setIsLoading(false);
-      alert(`Boleto gerado! Valor: ${plan?.price ? StripeService.formatPrice(plan.price) : 'R$ 19,90'}\nVencimento: ${new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString('pt-BR')}`);
-      
+      alert(
+        `Boleto gerado! Valor: ${plan?.price ? StripeService.formatPrice(plan.price) : "R$ 19,90"}\nVencimento: ${new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toLocaleDateString("pt-BR")}`,
+      );
+
       // Simular detecção de pagamento do boleto
       setTimeout(() => {
         if (user) {
-          const updatedUser = { 
-            ...user, 
-            subscriptionStatus: 'ativo' as const, 
-            role: 'subscriber' as const,
+          const updatedUser = {
+            ...user,
+            subscriptionStatus: "ativo" as const,
+            role: "subscriber" as const,
             subscriptionPlan: planType,
-            subscriptionEndDate: new Date(Date.now() + (planType === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toISOString()
+            subscriptionEndDate: new Date(
+              Date.now() +
+                (planType === "yearly" ? 365 : 30) * 24 * 60 * 60 * 1000,
+            ).toISOString(),
           };
-          
-          localStorage.setItem('user', JSON.stringify(updatedUser));
+
+          localStorage.setItem("user", JSON.stringify(updatedUser));
           navigate("/payment-success?method=boleto");
         }
       }, 5000);
@@ -189,25 +210,28 @@ export default function PaymentOptions() {
 
   const processMercadoPagoPayment = async () => {
     setIsLoading(true);
-    
+
     // Simular redirecionamento para Mercado Pago
     setTimeout(() => {
       setIsLoading(false);
-      const mpUrl = `https://mpago.la/1p9Jkyy?amount=${plan?.price ? (plan.price / 100) : 19.90}`;
-      window.open(mpUrl, '_blank');
-      
+      const mpUrl = `https://mpago.la/1p9Jkyy?amount=${plan?.price ? plan.price / 100 : 19.9}`;
+      window.open(mpUrl, "_blank");
+
       // Simular retorno do pagamento
       setTimeout(() => {
         if (user) {
-          const updatedUser = { 
-            ...user, 
-            subscriptionStatus: 'ativo' as const, 
-            role: 'subscriber' as const,
+          const updatedUser = {
+            ...user,
+            subscriptionStatus: "ativo" as const,
+            role: "subscriber" as const,
             subscriptionPlan: planType,
-            subscriptionEndDate: new Date(Date.now() + (planType === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000).toISOString()
+            subscriptionEndDate: new Date(
+              Date.now() +
+                (planType === "yearly" ? 365 : 30) * 24 * 60 * 60 * 1000,
+            ).toISOString(),
           };
-          
-          localStorage.setItem('user', JSON.stringify(updatedUser));
+
+          localStorage.setItem("user", JSON.stringify(updatedUser));
           navigate("/payment-success?method=mercadopago");
         }
       }, 8000);
@@ -216,14 +240,16 @@ export default function PaymentOptions() {
 
   const generatePaymentLink = async () => {
     setIsLoading(true);
-    
+
     // Simular geração de link de pagamento
     setTimeout(() => {
       setIsLoading(false);
       const paymentLink = `${window.location.origin}/pay/${user?.id}/${planType}/${Date.now()}`;
-      
+
       navigator.clipboard.writeText(paymentLink).then(() => {
-        alert(`Link de pagamento copiado para a área de transferência!\n\n${paymentLink}`);
+        alert(
+          `Link de pagamento copiado para a área de transferência!\n\n${paymentLink}`,
+        );
       });
     }, 1000);
   };
@@ -274,7 +300,7 @@ export default function PaymentOptions() {
         <div className="min-h-screen bg-xnema-dark flex items-center justify-center">
           <div className="text-center text-white">
             <p className="text-xl">Plano não encontrado</p>
-            <Button onClick={() => navigate('/pricing')} className="mt-4">
+            <Button onClick={() => navigate("/pricing")} className="mt-4">
               Voltar aos Planos
             </Button>
           </div>
@@ -289,9 +315,9 @@ export default function PaymentOptions() {
         <div className="max-w-6xl mx-auto px-8">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => navigate("/pricing")}
               className="text-gray-400 hover:text-white"
             >
@@ -319,26 +345,38 @@ export default function PaymentOptions() {
                           ? "border-xnema-orange bg-xnema-orange/10"
                           : "border-gray-600 hover:border-gray-500"
                       } ${!method.available ? "opacity-50 cursor-not-allowed" : ""}`}
-                      onClick={() => method.available && setSelectedMethod(method.id)}
+                      onClick={() =>
+                        method.available && setSelectedMethod(method.id)
+                      }
                     >
                       <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                          selectedMethod === method.id ? "bg-xnema-orange text-black" : "bg-gray-700"
-                        }`}>
+                        <div
+                          className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                            selectedMethod === method.id
+                              ? "bg-xnema-orange text-black"
+                              : "bg-gray-700"
+                          }`}
+                        >
                           <method.icon className="w-6 h-6" />
                         </div>
-                        
+
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
                             <h3 className="font-semibold">{method.name}</h3>
                             {!method.available && (
-                              <Badge variant="secondary" className="text-xs">Em breve</Badge>
+                              <Badge variant="secondary" className="text-xs">
+                                Em breve
+                              </Badge>
                             )}
                           </div>
-                          <p className="text-sm text-gray-400">{method.description}</p>
-                          <p className="text-xs text-gray-500">Processamento: {method.processingTime}</p>
+                          <p className="text-sm text-gray-400">
+                            {method.description}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            Processamento: {method.processingTime}
+                          </p>
                         </div>
-                        
+
                         {selectedMethod === method.id && (
                           <Check className="w-5 h-5 text-xnema-orange" />
                         )}
@@ -363,11 +401,13 @@ export default function PaymentOptions() {
                             id="cardNumber"
                             placeholder="0000 0000 0000 0000"
                             value={paymentData.cardNumber}
-                            onChange={(e) => handleInputChange("cardNumber", e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange("cardNumber", e.target.value)
+                            }
                             className="bg-xnema-dark border-gray-600"
                           />
                         </div>
-                        
+
                         <div className="grid grid-cols-2 gap-4">
                           <div>
                             <Label htmlFor="cardExpiry">Validade</Label>
@@ -375,7 +415,9 @@ export default function PaymentOptions() {
                               id="cardExpiry"
                               placeholder="MM/AA"
                               value={paymentData.cardExpiry}
-                              onChange={(e) => handleInputChange("cardExpiry", e.target.value)}
+                              onChange={(e) =>
+                                handleInputChange("cardExpiry", e.target.value)
+                              }
                               className="bg-xnema-dark border-gray-600"
                             />
                           </div>
@@ -385,19 +427,23 @@ export default function PaymentOptions() {
                               id="cardCvc"
                               placeholder="000"
                               value={paymentData.cardCvc}
-                              onChange={(e) => handleInputChange("cardCvc", e.target.value)}
+                              onChange={(e) =>
+                                handleInputChange("cardCvc", e.target.value)
+                              }
                               className="bg-xnema-dark border-gray-600"
                             />
                           </div>
                         </div>
-                        
+
                         <div>
                           <Label htmlFor="cardName">Nome no Cartão</Label>
                           <Input
                             id="cardName"
                             placeholder="Nome como está no cartão"
                             value={paymentData.cardName}
-                            onChange={(e) => handleInputChange("cardName", e.target.value)}
+                            onChange={(e) =>
+                              handleInputChange("cardName", e.target.value)
+                            }
                             className="bg-xnema-dark border-gray-600"
                           />
                         </div>
@@ -407,9 +453,12 @@ export default function PaymentOptions() {
                     {selectedMethod === "pix" && (
                       <div className="text-center py-8">
                         <QrCode className="w-16 h-16 text-xnema-orange mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Pagamento via PIX</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Pagamento via PIX
+                        </h3>
                         <p className="text-gray-400 mb-4">
-                          Após confirmar, você receberá um QR Code para pagamento instantâneo
+                          Após confirmar, você receberá um QR Code para
+                          pagamento instantâneo
                         </p>
                         <div className="flex items-center justify-center gap-2 text-sm text-yellow-500">
                           <AlertCircle className="w-4 h-4" />
@@ -421,7 +470,9 @@ export default function PaymentOptions() {
                     {selectedMethod === "boleto" && (
                       <div className="text-center py-8">
                         <FileText className="w-16 h-16 text-xnema-orange mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Boleto Bancário</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Boleto Bancário
+                        </h3>
                         <p className="text-gray-400 mb-4">
                           Boleto com vencimento em 3 dias úteis
                         </p>
@@ -435,7 +486,9 @@ export default function PaymentOptions() {
                     {selectedMethod === "mercadopago" && (
                       <div className="text-center py-8">
                         <Smartphone className="w-16 h-16 text-xnema-orange mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Mercado Pago</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Mercado Pago
+                        </h3>
                         <p className="text-gray-400 mb-4">
                           Você será redirecionado para finalizar o pagamento
                         </p>
@@ -449,9 +502,12 @@ export default function PaymentOptions() {
                     {selectedMethod === "link" && (
                       <div className="text-center py-8">
                         <LinkIcon className="w-16 h-16 text-xnema-orange mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold mb-2">Link de Pagamento</h3>
+                        <h3 className="text-lg font-semibold mb-2">
+                          Link de Pagamento
+                        </h3>
                         <p className="text-gray-400 mb-4">
-                          Receba um link personalizado para finalizar o pagamento quando quiser
+                          Receba um link personalizado para finalizar o
+                          pagamento quando quiser
                         </p>
                         <div className="flex items-center justify-center gap-2 text-sm text-blue-500">
                           <LinkIcon className="w-4 h-4" />
@@ -484,9 +540,11 @@ export default function PaymentOptions() {
                   <div className="space-y-2">
                     <div className="flex justify-between">
                       <span>Valor:</span>
-                      <span className="font-semibold">{StripeService.formatPrice(plan.price)}</span>
+                      <span className="font-semibold">
+                        {StripeService.formatPrice(plan.price)}
+                      </span>
                     </div>
-                    
+
                     {planType === "yearly" && (
                       <div className="flex justify-between text-green-400">
                         <span>Economia:</span>
@@ -499,7 +557,9 @@ export default function PaymentOptions() {
 
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total:</span>
-                    <span className="text-xnema-orange">{StripeService.formatPrice(plan.price)}</span>
+                    <span className="text-xnema-orange">
+                      {StripeService.formatPrice(plan.price)}
+                    </span>
                   </div>
 
                   {planType === "yearly" && (
@@ -509,10 +569,15 @@ export default function PaymentOptions() {
                   )}
 
                   <div className="space-y-2 pt-4">
-                    <h4 className="font-semibold text-sm">Incluído no plano:</h4>
+                    <h4 className="font-semibold text-sm">
+                      Incluído no plano:
+                    </h4>
                     <ul className="space-y-1">
                       {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-center gap-2 text-sm text-gray-300">
+                        <li
+                          key={index}
+                          className="flex items-center gap-2 text-sm text-gray-300"
+                        >
                           <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
                           {feature}
                         </li>

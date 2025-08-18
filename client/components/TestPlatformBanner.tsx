@@ -6,11 +6,11 @@ export default function TestPlatformBanner() {
   const [isVisible, setIsVisible] = useState(true);
 
   const handleWhatsAppClick = () => {
-    window.open('https://wa.me/5515997636161', '_blank');
+    window.open("https://wa.me/5515997636161", "_blank");
   };
 
   const handleEmailClick = () => {
-    window.open('mailto:cinexnema@gmail.com', '_blank');
+    window.open("mailto:cinexnema@gmail.com", "_blank");
   };
 
   if (!isVisible) return null;
@@ -25,7 +25,8 @@ export default function TestPlatformBanner() {
               🧪 PLATAFORMA EM TESTE
             </span>
             <span className="text-xs sm:text-sm opacity-90">
-              Recursos limitados • Em breve: criação de contas liberada • Lançamento em breve
+              Recursos limitados • Em breve: criação de contas liberada •
+              Lançamento em breve
             </span>
             <span className="text-xs sm:text-sm opacity-90 font-medium">
               Já disponível para negociações com criadores

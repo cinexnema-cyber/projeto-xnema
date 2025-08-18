@@ -7,21 +7,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { supabase } from "@/lib/supabase";
-import { 
-  Mail, 
-  KeyRound, 
-  CheckCircle, 
-  AlertCircle, 
+import {
+  Mail,
+  KeyRound,
+  CheckCircle,
+  AlertCircle,
   ArrowLeft,
   Eye,
   EyeOff,
-  Loader2
+  Loader2,
 } from "lucide-react";
 
 export default function PasswordRecovery() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  
+
   // Estados do componente
   const [step, setStep] = useState<"email" | "reset">("email");
   const [email, setEmail] = useState("");
@@ -42,11 +42,11 @@ export default function PasswordRecovery() {
     if (accessToken && refreshToken && type === "recovery") {
       // Usuario clicou no link de recuperação do email
       setStep("reset");
-      
+
       // Configura a sessão com os tokens
       supabase.auth.setSession({
         access_token: accessToken,
-        refresh_token: refreshToken
+        refresh_token: refreshToken,
       });
     }
   }, [searchParams]);
@@ -64,21 +64,25 @@ export default function PasswordRecovery() {
     }
 
     try {
-      const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/password-recovery`,
-      });
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: `${window.location.origin}/password-recovery`,
+        },
+      );
 
       if (resetError) {
         throw resetError;
       }
 
       setMessage(
-        `Email de recuperação enviado para ${email}. Verifique sua caixa de entrada e clique no link para redefinir sua senha.`
+        `Email de recuperação enviado para ${email}. Verifique sua caixa de entrada e clique no link para redefinir sua senha.`,
       );
     } catch (error: any) {
       console.error("Erro ao enviar email de recuperação:", error);
       setError(
-        error.message || "Erro ao enviar email de recuperação. Tente novamente."
+        error.message ||
+          "Erro ao enviar email de recuperação. Tente novamente.",
       );
     } finally {
       setIsLoading(false);
@@ -111,24 +115,24 @@ export default function PasswordRecovery() {
 
     try {
       const { error: updateError } = await supabase.auth.updateUser({
-        password: newPassword
+        password: newPassword,
       });
 
       if (updateError) {
         throw updateError;
       }
 
-      setMessage("Senha redefinida com sucesso! Redirecionando para o login...");
-      
+      setMessage(
+        "Senha redefinida com sucesso! Redirecionando para o login...",
+      );
+
       // Redireciona para o login após 2 segundos
       setTimeout(() => {
         navigate("/login?message=Senha redefinida com sucesso");
       }, 2000);
     } catch (error: any) {
       console.error("Erro ao redefinir senha:", error);
-      setError(
-        error.message || "Erro ao redefinir senha. Tente novamente."
-      );
+      setError(error.message || "Erro ao redefinir senha. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -154,10 +158,9 @@ export default function PasswordRecovery() {
               {step === "email" ? "Recuperar Senha" : "Redefinir Senha"}
             </CardTitle>
             <p className="text-gray-400 mt-2">
-              {step === "email" 
+              {step === "email"
                 ? "Digite seu email para receber o link de recuperação"
-                : "Digite sua nova senha"
-              }
+                : "Digite sua nova senha"}
             </p>
           </CardHeader>
 
@@ -274,7 +277,9 @@ export default function PasswordRecovery() {
                       variant="ghost"
                       size="sm"
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      onClick={() =>
+                        setShowConfirmPassword(!showConfirmPassword)
+                      }
                     >
                       {showConfirmPassword ? (
                         <EyeOff className="h-4 w-4 text-gray-400" />

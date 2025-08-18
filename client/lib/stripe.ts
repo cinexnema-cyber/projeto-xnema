@@ -17,7 +17,8 @@ interface PaymentPlan {
 export class StripeService {
   // Using production keys for live payments
   private static readonly STRIPE_PUBLISHABLE_KEY =
-    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || "pk_live_51RxFGeJm8jhPLplQbsh5Ga8jtpjQcCvYchEWuCRSZsA2ZcRA4N0gzex4JU61PhQNTmGa7t40NflVKfhCSjE7Y6Di00LzdvlbZV";
+    import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY ||
+    "pk_live_51RxFGeJm8jhPLplQbsh5Ga8jtpjQcCvYchEWuCRSZsA2ZcRA4N0gzex4JU61PhQNTmGa7t40NflVKfhCSjE7Y6Di00LzdvlbZV";
 
   // Payment plans configuration
   static readonly PLANS: { [key: string]: PaymentPlan } = {
