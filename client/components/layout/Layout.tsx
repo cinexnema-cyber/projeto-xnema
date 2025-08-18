@@ -9,6 +9,7 @@ interface LayoutProps {
 export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-background">
+      <TestPlatformBanner />
       <Header />
       <main>{children}</main>
       <Footer />
