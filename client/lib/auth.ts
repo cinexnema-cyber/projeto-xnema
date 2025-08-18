@@ -109,22 +109,7 @@ export class AuthService {
     }
   }
 
-  // Logout from Supabase
-  static async logout(): Promise<{ error: string | null }> {
-    try {
-      const { error } = await supabase.auth.signOut();
-
-      if (error) {
-        console.error("Logout error:", error);
-        return { error: error.message };
-      }
-
-      return { error: null };
-    } catch (error: any) {
-      console.error("Logout error:", error);
-      return { error: error.message || "Erro ao fazer logout" };
-    }
-  }
+  // Logout from Supabase (duplicate method removed - using the one below)
   // Register new user
   static async register(
     userData: RegisterData,
