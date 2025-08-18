@@ -56,26 +56,24 @@ export default function Login() {
         if (savedUser) {
           const currentUser = JSON.parse(savedUser);
 
-          // Redirect based on user type
-          if (currentUser.assinante && currentUser.role === "subscriber") {
-            console.log("✅ Redirecting subscriber to subscriber dashboard");
-            navigate("/subscriber-dashboard");
-          } else if (currentUser.role === "user") {
-            console.log("✅ Redirecting basic user to user dashboard");
-            navigate("/user-dashboard");
-          } else if (currentUser.role === "admin") {
+          // Check if user has a defined role preference
+          if (currentUser.role === "admin") {
             console.log("✅ Redirecting admin to admin dashboard");
             navigate("/admin-dashboard");
+          } else if (currentUser.role === "subscriber" && currentUser.assinante) {
+            console.log("✅ Redirecting subscriber to subscriber dashboard");
+            navigate("/subscriber-dashboard");
           } else if (currentUser.role === "creator") {
             console.log("✅ Redirecting creator to creator portal");
             navigate("/creator-portal");
           } else {
-            console.log("✅ Redirecting to general dashboard");
-            navigate("/dashboard");
+            // For users without a clear role preference, show area selection
+            console.log("✅ Redirecting to area selection");
+            navigate("/area-selection");
           }
         } else {
-          // Fallback
-          navigate("/dashboard");
+          // Fallback to area selection
+          navigate("/area-selection");
         }
       }, 100);
     } catch (error) {
