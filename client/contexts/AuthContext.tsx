@@ -273,6 +273,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     initializeAuth();
   }, []);
 
+  const updateUserRole = async (role: 'user' | 'admin' | 'creator' | 'subscriber'): Promise<void> => {
+    if (!user) {
+      throw new Error('Usuário não está logado');
+    }
+
+    try {
+      // Atualiza o usuário local
+      const updatedUser = {
+        ...user,
+        role: role
+      };
+
+      setUser(updatedUser);
+      localStorage.setItem('xnema_user', JSON.stringify(updatedUser));
+
+      // Em produção, aqui você faria uma chamada para a API para persistir a mudança
+      console.log(`Role do usuário atualizado para: ${role}`);
+    } catch (error) {
+      console.error('Erro ao atualizar role do usuário:', error);
+      throw error;
+    }
+  };
+
   const value: AuthContextType = {
     user,
     setUser,
