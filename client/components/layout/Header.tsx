@@ -19,35 +19,38 @@ export function Header() {
         <XnemaLogo size="md" />
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-6">
           <Link
             to="/catalog"
-            className="text-foreground hover:text-xnema-orange transition-colors"
+            className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
-            {t("nav.home")}
+            <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+            <span>{t("nav.home")}</span>
           </Link>
           <Link
             to="/series"
-            className="text-foreground hover:text-xnema-orange transition-colors flex items-center space-x-1"
+            className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
-            <span>Séries</span>
             <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+            <span>Séries</span>
           </Link>
           <Link
             to="/categories"
-            className="text-foreground hover:text-xnema-orange transition-colors"
+            className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
-            {t("nav.categories")}
+            <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+            <span>{t("nav.categories")}</span>
           </Link>
           <Link
             to="/about"
-            className="text-foreground hover:text-xnema-orange transition-colors"
+            className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
-            Sobre
+            <div className="w-2 h-2 bg-xnema-orange rounded-full"></div>
+            <span>Sobre</span>
           </Link>
           <Link
             to="/contact"
-            className="text-foreground hover:text-xnema-orange transition-colors"
+            className="flex items-center space-x-1 text-foreground hover:text-xnema-orange transition-colors"
           >
             Contato
           </Link>
