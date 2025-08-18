@@ -145,7 +145,7 @@ export function Footer() {
             <div className="flex items-center space-x-4 mt-4 md:mt-0">
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Crown className="w-4 h-4 text-xnema-orange" />
-                <span>Streaming Premium Brasileiro</span>
+                <span>Streaming Premium</span>
               </div>
             </div>
           </div>
